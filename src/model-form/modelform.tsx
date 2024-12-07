@@ -1,6 +1,5 @@
 import React from "react";
 import { useForm, useFieldArray } from "react-hook-form";
-import axios from "axios";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -68,10 +67,11 @@ const ModelForm: React.FC = () => {
             <Form onSubmit={handleSubmit(onSubmit)}>
                 {fields.map((item, index) => (
                     <div key={item.id} className="mb-3 border rounded p-3 bg-light">
+                        
                         <Row className="align-items-center">
                             <Col md={2}>
                                 <Form.Group>
-                                    <Form.Label>Model Name</Form.Label>
+                                    <Form.Label>Name</Form.Label>
                                     <Form.Control
                                         {...register(`models.${index}.name` as const)}
                                         type="text"
@@ -113,7 +113,7 @@ const ModelForm: React.FC = () => {
                             </Col>
                             <Col md={3}>
                                 <Form.Group>
-                                    <Form.Label>Sample Text</Form.Label>
+                                    <Form.Label>Sample Content</Form.Label>
                                     <Form.Control
                                         {...register(`models.${index}.sampleText` as const)}
                                         type="text"
