@@ -39,11 +39,11 @@ const ModelForm: React.FC = () => {
                 if (!response.ok) {
                     throw new Error('Failed to create API'); // Ensure error for non-200 status
                 }
-                return response.json();
+                return response.json(); // Parse JSON response
             })
             .then((result) => {
                 console.log('Success:', result);
-                toast.success('API created successfully!');
+                toast.success(result.message); // Use the message from the response
             })
             .catch((error) => {
                 console.error('Error:', error);
