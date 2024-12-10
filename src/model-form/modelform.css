@@ -27,31 +27,29 @@
 }
 
 
-/* Input rows for each model */
 .input-row {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    /* Align items at the start */
-    gap: 10px;
+    gap: 30px;
+    width: 1230px;
+    margin: 0 auto;
+
 }
 
 .input-row input,
 .input-row select {
     flex: 1;
-    padding: 8px;
+    padding: 5px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 7px;
     font-size: 14px;
     width: 100px;
-    padding: 5px;
-    font-size: 14px;
 }
 
 .input-row input[type="checkbox"] {
     flex: 0;
-    margin: 5px auto;
-    /* Center checkbox */
+    margin: 6px auto;
     width: 20px;
     height: 20px;
 }
@@ -65,7 +63,6 @@
 
 .input-row .checkbox-container label {
     margin-bottom: 5px;
-    /* Space between label and checkbox */
     text-align: center;
 }
 
@@ -78,6 +75,7 @@
     border-radius: 4px;
     cursor: pointer;
     margin-bottom: 5px;
+    margin-right: 70px;
 
 }
 
@@ -85,7 +83,6 @@
     background-color: #c82333;
 }
 
-/* Buttons at the bottom */
 .d-flex {
     display: flex;
     justify-content: space-between;
@@ -103,6 +100,7 @@
 .d-flex button:first-child {
     background-color: #007bff;
     color: white;
+
 }
 
 .d-flex button:first-child:hover {
@@ -121,3 +119,16 @@
 label.Null {
     padding-left: 100px;
 }
+
+.submit-cancel-buttons {
+    width: 86px;
+    height: 45px;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+.model-name-input {
+    width: 200px; /* Adjust to your desired width */
+    padding: 5px; /* Adjust padding for consistent spacing */
+    font-size: 14px; /* Adjust font size */
+  }
