@@ -1,10 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import NavBar from './navbar/navbar';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <NavBar />
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
