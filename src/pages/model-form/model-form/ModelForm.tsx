@@ -26,7 +26,6 @@ const ModelForm: React.FC = () => {
   });
 
   const onSubmit = (data: ModelData) => {
-    // Log the resulting JSON to check
     const jsonData = {
       modelName: data.modelName,
       variables: data.variables,
@@ -34,7 +33,6 @@ const ModelForm: React.FC = () => {
 
     console.log("Generated JSON:", jsonData);
 
-    // For now, simulate the API submission (your teammate will write the Spring Boot API)
     toast.success("Model data is ready for submission!");
   };
 
@@ -149,7 +147,6 @@ const ModelForm: React.FC = () => {
           ))}
 
 
-          {/* Add More Fields */}
           <div className="d-flex " >
 
             <div className="submit-cancel">
