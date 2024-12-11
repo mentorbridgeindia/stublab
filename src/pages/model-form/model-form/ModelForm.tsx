@@ -3,7 +3,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./modelform.css"; // Import the CSS
+import "./ModelForm.css"; 
 import { FaTrash } from "react-icons/fa";
 import { CiCirclePlus } from "react-icons/ci";
 import { ModelData } from './ModelForm.types';
@@ -45,13 +45,13 @@ const ModelForm: React.FC = () => {
         { name: "", type: "string", isNullable: false, defaultValue: "", sampleText: "" },
       ],
     });
-    toast.info("Form reset.");
+    toast.info("Form reset");
   };
 
   return (
     <Container>
       <ToastContainer position="top-center" />
-      <h1 className="my-4 text-center">Create API Models</h1>
+      <h1 className="my-4 text-center">CREATE API MODELS</h1>
       <div className="model-container">
         <Form onSubmit={handleSubmit(onSubmit)}>
           {/* Model Name Input */}

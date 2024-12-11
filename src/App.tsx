@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ModelForm from './pages/model-form/modelform';
+import ModelForm from './pages/model-form/model-form/ModelForm';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 

@@ -20,6 +20,8 @@
     padding-bottom: 10px;
     border-bottom: 1px solid #ddd;
     margin-bottom: 10px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 18px;
 }
 
 .label-row label {
@@ -144,6 +146,8 @@ label.Null {
      font-weight: bold;
      padding-top: 6px;
      padding-left: 35px;
+     font-family: 'Times New Roman', Times, serif;
+     font-size: 18px;
   }
   .model-name-row{
 
@@ -163,4 +167,10 @@ label.Null {
   }
   .error-message{
     color: red;
+  }
+  .my-4{
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
   }
