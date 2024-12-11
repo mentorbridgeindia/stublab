@@ -1,0 +1,166 @@
+/* Container for the entire form */
+.model-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    margin-top: 20px;
+    width:1310px;
+}
+
+/* Label row at the top */
+.label-row {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.label-row label {
+    flex: 1;
+    text-align: center;
+}
+
+
+.input-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 30px;
+    width: 1230px;
+    margin: 0 auto;
+    padding-bottom: 8px;
+}
+
+.input-row input,
+.input-row select {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 14px;
+}
+
+.input-row input[type="checkbox"] {
+    flex: 0;
+    margin: 6px auto;
+    width: 20px;
+    height: 20px;
+}
+
+.input-row .checkbox-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.input-row .checkbox-container label {
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.input-row button {
+    flex: 0;
+    margin-top: 3px;
+    padding: 0px 4px 2px 4px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 5px;
+    margin-right: 60px;
+}
+
+.input-row button:hover {
+    background-color: #c82333;
+}
+
+.d-flex {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.d-flex button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.d-flex button:first-child {
+    background-color: #007bff;
+    color: white;
+
+}
+
+.d-flex button:first-child:hover {
+    background-color: #0056b3;
+}
+
+.d-flex button:last-child {
+    background-color: #6c757d;
+    color: white;
+}
+
+.d-flex button:last-child:hover {
+    background-color: #5a6268;
+}
+
+label.Null {
+    padding-left: 100px;
+}
+
+.submit-cancel-buttons {
+    width: 86px;
+    height: 45px;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+.model-name-input {
+    padding: 5px; 
+    font-size: 14px; 
+  }
+
+  .icon{
+    cursor: pointer;
+    padding-right: 6px;
+    margin-left: -30px;
+    
+  }
+
+  .model-name-label{
+     margin-left: 48px;
+     font-weight: bold;
+     padding-top: 6px;
+     padding-left: 35px;
+  }
+  .model-name-row{
+
+    gap: 5px;
+  }
+  .submit-cancel{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 40px;
+        width: 100%;
+        gap: 20px;
+  }
+  .icon-trash{
+    cursor: pointer; 
+    padding-bottom: 2px;
+  }
+  .error-message{
+    color: red;
+  }
