@@ -1,0 +1,19 @@
+$form-padding:12px;
+
+.input{
+    padding: auto;
+    border-radius: 5px;
+    width: 100%;
+
+    &:hover{
+        outline: 2px;
+        border: 2.5px solid black;
+        
+    }
+    &::placeholder{
+        padding: $form-padding;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        color:#787a7b ;
+        opacity: 40%;
+    }
+}
