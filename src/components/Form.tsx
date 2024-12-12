@@ -1,8 +1,8 @@
 import React from "react";
-import { Anchor } from "@/ui/atoms/Anchor/Anchor";
-import { FormInput } from "@/ui/atoms/FormInput/FormInput";
-import {FormLabel} from "@/ui/atoms/FormLabel/FormLabel";
-import FormAction from "@/ui/molecules/FormActionButtons";
+import { Anchor } from "@atoms/Anchor/Anchor";
+import { FormInput } from "@atoms/FormInput/FormInput";
+import {FormLabel} from "@atoms/FormLabel/FormLabel";
+import FormAction from "@molecules/FormActionButtons";
 
 const Form = () => {
   const handleCancel = () => {

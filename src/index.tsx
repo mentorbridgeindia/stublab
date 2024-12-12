@@ -4,6 +4,17 @@ import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ErrorBoundary from "./ErrorBoundary";
+import * as Sentry from "@sentry/react";
+
+import {
+  SENTRY_DSN,
+  SENTRY_CONFIG,
+} from './constants/constants';
+
+Sentry.init({
+  dsn: SENTRY_DSN,
+  ...SENTRY_CONFIG
+})
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
