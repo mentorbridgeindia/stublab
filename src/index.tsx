@@ -1,15 +1,34 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import * as Sentry from "@sentry/react";
+import posthog, { PostHogConfig } from "posthog-js";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import ErrorBoundary from "./ErrorBoundary";
+import "./index.scss";
+import reportWebVitals from "./reportWebVitals";
+
+import {
+  POSTHOG_API_KEY,
+  POSTHOG_CONFIG,
+  SENTRY_CONFIG,
+  SENTRY_DSN,
+} from "./constants/constants";
+
+Sentry.init({
+  dsn: SENTRY_DSN,
+  ...SENTRY_CONFIG,
+});
+
+posthog.init(POSTHOG_API_KEY, POSTHOG_CONFIG as Partial<PostHogConfig>);
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
   </React.StrictMode>
 );
 
