@@ -86,9 +86,9 @@ const ModelForm: React.FC = () => {
                   sampleText: "",
                 })
               }
-              className="d-flex align-items-center pt-1 ps-2 pe-2 pb-1"
+              className="d-flex align-items-center pt-1 ps-1 pe-2 pb-1   "
             >
-              <CiCirclePlus size={20} className="me-2" />
+              <CiCirclePlus size={20} className="me-2 " />
               Add Variable
             </Button>
           </div>
@@ -139,9 +139,9 @@ const ModelForm: React.FC = () => {
                 />
               </Col>
 
-              <Col className="text-center">
-                <Button variant="danger" onClick={() => remove(index)} size="sm">
-                  <FaTrash />
+              <Col className="text-center pb-1 ">
+                <Button variant="danger" onClick={() => remove(index)} className="btn-sm fs-7 py-1 px-2">
+                  <FaTrash className="fs-7 mb-1"/>
                 </Button>
               </Col>
             </Row>
