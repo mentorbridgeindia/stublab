@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { Button } from 'react-bootstrap';
+import ApplicationModal from './Modals/application-modal/ApplicationModal';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-function App() {
+const App: React.FC = () => {
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleModalClose = () => {
+    setModalVisible(false);
+  };
+
+  const handleModalSubmit = (data: { name: string; path: string; description: string }) => {
+    console.log('Submitted Data:', data);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App d-flex justify-content-center align-items-center min-vh-100" >
+      <Button variant="primary" onClick={() => setModalVisible(true)}>
+        Open Modal
+      </Button>
+      <ApplicationModal
+        show={modalVisible}
+        handleClose={handleModalClose}
+        handleSubmit={handleModalSubmit}
+      />
     </div>
   );
-}
+};
 
 export default App;
