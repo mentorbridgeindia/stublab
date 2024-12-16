@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import { Offcanvas, Button } from 'react-bootstrap';
+import { OffcanvasComponentProps } from './OffcanvasComponent.types';
 
-export const OffcanvasComponent = ({ buttonLabel, title, children, placement = 'start', buttonVariant = 'opaque' }:any) => {
+export const OffcanvasComponent = ({
+    buttonLabel,
+    title,
+    children,
+    placement ,
+    buttonVariant = 'opaque',
+  }: OffcanvasComponentProps) => {
     const [show, setShow] = useState(false);
-  
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
     

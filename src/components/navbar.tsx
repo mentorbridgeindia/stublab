@@ -15,7 +15,7 @@ function NavBar() {
             <Nav.Link >Login</Nav.Link>
             <Nav.Link >Register</Nav.Link>
           </Nav>
-          <OffcanvasComponent
+          <OffcanvasComponent 
             buttonLabel=  <FaEllipsisV style={{color: "#e5e7eb",}} />
             title="Stublab's offcanvas"
             placement="end"
