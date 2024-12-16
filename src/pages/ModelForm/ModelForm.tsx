@@ -23,7 +23,7 @@ const ModelForm: React.FC = () => {
     name: "variables",
   });
 
-  const onSubmit = async (data: ModelData) => {
+  const onSubmit = (data: ModelData) => {
     const jsonData = {
       modelName: data.modelName,
       variables: data.variables,
@@ -88,7 +88,6 @@ const ModelForm: React.FC = () => {
             <Col>Sample Text</Col>
             <Col>Actions</Col>
           </Row>
-
 
 
           {fields.map((item, index) => (
