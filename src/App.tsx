@@ -8,10 +8,10 @@ import ModelForm from './pages/ModelForm/ModelForm';
 function App() {
   return (
     <div className="App">
-     {/* <NavBar />
-      <Form /> */}
+     <NavBar />
+       <Form />
       <ModelForm/>
-      {/* <button onClick={() => {throw new Error("This is your first error!");}}>Break the world</button> */}
+      <button onClick={() => {throw new Error("This is your first error!");}}>Break the world</button>
     
     </div>
   );

@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { FaTrash } from "react-icons/fa";
 import { CiCirclePlus } from "react-icons/ci";
 import { ModelData } from './ModelForm.types';
+import axios from "axios";
 
 const ModelForm: React.FC = () => {
   const { control, handleSubmit, register, reset, formState: { errors } } = useForm<ModelData>({
@@ -22,15 +23,29 @@ const ModelForm: React.FC = () => {
     name: "variables",
   });
 
-  const onSubmit = (data: ModelData) => {
+  const onSubmit = async (data: ModelData) => {
     const jsonData = {
       modelName: data.modelName,
       variables: data.variables,
     };
-    
 
+    try {
+      const response = await axios.post("http://localhost:8080/add", jsonData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    toast.success("Model data is ready for submission!");
+      if (response.status === 201) {
+        toast.success("Model data submitted successfully!");
+        reset(); 
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting the model data:", error);
+      toast.error("Failed to submit model data. Please check the server.");
+    }
   };
 
   const handleCancel = () => {
