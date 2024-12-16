@@ -14,7 +14,6 @@ const Form = () => {
     console.log("Form submitted");
   };
 
-
   const wrapperStyle = {
     border: "1px solid #ddd",
     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
