@@ -43,7 +43,6 @@ const ModelForm: React.FC = () => {
         toast.error("Something went wrong. Please try again.");
       }
     } catch (error) {
-      console.error("Error submitting the model data:", error);
       toast.error("Failed to submit model data. Please check the server.");
     }
   };
