@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/react";
+export const GOOGLE_ANALYTICS_CODE = "G-BX1VDLM74J";
 
 export const SENTRY_DSN = 
   "https://0866ef6ab90ee5bc68d6a96d2a5d30ee@o4508454618071040.ingest.de.sentry.io/4508454619512912";

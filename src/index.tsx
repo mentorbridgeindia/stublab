@@ -4,12 +4,18 @@ import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ErrorBoundary from "./ErrorBoundary";
+import ReactGA from "react-ga4";
 import * as Sentry from "@sentry/react";
 
 import {
+  GOOGLE_ANALYTICS_CODE,
   SENTRY_DSN,
   SENTRY_CONFIG,
 } from './constants/constants';
+
+// Initialize Google Analytics
+ReactGA.initialize(GOOGLE_ANALYTICS_CODE);
+ReactGA.send({ hitType: "pageview", page: window.location.pathname });
 
 Sentry.init({
   dsn: SENTRY_DSN,
