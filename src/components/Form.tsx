@@ -1,10 +1,11 @@
-import React from "react";
 import { Anchor } from "@atoms/Anchor/Anchor";
 import { FormInput } from "@atoms/FormInput/FormInput";
 import {FormLabel} from "@atoms/FormLabel/FormLabel";
 import FormAction from "@molecules/FormActionButtons";
 
+
 const Form = () => {
+
   const handleCancel = () => {
     console.log("Form canceled");
   };
@@ -23,7 +24,8 @@ const Form = () => {
   };
 
   return (
-    <div style={wrapperStyle} >
+   <div style={wrapperStyle} >
+    <div>
       <form>
         <FormLabel>Enter your Name</FormLabel>
         <FormInput placeholder="Name"/>
@@ -41,6 +43,8 @@ const Form = () => {
         </div>
       </form>
     </div>
+</div>
+    
   );
 };
 

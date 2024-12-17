@@ -14,10 +14,12 @@
     "@types/react-dom": "^18.3.1",
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
+    "fa-icons": "^0.2.0",
     "posthog-js": "^1.196.1",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.6",
     "react-dom": "^18.3.1",
+    "react-ga4": "^2.1.0",
     "react-hook-form": "^7.54.1",
     "react-icons": "^5.4.0",
     "react-scripts": "5.0.1",
@@ -28,10 +30,10 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "craco build && npm run sentry:sourcemaps",
+    "build": "craco build && npm run sentry:sourcemaps && npm run sentry:sourcemaps && npm run sentry:sourcemaps",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org mentorbridge-36 --project javascript-react ./build/static/js && sentry-cli sourcemaps upload --org mentorbridge-36 --project javascript-react ./build/static/js"
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org stublab-ce --project javascript-react ./build/static/js && sentry-cli sourcemaps upload --org stublab-ce --project javascript-react ./build/static/js"
   },
   "eslintConfig": {
     "extends": [
