@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';
+import React from "react";
+import FormAction from "@molecules/FormActionButtons"; 
 
 interface ModalFooterProps {
   onCancel: () => void;
@@ -7,16 +7,26 @@ interface ModalFooterProps {
   isOkayDisabled?: boolean;
 }
 
-const ModalFooter: React.FC<ModalFooterProps> = ({ onCancel, onOkay, isOkayDisabled = false }) => {
+const ModalFooter: React.FC<ModalFooterProps> = ({
+  onCancel,
+  onOkay,
+  isOkayDisabled = false,
+}) => {
   return (
-    <div className="d-flex justify-content-center mb-4">
-      <Button variant="secondary" onClick={onCancel}>
-        Cancel
-      </Button>
-      <Button variant="primary" onClick={onOkay} disabled={isOkayDisabled} className="ms-2">
-        Submit
-      </Button>
-    </div>
+    // <FormAction
+    //   primaryLabel="Submit"
+    //   secondaryLabel="Cancel"
+    //   onCancel={onCancel}
+    //   onSubmit={onOkay}
+    //   isPrimaryDisabled={isOkayDisabled}
+    // />
+    <FormAction
+    isPrimaryDisabled={false}
+    primaryLabel="Submit"
+    secondaryLabel="Cancel"
+    onCancel={onCancel}
+    onSubmit={onOkay}
+  />
   );
 };
 

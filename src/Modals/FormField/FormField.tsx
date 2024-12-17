@@ -1,5 +1,6 @@
 import React from 'react';
-import { Form } from 'react-bootstrap';
+import { FormInput } from '@atoms/FormInput/FormInput'; // Correct import
+import { FormLabel } from '@atoms/FormLabel/FormLabel'; // Correct import
 
 interface FormFieldProps {
   label: string;
@@ -21,28 +22,17 @@ const FormField: React.FC<FormFieldProps> = ({
   error,
 }) => {
   return (
-    <Form.Group className="mb-3">
-      <Form.Label>{label}</Form.Label>
-      {isTextArea ? (
-        <Form.Control
-          as="textarea"
-          rows={4}
-          placeholder={placeholder}
-          name={name}
-          value={value}
-          onChange={onChange}
-        />
-      ) : (
-        <Form.Control
-          type="text"
-          placeholder={placeholder}
-          name={name}
-          value={value}
-          onChange={onChange}
-        />
-      )}
-      {error && name === 'description' && <Form.Text className="text-danger">{error}</Form.Text>}
-    </Form.Group>
+    <div className="mb-3">
+      <FormLabel>{label}</FormLabel>
+      <FormInput
+        placeholder={placeholder}
+        name={name}
+        value={value}
+        onChange={onChange}
+        isTextArea={isTextArea}
+      />
+      {error && name === 'description' && <p className="text-danger">{error}</p>}
+    </div>
   );
 };
 

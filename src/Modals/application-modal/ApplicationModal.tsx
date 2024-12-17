@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Modal, Form } from 'react-bootstrap';
-import FormField from '../FormField/FormField';
-import ModalFooter from '../ModalFooter/ModalFooter';
+import { Modal } from 'react-bootstrap';
+import FormField from '../FormField/FormField'; // Correct path for FormField
+import ModalFooter from '../ModalFooter/ModalFooter'; // Correct path for ModalFooter
 
 interface ApplicationModalProps {
   show: boolean;
@@ -35,7 +35,6 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({ show, handleClose, 
       setError('Description must not exceed 1000 characters.');
       return;
     }
-
     handleSubmit(formData);
     handleClose();
   };
@@ -46,37 +45,37 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({ show, handleClose, 
         <Modal.Title>Application Modal</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
-          <FormField
-            label="Name"
-            placeholder="Enter API name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-          />
-          <FormField
-            label="Path"
-            placeholder="Enter API path"
-            name="path"
-            value={formData.path}
-            onChange={handleChange}
-          />
-          <FormField
-            label="Description"
-            placeholder="Enter description (max 1000 characters)"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            isTextArea
-            error={error}
-          />
-        </Form>
+        <FormField
+          label="Name"
+          placeholder="Enter API name"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+        />
+        <FormField
+          label="Path"
+          placeholder="Enter API path"
+          name="path"
+          value={formData.path}
+          onChange={handleChange}
+        />
+        <FormField
+          label="Description"
+          placeholder="Enter description (max 1000 characters)"
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          isTextArea
+          error={error}
+        />
       </Modal.Body>
-      <ModalFooter
-        onCancel={handleClose}
-        onOkay={onSubmit}
-        isOkayDisabled={!!error}
-      />
+      <div className="d-flex justify-content-center mb-4">
+        <ModalFooter
+          onCancel={handleClose}
+          onOkay={onSubmit}
+          isOkayDisabled={!!error}
+        />
+      </div>
     </Modal>
   );
 };
