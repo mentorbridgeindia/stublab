@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { FaTrash } from "react-icons/fa";
 import { CiCirclePlus } from "react-icons/ci";
 import { ModelData } from './ModelForm.types';
+import axios from "axios";
 
 const ModelForm: React.FC = () => {
   const { control, handleSubmit, register, reset, formState: { errors } } = useForm<ModelData>({
@@ -28,8 +29,22 @@ const ModelForm: React.FC = () => {
       variables: data.variables,
     };
 
+    try {
+      const response = await axios.post("http://localhost:8080/add", jsonData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    toast.success("Model data is ready for submission!");
+      if (response.status === 201) {
+        toast.success("Model data submitted successfully!");
+        reset(); 
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      toast.error("Failed to submit model data. Please check the server.");
+    }
   };
 
   const handleCancel = () => {
@@ -74,24 +89,6 @@ const ModelForm: React.FC = () => {
             <Col>Actions</Col>
           </Row>
 
-          <div className="d-flex justify-content-start mb-3">
-            <Button
-              variant="outline-primary"
-              onClick={() =>
-                append({
-                  name: "",
-                  type: "string",
-                  isNullable: false,
-                  defaultValue: "",
-                  sampleText: "",
-                })
-              }
-              className="d-flex align-items-center pt-1 ps-2 pe-2 pb-1"
-            >
-              <CiCirclePlus size={20} className="me-2" />
-              Add Variable
-            </Button>
-          </div>
 
           {fields.map((item, index) => (
             <Row key={item.id} className="align-items-center justify-content-start ms-3 mb-2">
@@ -139,15 +136,31 @@ const ModelForm: React.FC = () => {
                 />
               </Col>
 
-              <Col className="text-center">
-                <Button variant="danger" onClick={() => remove(index)} size="sm">
-                  <FaTrash />
+              <Col className="text-center pb-1 ">
+                <Button variant="danger" onClick={() => remove(index)} className="btn-sm fs-7 py-1 px-2">
+                  <FaTrash className="fs-7 mb-1" />
                 </Button>
               </Col>
             </Row>
           ))}
-
-
+          <div className="d-flex justify-content-start mb-3 ms-4 mt-3 px-2">
+            <Button
+              variant="outline-primary"
+              onClick={() =>
+                append({
+                  name: "",
+                  type: "string",
+                  isNullable: false,
+                  defaultValue: "",
+                  sampleText: "",
+                })
+              }
+              className="d-flex align-items-center pt-1 ps-1 pe-2 pb-1   "
+            >
+              <CiCirclePlus size={20} className="me-2 " />
+              Add Variable
+            </Button>
+          </div>
 
           <div className="d-flex justify-content-center mt-4">
             <Button type="submit" variant="success" className="mx-2">
