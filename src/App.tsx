@@ -11,10 +11,10 @@ function App() {
   const isMobile = useMediaQuery({ maxWidth: 768 });
   return (
     <div className="App">
-     {/* <NavBar />
-       <Form /> */}
-      {isMobile ? <ModelFormMobile /> : <ModelForm />}
-      {/* <button onClick={() => {throw new Error("This is your first error!");}}>Break the world</button> */}
+     <NavBar />
+       <Form />
+       {isMobile ? <ModelFormMobile /> : <ModelForm />}
+      <button onClick={() => {throw new Error("This is your first error!");}}>Break the world</button>
     
     </div>
   );

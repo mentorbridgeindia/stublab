@@ -25,8 +25,8 @@ const ModelForm: React.FC = () => {
 
   const onSubmit = async (data: ModelData) => {
     const jsonData = {
-      modelName: data.modelName,
-      variables: data.variables,
+      modelName: data.modelName, 
+      variables: data.variables,  
     };
 
     try {
