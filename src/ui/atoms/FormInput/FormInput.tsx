@@ -1,6 +1,5 @@
-import './FormInput.scss';
+import { Form } from "react-bootstrap";
 
-export const FormInput = ({className, ...props}:any) => {
-    return <input type='text' className={`input ${className || ""}`} {...props} />;
-}
-
+export const FormInput = (props: any) => {
+  return <Form.Control {...props} />;
+};
