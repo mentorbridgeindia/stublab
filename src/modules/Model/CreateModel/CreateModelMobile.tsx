@@ -4,7 +4,7 @@ import { FormActionButtons } from "@molecules/FormActionButtons";
 import React from "react";
 import { Col, Container, Form, Row } from "react-bootstrap";
 import { useFieldArray, useForm } from "react-hook-form";
-import { ModelData, ModelFormProps } from "./ModelForm.types";
+import { ModelData, ModelFormProps } from "./CreateModel.types";
 import {
   AddVariable,
   ModelName,
@@ -12,7 +12,10 @@ import {
   VariableTypes,
 } from "./components";
 
-export const ModelFormMobile: React.FC<ModelFormProps> = ({ onFormSubmit }) => {
+export const ModelFormMobile: React.FC<ModelFormProps> = ({
+  onFormSubmit,
+  onCancel,
+}) => {
   const {
     control,
     handleSubmit,
@@ -56,6 +59,7 @@ export const ModelFormMobile: React.FC<ModelFormProps> = ({ onFormSubmit }) => {
         },
       ],
     });
+    onCancel();
   };
 
   return (
