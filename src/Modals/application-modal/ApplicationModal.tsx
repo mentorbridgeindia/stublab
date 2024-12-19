@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { FormInput } from '@atoms/FormInput/FormInput';
 import { FormLabel } from '@atoms/FormLabel/FormLabel';
-import FormAction from '@molecules/FormActionButtons';
+import FormAction from '@molecules/FormActionButtons/FormActionButtons';
 import { ApplicationFormData } from './ApplicationFormData';
 import { ApplicationModalProps } from './ApplicationModalProps';
 
