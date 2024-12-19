@@ -1,16 +1,7 @@
 import React from 'react';
-import { FormInput } from '@atoms/FormInput/FormInput'; // Correct import
-import { FormLabel } from '@atoms/FormLabel/FormLabel'; // Correct import
-
-interface FormFieldProps {
-  label: string;
-  placeholder: string;
-  name: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  isTextArea?: boolean;
-  error?: string;
-}
+import { FormInput } from '@atoms/FormInput/FormInput';
+import { FormLabel } from '@atoms/FormLabel/FormLabel';
+import { FormFieldProps } from './FormFieldProps';
 
 const FormField: React.FC<FormFieldProps> = ({
   label,
