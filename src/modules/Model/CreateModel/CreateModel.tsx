@@ -3,7 +3,7 @@ import React from "react";
 import { Container, Form, Table } from "react-bootstrap";
 import { useFieldArray, useForm } from "react-hook-form";
 
-import { ModelData, ModelFormProps } from "./ModelForm.types";
+import { ModelData, ModelFormProps } from "./CreateModel.types";
 import {
   AddVariable,
   ModelName,
@@ -11,7 +11,10 @@ import {
   VariableTypes,
 } from "./components";
 
-export const ModelForm: React.FC<ModelFormProps> = ({ onFormSubmit }) => {
+export const ModelForm: React.FC<ModelFormProps> = ({
+  onFormSubmit,
+  onCancel,
+}) => {
   const {
     control,
     handleSubmit,
@@ -55,6 +58,7 @@ export const ModelForm: React.FC<ModelFormProps> = ({ onFormSubmit }) => {
         },
       ],
     });
+    onCancel();
   };
 
   return (
