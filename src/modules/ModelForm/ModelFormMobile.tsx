@@ -25,7 +25,7 @@ export const ModelFormMobile: React.FC<ModelFormProps> = ({ onFormSubmit }) => {
       variables: [
         {
           name: "",
-          type: "string",
+          type: "",
           isNullable: false,
           defaultValue: "",
           sampleText: "",
