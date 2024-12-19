@@ -3,11 +3,15 @@ import { Button } from 'react-bootstrap';
 import ApplicationModal from './Modals/application-modal/ApplicationModal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
+import { Home } from "@modules/Home";
 import { NavBar } from "@modules/NavBar";
+import { ApplicationIndexPage } from "@pages/Application/IndexPage";
+import { CreateModelPage } from "@pages/Model/CreatePage";
+import { ModelIndexPage } from "@pages/Model/IndexPage";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/esm/Container";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { CreateModelPage } from "./pages/Model/CreateModelPage";
 
 
 const App: React.FC = () => {
@@ -26,7 +30,14 @@ const App: React.FC = () => {
        <ToastContainer position="bottom-left" />
       <NavBar />
       <Container className="well-container">
-        <CreateModelPage />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/application" element={<ApplicationIndexPage />} />
+            <Route path="/model" element={<ModelIndexPage />} />
+            <Route path="/model/create" element={<CreateModelPage />} />
+          </Routes>
+        </BrowserRouter>
       </Container>
       <Button variant="primary" onClick={() => setModalVisible(true)}>
         Open Modal

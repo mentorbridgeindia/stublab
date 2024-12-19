@@ -8,8 +8,10 @@ export const NavBar = () => {
     <>
       <Navbar fixed="top">
         <Container>
-          <Navbar.Brand>Stublab</Navbar.Brand>
+          <Navbar.Brand href="/">Stublab</Navbar.Brand>
           <Nav className="ms-auto">
+            <Nav.Link href="/application">Applications</Nav.Link>
+            <Nav.Link href="/model">Models</Nav.Link>
             <Nav.Link>Login</Nav.Link>
             <Nav.Link>Register</Nav.Link>
           </Nav>
