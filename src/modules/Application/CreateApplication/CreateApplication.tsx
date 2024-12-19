@@ -54,7 +54,7 @@ export const CreateApplication = ({
           <div className="mb-3">
             <FormLabel className="mb-1">Name</FormLabel>
             <Form.Control
-              placeholder="e.g., UserManagement"
+              placeholder="ex: UserManagement"
               name="name"
               value={formData.name}
               onChange={handleChange}
@@ -64,7 +64,7 @@ export const CreateApplication = ({
           <div className="mb-3">
             <FormLabel className="mb-1">Path</FormLabel>
             <Form.Control
-              placeholder="e.g., /user-management"
+              placeholder="ex: /user-management"
               name="path"
               value={formData.path}
               onChange={handleChange}

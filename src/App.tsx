@@ -1,5 +1,5 @@
+import { Header } from "@/modules/Header";
 import { Home } from "@modules/Home";
-import { NavBar } from "@modules/NavBar";
 import { ApplicationIndexPage } from "@pages/Application/IndexPage";
 import { CreateModelPage } from "@pages/Model/CreatePage";
 import { ModelIndexPage } from "@pages/Model/IndexPage";
@@ -13,7 +13,7 @@ function App() {
   return (
     <div className="App">
       <ToastContainer position="bottom-left" />
-      <NavBar />
+      <Header />
       <Container className="well-container">
         <BrowserRouter>
           <Routes>
