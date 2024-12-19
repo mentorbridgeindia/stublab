@@ -28,7 +28,7 @@ export const ModelFormMobile: React.FC<ModelFormProps> = ({
       variables: [
         {
           name: "",
-          type: "string",
+          type: "",
           isNullable: false,
           defaultValue: "",
           sampleText: "",
@@ -43,7 +43,7 @@ export const ModelFormMobile: React.FC<ModelFormProps> = ({
   });
 
   const onSubmit = async (data: ModelData) => {
-    onFormSubmit(data);
+    onFormSubmit(data,reset);
   };
 
   const handleCancel = () => {

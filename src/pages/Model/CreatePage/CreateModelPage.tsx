@@ -6,22 +6,28 @@ import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 export const CreateModelPage = () => {
   const isDesktop = useIsDesktop();
   const navigate = useNavigate();
 
-  const handleSubmit = async (data: ModelData) => {
+  const handleSubmit = async (data: ModelData, reset: () => void) => {
     const jsonData = {
       modelName: data.modelName,
       variables: data.variables,
     };
 
     try {
-      const response = await sendData("http://localhost:8080/add", jsonData);
+      const response = await axios.post("http://localhost:8080/add", jsonData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-      if (response) {
+      if (response.status === 201) {
         toast.success("Model data submitted successfully!");
+        reset();
       } else {
         toast.error("Something went wrong. Please try again.");
       }

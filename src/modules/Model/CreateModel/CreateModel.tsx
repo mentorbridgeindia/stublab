@@ -42,7 +42,7 @@ export const ModelForm: React.FC<ModelFormProps> = ({
   });
 
   const onSubmit = async (data: ModelData) => {
-    onFormSubmit(data);
+    onFormSubmit(data, reset);
   };
 
   const handleCancel = () => {
