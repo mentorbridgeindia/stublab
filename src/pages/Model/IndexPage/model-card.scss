@@ -1,0 +1,7 @@
+@import "../../../colors.scss";
+
+.model-card {
+  &:hover {
+    border: 2px solid $primary;
+  }
+}

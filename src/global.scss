@@ -20,6 +20,7 @@ $theme-colors: map-merge(
 @import "./margin.scss";
 @import "react-toastify/dist/ReactToastify.css";
 @import "./table.scss";
+@import "https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap";
 
 html {
   /* font-family: Roboto, system-ui, Avenir, Helvetica, Arial, sans-serif; */
@@ -147,4 +148,18 @@ a {
   }
 
   @extend .truncate;
+}
+
+.cm-editor,
+.cm-scroller {
+  border-radius: 10px;
+}
+
+.cm-line {
+  font-size: 14px;
+}
+
+.cm-editor,
+.cm-line {
+  font-family: "Fira Code", monospace;
 }
