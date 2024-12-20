@@ -12,6 +12,6 @@ export interface ModelData {
 }
 
 export interface ModelFormProps {
-  onFormSubmit: (data: ModelData) => void;
+  onFormSubmit: (data: ModelData, reset: () => void) => void;
   onCancel: () => void;
 }
