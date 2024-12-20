@@ -1,7 +1,25 @@
-@import "bootstrap/dist/css/bootstrap.min.css";
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
 @import "./colors.scss";
+
+$theme-colors: map-merge(
+  $theme-colors,
+  (
+    "primary": $primary,
+    "secondary": $secondary,
+    "success": $success,
+    "info": $info,
+    "warning": $warning,
+    "danger": $danger,
+    "light": $light,
+    "dark": $dark,
+  )
+);
+
+@import "bootstrap/scss/bootstrap.scss";
 @import "./margin.scss";
 @import "react-toastify/dist/ReactToastify.css";
+@import "./table.scss";
 
 html {
   /* font-family: Roboto, system-ui, Avenir, Helvetica, Arial, sans-serif; */
@@ -13,7 +31,7 @@ html {
 
 body {
   min-height: 100vh;
-  font-size: 18px !important;
+  font-size: 16px !important;
   color: $content-color;
   letter-spacing: 0.3px;
 }
@@ -89,4 +107,44 @@ input[type="number"] {
 
 .form-control {
   font-size: 14px !important;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+a {
+  font-size: 14px;
+  color: $primary;
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px 0;
+  position: relative;
+  text-decoration: none;
+  font-weight: 500;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &::after {
+    background-color: $info;
+    bottom: 0;
+    content: "";
+    height: 1px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    transform: scaleX(0);
+    transition: transform 0.8s;
+    width: 100%;
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
+  }
+
+  @extend .truncate;
 }
