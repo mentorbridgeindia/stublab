@@ -1,42 +1,59 @@
-import React, { useState } from 'react';
-import { Modal } from 'react-bootstrap';
-import { FormInput } from '@atoms/FormInput/FormInput';
-import { FormLabel } from '@atoms/FormLabel/FormLabel';
-import FormAction from '@molecules/FormActionButtons/FormActionButtons';
-import { ApplicationFormData } from './ApplicationFormData';
-import { ApplicationModalProps } from './ApplicationModalProps';
+import React, { useState } from "react";
+import { Modal } from "react-bootstrap";
+import { FormInput } from "@atoms/FormInput/FormInput";
+import { FormLabel } from "@atoms/FormLabel/FormLabel";
+import FormAction from "@molecules/FormActionButtons/FormActionButtons";
+import { ApplicationFormData } from "./ApplicationFormData";
+import { ApplicationModalProps } from "./ApplicationModalProps";
+import axios from "axios";
 
-const ApplicationModal: React.FC<ApplicationModalProps> = ({ show, handleClose, handleSubmit }) => {
+const ApplicationModal: React.FC<ApplicationModalProps> = ({
+  show,
+  handleClose,
+  handleSubmit,
+}) => {
   const [formData, setFormData] = useState<ApplicationFormData>({
-    name: '',
-    path: '',
-    description: '',
+    name: "",
+    path: "",
+    description: "",
   });
 
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
 
-    if (name === 'description' && value.length > 1000) {
-      setError('Description must not exceed 1000 characters.');
+    if (name === "description" && value.length > 1000) {
+      setError("Description must not exceed 1000 characters.");
     } else {
-      setError('');
+      setError("");
     }
 
     setFormData({ ...formData, [name]: value });
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (formData.description.length > 1000) {
-      setError('Description must not exceed 1000 characters.');
+      setError("Description must not exceed 1000 characters.");
       return;
     }
 
-    handleSubmit(formData);
-    handleClose();
-  };
+    try {
+      await axios.post("http://localhost:8080/create", formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
+      handleSubmit(formData);
+      handleClose();
+    } catch (err) {
+      console.error("Error submitting data:", err);
+      setError("Failed to submit the application");
+    }
+  };
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>

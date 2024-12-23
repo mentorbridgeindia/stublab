@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
-import ApplicationModal from './Modals/application-modal/ApplicationModal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
+import { CreateApplication } from "@modules/Application/CreateApplication";
 import { Home } from "@modules/Home";
 import { NavBar } from "@modules/NavBar";
 import { ApplicationIndexPage } from "@pages/Application/IndexPage";
@@ -42,7 +42,7 @@ const App: React.FC = () => {
       <Button variant="primary" onClick={() => setModalVisible(true)}>
         Open Modal
       </Button>
-      <ApplicationModal
+      <CreateApplication
         show={modalVisible}
         handleClose={handleModalClose}
         handleSubmit={handleModalSubmit}
