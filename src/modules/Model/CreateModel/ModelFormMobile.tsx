@@ -17,18 +17,11 @@ export const ModelFormMobile: React.FC<ModelFormProps> = ({
   onCancel,
   form,
 }) => {
-  const {
-    onSubmit,
-    fields,
-    append,
-    remove,
-    handleSubmit,
-    register,
-    errors,
-  } = useCreateModelForm({
-    form,
-    onFormSubmit,
-  });
+  const { onSubmit, fields, append, remove, handleSubmit, register, errors } =
+    useCreateModelForm({
+      form,
+      onFormSubmit,
+    });
 
   return (
     <Container fluid>
