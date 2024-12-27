@@ -40,7 +40,6 @@ jobs:
         run: |
           npx eslint . \
             --config .eslintrc.js \
-            --ext .js,.jsx,.ts,.tsx \
             --format sarif \
             --output-file eslint-results.sarif
         continue-on-error: true
