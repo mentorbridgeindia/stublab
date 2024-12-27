@@ -3,8 +3,8 @@ import { Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 import { CreateApplication } from "@modules/Application/CreateApplication";
+import { Header } from "@/modules/Header";
 import { Home } from "@modules/Home";
-import { NavBar } from "@modules/NavBar";
 import { ApplicationIndexPage } from "@pages/Application/IndexPage";
 import { CreateModelPage } from "@pages/Model/CreatePage";
 import { ModelIndexPage } from "@pages/Model/IndexPage";
@@ -28,7 +28,8 @@ const App: React.FC = () => {
   return (
     <div className="App">
        <ToastContainer position="bottom-left" />
-      <NavBar />
+      <ToastContainer position="bottom-left" />
+      <Header />
       <Container className="well-container">
         <BrowserRouter>
           <Routes>
