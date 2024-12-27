@@ -1,66 +1,27 @@
 import { FormInput } from "@/ui/atoms/FormInput";
 import { FormLabel } from "@/ui/atoms/FormLabel";
-import FormAction from '@molecules/FormActionButtons/FormActionButtons';
+import { FormActionButtons } from "@molecules/FormActionButtons";
 import React from "react";
 import { Col, Container, Form, Row } from "react-bootstrap";
-import { useFieldArray, useForm } from "react-hook-form";
-import { ModelData, ModelFormProps } from "./CreateModel.types";
+import { ModelFormProps } from "./CreateModel.types";
 import {
   AddVariable,
   ModelName,
   RemoveVariable,
   VariableTypes,
 } from "./components";
+import { useCreateModelForm } from "./hooks/useCreateModelForm";
 
 export const ModelFormMobile: React.FC<ModelFormProps> = ({
   onFormSubmit,
   onCancel,
+  form,
 }) => {
-  const {
-    control,
-    handleSubmit,
-    register,
-    reset,
-    formState: { errors },
-  } = useForm<ModelData>({
-    defaultValues: {
-      modelName: "",
-      variables: [
-        {
-          name: "",
-          type: "string",
-          isNullable: false,
-          defaultValue: "",
-          sampleText: "",
-        },
-      ],
-    },
-  });
-
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "variables",
-  });
-
-  const onSubmit = async (data: ModelData) => {
-    onFormSubmit(data);
-  };
-
-  const handleCancel = () => {
-    reset({
-      modelName: "",
-      variables: [
-        {
-          name: "",
-          type: "string",
-          isNullable: false,
-          defaultValue: "",
-          sampleText: "",
-        },
-      ],
+  const { onSubmit, fields, append, remove, handleSubmit, register, errors } =
+    useCreateModelForm({
+      form,
+      onFormSubmit,
     });
-    onCancel();
-  };
 
   return (
     <Container fluid>
@@ -153,11 +114,11 @@ export const ModelFormMobile: React.FC<ModelFormProps> = ({
 
           <AddVariable append={append} />
 
-          <FormAction
+          <FormActionButtons
             primaryLabel="Submit"
             secondaryLabel="Cancel"
             onSubmit={handleSubmit(onSubmit)}
-            onCancel={handleCancel}
+            onCancel={onCancel}
             isPrimaryDisabled={false}
           />
         </Form>

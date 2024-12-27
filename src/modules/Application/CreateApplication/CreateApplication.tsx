@@ -1,8 +1,8 @@
-import * as Yup from "yup";
+import { FormLabel } from "@atoms/FormLabel/FormLabel";
+import { FormActionButtons } from "@molecules/FormActionButtons";
 import React, { useState } from "react";
 import { Form, Modal } from "react-bootstrap";
-import { FormLabel } from "@atoms/FormLabel/FormLabel";
-import FormAction from "@/ui/molecules/FormActionButtons/FormActionButtons";
+import * as Yup from "yup";
 import {
   ApplicationFormData,
   ICreateApplication,
@@ -124,7 +124,7 @@ export const CreateApplication = ({
       </Modal.Body>
 
       <div className="d-flex justify-content-center mb-4">
-        <FormAction
+        <FormActionButtons
           primaryLabel="Submit"
           secondaryLabel="Cancel"
           onCancel={handleClose}
