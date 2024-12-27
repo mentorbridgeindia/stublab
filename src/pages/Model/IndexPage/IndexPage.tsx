@@ -4,12 +4,12 @@ import { ReactComponent as IconPencil } from "@icons/icon-pencil.svg";
 import { ReactComponent as IconPlus } from "@icons/icon-plus.svg";
 import { ReactComponent as IconTrash } from "@icons/icon-trash.svg";
 import { Dropdown } from "@molecules/Dropdown/Dropdown";
+import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import CodeMirror from "@uiw/react-codemirror";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "./model-card.scss";
 import { sample } from "./sample";
-import { vscodeDark } from "@uiw/codemirror-theme-vscode/cjs/dark";
 
 export const ModelIndexPage = () => {
   const navigate = useNavigate();

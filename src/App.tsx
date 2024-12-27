@@ -27,7 +27,6 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-       <ToastContainer position="bottom-left" />
       <ToastContainer position="bottom-left" />
       <Header />
       <Container className="well-container">
