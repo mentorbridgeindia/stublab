@@ -1,0 +1,325 @@
+@import "../../../colors.scss";
+
+:root {
+  --size: 30vmin;
+}
+
+$folder-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "warning": $warning,
+  "success": $success,
+  "info": $info,
+  "danger": $danger,
+  "light": $light,
+  "dark": $dark,
+  "new": #00b3ee,
+);
+
+@mixin folder-background($color, $opacity) {
+  background: color-mix(in srgb, $color, black $opacity);
+}
+
+.folder {
+  width: var(--size);
+  aspect-ratio: 1;
+  border-radius: calc(var(--size) / 8);
+  position: relative;
+  overflow: hidden;
+
+  &:after {
+    padding: 0 0.5vmin;
+    line-height: calc(var(--size) / 8.3);
+    backdrop-filter: blur(0.2rem);
+    background-color: rgba(0, 0, 0, 0.14);
+    z-index: 1111;
+    position: absolute;
+    left: calc(var(--size) / 8.3);
+    bottom: calc(var(--size) / 8.3);
+    font-size: calc(var(--size) / 8.3);
+    border-radius: calc(var(--size) / 12);
+  }
+
+  @media (hover) {
+    &:hover {
+      .doc {
+        top: calc(var(--size) / 6.25);
+
+        &:before {
+          transform: translateY(-1vmin) translateX(0.5vmin) rotate(15deg);
+        }
+
+        &:after {
+          transform: translateY(-2vmin) translateY(-0.5vmin) rotate(-15deg);
+        }
+      }
+    }
+  }
+
+  .dots {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    mix-blend-mode: screen;
+    opacity: 0.16;
+  }
+
+  .scratches {
+    pointer-events: none;
+    &:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      mix-blend-mode: screen;
+      opacity: 0.12;
+      transform: rotate(55deg) scaleY(61.5);
+    }
+
+    &:after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      mix-blend-mode: screen;
+      opacity: 0.15;
+      transform: rotate(25deg) scaleY(111.5);
+    }
+  }
+
+  .fg-1 {
+    position: absolute;
+    left: 0;
+    right: 0;
+    aspect-ratio: 1 / 0.498;
+    bottom: calc(-0.2 * var(--size) / 50);
+    height: calc(var(--size) / 1.75);
+    width: calc(var(--size) / 1.75);
+    border-radius: 0 5px;
+  }
+
+  .fg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: calc(-0.6 * var(--size) / 50);
+    aspect-ratio: 1 / 0.498;
+
+    &:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+    }
+  }
+
+  .fg-top {
+    background: color-mix(in srgb, $primary, rgba(255 255 255 / 0.1) 70%);
+    backdrop-filter: blur(0.5rem);
+    position: absolute;
+    inset: 0;
+    transform: translateY(calc(-1 * var(--size)));
+    border-top: 3px solid rgba(255, 255, 255, 0.5);
+    border-radius: calc(var(--size) / 4) 0 0 0;
+    height: calc(var(--size) / 7);
+    width: calc(var(--size) / 2.5);
+  }
+
+  .fg-top-2 {
+    position: absolute;
+    left: calc(var(--size) / 6.25);
+    top: calc(var(--size) / 6.25);
+    width: calc(var(--size) / 10);
+    border-radius: 0 calc(var(--size) / 4) 0 0;
+    background: color-mix(in srgb, $primary, rgba(255 255 255 / 0.1) 70%);
+    backdrop-filter: blur(0.5rem);
+    border-top: 3px solid rgba(255, 255, 255, 0.5);
+    bottom: 0;
+    height: calc(var(--size) / 7);
+  }
+
+  .fg-top-3 {
+    position: absolute;
+    left: calc(var(--size) / 6.25);
+    width: calc(var(--size) / 10);
+    top: calc(var(--size) / 6.25);
+    border-radius: 0 calc(var(--size) / 4) 0 0;
+    height: calc(var(--size) / 7);
+    mask-image: radial-gradient(
+      200% 200% at 100% 00%,
+      transparent 50%,
+      black 50%
+    );
+    background: color-mix(in srgb, $primary, rgba(255 255 255 / 0.1) 70%);
+    backdrop-filter: blur(0.5rem);
+  }
+
+  .doc-container {
+    position: absolute;
+    inset: 0;
+    mask: linear-gradient(to bottom, black 70%, transparent 80%);
+  }
+
+  .doc {
+    position: absolute;
+    background: linear-gradient(to bottom, white 70%, $secondary);
+    box-shadow: 0 0 1.2rem rgba(0, 0, 0, 0.2);
+    transition: top 0.3s ease;
+
+    left: calc(var(--size) / 6.25);
+    top: calc(var(--size) / 6.25);
+    right: calc(var(--size) / 6.25);
+    height: calc(var(--size) / 1.92);
+    border-radius: calc(var(--size) / 12.5) calc(var(--size) / 12.5) 0 0;
+    padding: calc(var(--size) / 12.5) calc(var(--size) / 16.67);
+    gap: calc(var(--size) / 25);
+    display: flex;
+    flex-direction: column;
+
+    &:before {
+      content: "";
+      position: absolute;
+      left: calc(var(--size) / 12.25);
+      top: 0;
+      right: calc(var(--size) / 12.25);
+      bottom: 0;
+      transform: translateY(-1vmin) rotate(5deg);
+      z-index: -1;
+      background: color-mix(in srgb, $light, black 10%);
+      border: 0.3vmin solid rgba(255, 255, 255, 0.1);
+      border-radius: inherit;
+      transition: transform 0.3s ease;
+      transform-origin: right;
+    }
+    &:after {
+      content: "";
+      position: absolute;
+      left: calc(var(--size) / 12.25);
+      top: 0;
+      right: calc(var(--size) / 12.25);
+      bottom: 0;
+      transform: translateY(-2.5vmin) rotate(-5deg);
+      z-index: -2;
+      border: 0.3vmin solid rgba(255, 255, 255, 0.1);
+      background: color-mix(in srgb, $light, black 20%);
+      border-radius: inherit;
+      transition: transform 0.3s ease;
+      transform-origin: left;
+    }
+
+    .row {
+      display: flex;
+      flex-direction: column;
+      gap: calc(var(--size) / 50);
+
+      .placeholder {
+        cursor: default;
+        height: calc(var(--size) / 100);
+        border-radius: calc(var(--size) / 12.5);
+        background-color: rgba(0, 0, 0, 0.1);
+        width: 80%;
+        margin-left: 10%;
+        &:last-child {
+          width: calc(var(--size) / 3.5);
+        }
+      }
+      &:last-child {
+        .placeholder {
+          width: calc(var(--size) / 3.5);
+        }
+      }
+    }
+  }
+
+  .folder-label {
+    cursor: pointer;
+    margin-top: 1rem;
+    color: $light;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  .folder-sub-label {
+    cursor: pointer;
+    color: $light;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+  }
+
+  .folder-count {
+    color: $light;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+
+    span {
+      font-size: 0.7rem;
+      font-weight: normal;
+    }
+  }
+
+  @each $type, $color in $folder-colors {
+    &.type-#{$type} {
+      @include folder-background($color, 30%);
+
+      .fg-1 {
+        @include folder-background($color, 10%);
+      }
+
+      .fg {
+        @include folder-background($color, 10%);
+      }
+    }
+  }
+}
+
+.type-light {
+  .folder-label,
+  .folder-count,
+  .folder-sub-label {
+    color: $dark;
+  }
+}
+
+@media (max-width: 768px) and (min-width: 376px) {
+  .fg-1 {
+    height: calc(var(--size) / 1.75) !important;
+  }
+
+  .fg {
+    height: calc(var(--size) / 2.25) !important;
+    width: 100% !important;
+  }
+
+  .doc {
+    &:before {
+      left: calc(var(--size) / 30.25);
+      right: calc(var(--size) / 30.25);
+    }
+
+    &:after {
+      left: calc(var(--size) / 30.25);
+      right: calc(var(--size) / 30.25);
+    }
+  }
+
+  .folder-label {
+    font-size: 0.8rem !important;
+  }
+
+  .folder-sub-label {
+    font-size: 0.7rem !important;
+  }
+
+  .folder-count {
+    font-size: 0.7rem !important;
+  }
+}
+
+@media (max-width: 468px) {
+  :root {
+    --size: 50vmin;
+  }
+}
