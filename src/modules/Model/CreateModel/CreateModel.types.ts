@@ -1,3 +1,5 @@
+import { UseFormReturn } from "react-hook-form";
+
 export interface Variable {
   name: string;
   type: string;
@@ -14,4 +16,16 @@ export interface ModelData {
 export interface ModelFormProps {
   onFormSubmit: (data: ModelData, reset: () => void) => void;
   onCancel: () => void;
+  form: UseFormReturn<ModelData>;
+}
+
+
+export interface ICreateModel {
+  onFormSubmit: (data: ModelData, reset: () => void) => void;
+  onCancel: () => void;
+}
+
+export interface IUseCreateModel {
+  form: UseFormReturn<ModelData>;
+  onFormSubmit: (data: ModelData, reset: () => void) => void;
 }

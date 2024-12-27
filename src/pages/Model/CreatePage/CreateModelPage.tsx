@@ -1,15 +1,11 @@
-import { ModelForm, ModelFormMobile } from "@/modules/Model/CreateModel";
-import { sendData } from "@api/Post/sendData";
-import { useIsDesktop } from "@hooks/useIsDesktop";
-import { ModelData } from "@modules/Model/CreateModel";
+import { CreateModel, ModelData } from "@modules/Model";
+import axios from "axios";
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
 
 export const CreateModelPage = () => {
-  const isDesktop = useIsDesktop();
   const navigate = useNavigate();
 
   const handleSubmit = async (data: ModelData, reset: () => void) => {
@@ -43,11 +39,7 @@ export const CreateModelPage = () => {
   return (
     <Container>
       <h1 className="my-4 text-center">Create Model</h1>
-      {isDesktop ? (
-        <ModelForm onFormSubmit={handleSubmit} onCancel={handleCancel} />
-      ) : (
-        <ModelFormMobile onFormSubmit={handleSubmit} onCancel={handleCancel} />
-      )}
+      <CreateModel onFormSubmit={handleSubmit} onCancel={handleCancel} />
     </Container>
   );
 };
