@@ -1,30 +1,16 @@
-import React, { useState } from 'react';
-import { Button } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.scss';
-import { CreateApplication } from "@modules/Application/CreateApplication";
 import { Header } from "@/modules/Header";
 import { Home } from "@modules/Home";
 import { ApplicationIndexPage } from "@pages/Application/IndexPage";
 import { CreateModelPage } from "@pages/Model/CreatePage";
 import { ModelIndexPage } from "@pages/Model/IndexPage";
 import "bootstrap/dist/css/bootstrap.min.css";
+import React from "react";
 import Container from "react-bootstrap/esm/Container";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-
+import "./App.scss";
 
 const App: React.FC = () => {
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const handleModalClose = () => {
-    setModalVisible(false);
-  };
-
-  const handleModalSubmit = (data: { name: string; path: string; description: string }) => {
-    console.log('Submitted Data:', data);
-  };
-
   return (
     <div className="App">
       <ToastContainer position="bottom-left" />
@@ -39,15 +25,6 @@ const App: React.FC = () => {
           </Routes>
         </BrowserRouter>
       </Container>
-      <Button variant="primary" onClick={() => setModalVisible(true)}>
-        Open Modal
-      </Button>
-      <CreateApplication
-        show={modalVisible}
-        handleClose={handleModalClose}
-        handleSubmit={handleModalSubmit}
-      />
-     
     </div>
   );
 };

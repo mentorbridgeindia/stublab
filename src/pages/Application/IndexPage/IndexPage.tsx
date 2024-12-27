@@ -83,7 +83,9 @@ export const ApplicationIndexPage = () => {
       <CreateApplication
         show={show}
         handleClose={handleClose}
-        handleSubmit={() => {}}
+        handleSubmit={(d) => {
+          console.log(d);
+        }}
       />
     </div>
   );

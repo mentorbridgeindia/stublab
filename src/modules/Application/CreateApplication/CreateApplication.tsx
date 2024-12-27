@@ -1,10 +1,12 @@
+import * as Yup from "yup";
 import React, { useState } from "react";
 import { Form, Modal } from "react-bootstrap";
-import * as Yup from "yup";
 import { FormLabel } from "@atoms/FormLabel/FormLabel";
 import FormAction from "@/ui/molecules/FormActionButtons/FormActionButtons";
-import { ApplicationFormData, ICreateApplication } from "./CreateApplication.types";
-
+import {
+  ApplicationFormData,
+  ICreateApplication,
+} from "./CreateApplication.types";
 
 const validationSchema = Yup.object({
   name: Yup.string()
@@ -26,7 +28,6 @@ export const CreateApplication = ({
   handleClose,
   handleSubmit,
 }: ICreateApplication) => {
-
   const [formData, setFormData] = useState<ApplicationFormData>({
     name: "",
     path: "",
@@ -63,10 +64,10 @@ export const CreateApplication = ({
   const onSubmit = async () => {
     const isValid = await validateForm();
     if (isValid) {
-      handleSubmit(formData); 
+      handleSubmit(formData);
       setFormData({ name: "", path: "", description: "" });
       setErrors({});
-      handleClose(); 
+      handleClose();
     }
   };
 
@@ -132,7 +133,7 @@ export const CreateApplication = ({
             !formData.name.trim() ||
             !formData.path.trim() ||
             !formData.description.trim()
-          } 
+          }
         />
       </div>
     </Modal>
