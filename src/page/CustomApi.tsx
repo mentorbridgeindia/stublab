@@ -9,6 +9,7 @@ const schema = yup.object().shape({
   url: yup.string().url('Please enter a valid URL').required('URL is required'),
   method: yup.string().oneOf(['POST', 'GET', 'PUT', 'DELETE'], 'Invalid HTTP Method').required('Method is required'),
   responseBody: yup.string().required('Response Body is required'),
+
 });
 const ResponseForm: React.FC = () => {
   const { control, handleSubmit, formState: { errors } } = useForm({
@@ -153,6 +154,7 @@ const handleCancel = () => {
                           <option>204</option>
                           <option>400</option>
                           <option>500</option>
+                              <option>501</option>
                         </Form.Control>
                       </Form.Group>
                     </Col>
