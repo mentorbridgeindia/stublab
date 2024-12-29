@@ -1,0 +1,2 @@
+export const STALE_TIME_FOR_NOT_URGENT_UPDATES = 10000;
+export const STALE_TIME_BASIC = 3000;

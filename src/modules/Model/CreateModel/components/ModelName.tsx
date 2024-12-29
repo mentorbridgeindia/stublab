@@ -8,16 +8,16 @@ export const ModelName = ({ register, errors }: any) => {
       </Col>
       <Col sm={10} md={6} lg={4}>
         <Form.Control
-          {...register("modelName", {
+          {...register("name", {
             required: "Please enter model name",
           })}
           type="text"
           placeholder="Ex: Address"
           className="model-name-input"
-          isInvalid={!!errors?.modelName}
+          isInvalid={!!errors?.name}
         />
-        {errors?.modelName && (
-          <p className="text-danger fs-6">{errors.modelName.message}</p>
+        {errors?.name && (
+          <p className="text-danger fs-6">{errors.name.message}</p>
         )}
       </Col>
     </Row>

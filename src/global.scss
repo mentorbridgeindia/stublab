@@ -38,8 +38,8 @@ body {
 }
 
 svg {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
 }
 
 ::placeholder {
@@ -84,11 +84,25 @@ input[type="number"] {
   background: #eee;
 }
 
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.005rem $primary !important;
+}
+
 .btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 8px;
+}
+
+.btn-primary {
+  color: $light !important;
+}
+
+.btn-outline-primary:hover {
+  color: $light !important;
 }
 
 .form-label {
@@ -168,4 +182,11 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.icon-md {
+  svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
 }
