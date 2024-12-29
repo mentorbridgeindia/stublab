@@ -33,8 +33,17 @@ html {
 body {
   min-height: 100vh;
   font-size: 16px !important;
-  color: $content-color;
+  color: $content-color !important;
   letter-spacing: 0.3px;
+}
+
+p {
+  color: $content-color !important;
+}
+
+.card-title {
+  color: $content-color !important;
+  margin-bottom: 0 !important;
 }
 
 svg {
@@ -188,5 +197,12 @@ a {
   svg {
     width: 20px !important;
     height: 20px !important;
+  }
+}
+
+.logo-lg {
+  svg {
+    width: 132px !important;
+    height: 35px !important;
   }
 }

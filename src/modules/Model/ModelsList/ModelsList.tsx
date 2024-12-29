@@ -30,7 +30,7 @@ export const ModelsList = () => {
       {sample.map((item) => (
         <Col sm={12} md={6} lg={4} key={item.id} className="mb-5">
           <Card className="model-card">
-            <Card.Body>
+            <Card.Header>
               <Card.Title>
                 <div className="d-flex justify-content-between">
                   <div>{item.name}</div>
@@ -61,6 +61,8 @@ export const ModelsList = () => {
                   </div>
                 </div>
               </Card.Title>
+            </Card.Header>
+            <Card.Body>
               <div className="text-start mt-3">
                 <CodeMirror
                   theme={vscodeDark}
