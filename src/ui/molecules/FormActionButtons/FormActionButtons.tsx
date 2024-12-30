@@ -1,16 +1,18 @@
 import { ReactComponent as IconBan } from "@icons/icon-ban.svg";
 import { ReactComponent as IconCheck } from "@icons/icon-check.svg";
+import { ReactComponent as IconTrash } from "@icons/icon-trash.svg";
 import { Button } from "react-bootstrap";
 import "./FormActionButtons.scss";
 import { IFormActionButtons } from "./FormActionButtons.types";
 
 export const FormActionButtons = (props: IFormActionButtons) => {
   const {
-    isPrimaryDisabled,
     primaryLabel,
     secondaryLabel,
     onCancel,
     onSubmit,
+    isPrimaryDisabled,
+    isPrimaryDelete,
   } = props;
 
   return (
@@ -19,8 +21,13 @@ export const FormActionButtons = (props: IFormActionButtons) => {
         <IconBan />
         {secondaryLabel}
       </Button>
-      <Button type="submit" disabled={isPrimaryDisabled} onClick={onSubmit}>
-        <IconCheck />
+      <Button
+        type="submit"
+        variant={isPrimaryDelete ? "danger" : "primary"}
+        disabled={isPrimaryDisabled}
+        onClick={onSubmit}
+      >
+        {isPrimaryDelete ? <IconTrash /> : <IconCheck />}
         {primaryLabel}
       </Button>
     </div>

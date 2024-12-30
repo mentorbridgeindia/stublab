@@ -34,7 +34,8 @@
       "@modules/*": ["modules/*"],
       "@icons/*": ["assets/icons/*"],
       "@images/*": ["assets/images/*"],
-      "@api/*": ["api/*"]
+      "@api/*": ["api/*"],
+      "@entities/*": ["entities/*"]
     }
   },
   "include": ["src"]

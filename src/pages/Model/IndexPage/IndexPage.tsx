@@ -1,4 +1,5 @@
 import { ReactComponent as IconPlus } from "@icons/icon-plus.svg";
+import { ModelsList } from "@modules/Model";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
@@ -16,6 +17,9 @@ export const ModelIndexPage = () => {
           <IconPlus />
           Create Model
         </Button>
+      </div>
+      <div className="mt-5">
+        <ModelsList />
       </div>
     </div>
   );

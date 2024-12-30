@@ -1,3 +1,6 @@
+import { IModelMutation } from "@entities/Model";
+import { UseFormReturn } from "react-hook-form";
+
 export interface Variable {
   name: string;
   type: string;
@@ -6,12 +9,18 @@ export interface Variable {
   sampleText?: string;
 }
 
-export interface ModelData {
-  modelName: string;
-  variables: Variable[];
+export interface ModelFormProps {
+  onFormSubmit: (data: IModelMutation, reset: () => void) => void;
+  onCancel: () => void;
+  form: UseFormReturn<IModelMutation>;
 }
 
-export interface ModelFormProps {
-  onFormSubmit: (data: ModelData) => void;
+export interface ICreateModel {
+  onFormSubmit: (data: IModelMutation, reset: () => void) => void;
   onCancel: () => void;
+}
+
+export interface IUseCreateModel {
+  form: UseFormReturn<IModelMutation>;
+  onFormSubmit: (data: IModelMutation, reset: () => void) => void;
 }
