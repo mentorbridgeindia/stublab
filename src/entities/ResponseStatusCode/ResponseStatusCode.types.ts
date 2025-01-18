@@ -1,13 +1,13 @@
 import { ModelTypes } from "@/types";
 
-export interface IStatusCodeEntity {
+export interface IResponseStatusCodeEntity {
   id: string;
   code: StatusCodes;
-  createdAt: string;
-  createdBy: string;
+  createdAt?: string;
+  createdBy?: string;
   responseType: ResponseTypes;
-  updatedAt: string;
-  updatedBy: string;
+  updatedAt?: string;
+  updatedBy?: string;
   listCount?: number;
   isPrimitiveResponseStatic?: boolean;
   primitiveResponse?: string;

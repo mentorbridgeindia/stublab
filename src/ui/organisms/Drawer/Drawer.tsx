@@ -9,6 +9,7 @@ export const Drawer = (props: IDrawer) => {
       onHide={props.onHide}
       placement={"end"}
       className="drawer-lg"
+      backdrop={false}
     >
       <Offcanvas.Header closeButton className="drawer-header">
         <Offcanvas.Title>{props.title}</Offcanvas.Title>

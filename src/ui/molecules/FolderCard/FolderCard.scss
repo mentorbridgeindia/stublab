@@ -232,12 +232,12 @@ $folder-colors: (
     }
   }
 
-  .folder-label {
+  .folder-label a {
     cursor: pointer;
     margin-top: 1rem;
     color: $light;
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: bold !important;
   }
 
   .folder-sub-label {
@@ -276,10 +276,16 @@ $folder-colors: (
 }
 
 .type-light {
-  .folder-label,
+  .folder-label a,
   .folder-count,
   .folder-sub-label {
-    color: $dark;
+    color: $dark !important;
+  }
+
+  .folder-label a {
+    &::after {
+      background-color: $dark !important;
+    }
   }
 }
 

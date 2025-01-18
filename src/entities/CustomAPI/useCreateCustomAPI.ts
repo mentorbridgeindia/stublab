@@ -8,7 +8,7 @@ const createCustomAPI = async (data: ICustomAPIMutation) => {
   return await sendData<ICustomAPIMutation>(CUSTOM_APIS_ENDPOINT, data);
 };
 
-export const useCreateApplication = (params: IMutationParams = {}) =>
+export const useCreateCustomAPI = (params: IMutationParams = {}) =>
   useMutation<MutationResponse, Error, ICustomAPIMutation>({
     mutationFn: createCustomAPI,
     ...params,

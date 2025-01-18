@@ -14,4 +14,5 @@ export interface IFolderCardProps {
   label: string;
   count: number;
   subLabel?: string;
-};
+  link: string;
+}

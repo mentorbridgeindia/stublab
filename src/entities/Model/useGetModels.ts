@@ -8,11 +8,11 @@ import { IModelEntity } from "./Model.types";
 const ENTITY_TYPE = "model";
 
 const getModels = async () => {
-  return await fetchData<IModelEntity>(MODELS_ENDPOINT);
+  return await fetchData<IModelEntity[]>(MODELS_ENDPOINT);
 };
 
 export const useGetModels = ({ queryConfig }: IQueryConfig = {}) =>
-  useQuery<IModelEntity>({
+  useQuery<IModelEntity[]>({
     queryKey: [ENTITY_TYPE],
     queryFn: getModels,
     staleTime: STALE_TIME_FOR_NOT_URGENT_UPDATES,

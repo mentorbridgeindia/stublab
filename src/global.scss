@@ -115,7 +115,7 @@ input[type="number"] {
 }
 
 .form-label {
-  margin-bottom: 0 !important;
+  margin-bottom: 0.25rem !important;
 }
 
 .table {
@@ -139,7 +139,15 @@ input[type="number"] {
   text-overflow: ellipsis;
 }
 
-a {
+a.dropdown-item {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+a:not(.dropdown-item) {
   font-size: 14px;
   color: $primary;
   cursor: pointer;
@@ -171,6 +179,14 @@ a {
   }
 
   @extend .truncate;
+}
+
+a.text-white {
+  color: $light !important;
+
+  &::after {
+    background-color: $light !important;
+  }
 }
 
 .cm-editor,
@@ -205,4 +221,21 @@ a {
     width: 132px !important;
     height: 35px !important;
   }
+}
+
+.dropdown-item {
+  width: -webkit-fill-available;
+}
+
+.fw-bold button {
+  font-weight: 500 !important;
+}
+
+.btn-info,
+.btn-success {
+  color: $light !important;
+}
+
+.card-light-success {
+  background-color: #49cc901a;
 }

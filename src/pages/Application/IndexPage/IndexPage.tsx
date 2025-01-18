@@ -117,6 +117,7 @@ export const ApplicationIndexPage = () => {
                     label={application.name}
                     count={application.apiCount}
                     subLabel={application.path}
+                    link={`/application/${application.id}`}
                   />
                 </Col>
               ))}

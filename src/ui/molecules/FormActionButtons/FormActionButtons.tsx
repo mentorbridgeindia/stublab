@@ -17,12 +17,18 @@ export const FormActionButtons = (props: IFormActionButtons) => {
 
   return (
     <div className="form-action">
-      <Button type="button" variant="outline-secondary" onClick={onCancel}>
+      <Button
+        type="button"
+        variant="outline-secondary"
+        onClick={onCancel}
+        size="sm"
+      >
         <IconBan />
         {secondaryLabel}
       </Button>
       <Button
         type="submit"
+        size="sm"
         variant={isPrimaryDelete ? "danger" : "primary"}
         disabled={isPrimaryDisabled}
         onClick={onSubmit}

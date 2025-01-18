@@ -1,5 +1,5 @@
 import { MethodTypes, ModelTypes } from "@/types";
-import { IStatusCodeEntity } from "../StatusCode";
+import { IResponseStatusCodeEntity } from "../ResponseStatusCode";
 
 export interface ICustomAPIEntity {
   id: string;
@@ -8,7 +8,8 @@ export interface ICustomAPIEntity {
   createdBy: string;
   method: MethodTypes;
   requestBody: ModelTypes;
-  statusCodes: IStatusCodeEntity[];
+  requestBodyType: string;
+  responseStatusCodes: IResponseStatusCodeEntity[];
   url: string;
   updatedAt: string;
   updatedBy: string;
@@ -19,7 +20,8 @@ export interface ICustomAPIMutation {
   applicationId: string;
   method: MethodTypes;
   requestBody: ModelTypes;
-  statusCodes: IStatusCodeEntity[];
+  requestBodyType: string;
+  responseStatusCodes: IResponseStatusCodeEntity[];
   url: string;
 }
 
