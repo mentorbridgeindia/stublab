@@ -1,4 +1,5 @@
 import { useCreateCustomAPI } from "@entities/CustomAPI/useCreateCustomAPI";
+import { useIsDesktop } from "@hooks/useIsDesktop";
 import { ReactComponent as PlusIcon } from "@icons/icon-plus.svg";
 import { CreateCustomAPIForm } from "@modules/CustomAPI/CreateCustomAPIForm";
 import { useState } from "react";
@@ -6,6 +7,7 @@ import { Button, Card } from "react-bootstrap";
 import { toast } from "react-toastify";
 
 export const ApplicationViewPage = () => {
+  const isDesktop = useIsDesktop();
   const [createAPI, setCreateAPI] = useState(false);
   const { mutate: handleSubmit } = useCreateCustomAPI({
     onSuccess: () => {
@@ -18,7 +20,12 @@ export const ApplicationViewPage = () => {
   });
   return (
     <div className="d-flex flex-column gap-3 pt-2 px-5">
-      <div className="d-flex justify-content-between align-items-center">
+      <div
+        className={
+          "d-flex align-items-center flex-wrap " +
+          (isDesktop ? "justify-content-between" : "justify-content-center")
+        }
+      >
         <h1 className="mt-5">Flight Attendance</h1>
         <Button
           variant="outline-primary"
