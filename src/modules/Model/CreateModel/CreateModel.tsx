@@ -50,8 +50,9 @@ export const CreateModel: React.FC<ICreateModel> = ({
       form={form}   />
   ) : (
     <ModelFormMobile
-        onFormSubmit={onFormSubmit}
-        onCancel={handleCancel}
-        form={form}   />
+      onFormSubmit={onFormSubmit}
+      onCancel={handleCancel}
+      form={form}
+    />
   );
 };

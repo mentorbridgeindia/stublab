@@ -1,6 +1,6 @@
 import { FormInput } from "@/ui/atoms/FormInput";
 import { FormLabel } from "@/ui/atoms/FormLabel";
-import FormAction from '@molecules/FormActionButtons/FormActionButtons';
+import { FormActionButtons } from "@molecules/FormActionButtons";
 import React from "react";
 import { Col, Container, Form, Row } from "react-bootstrap";
 import { ModelFormProps } from "./CreateModel.types";
@@ -17,18 +17,11 @@ export const ModelFormMobile: React.FC<ModelFormProps> = ({
   onCancel,
   form,
 }) => {
-  const {
-    onSubmit,
-    fields,
-    append,
-    remove,
-    handleSubmit,
-    register,
-    errors,
-  } = useCreateModelForm({
-    form,
-    onFormSubmit,
-  });
+  const { onSubmit, fields, append, remove, handleSubmit, register, errors } =
+    useCreateModelForm({
+      form,
+      onFormSubmit,
+    });
 
   return (
     <Container fluid>
@@ -121,7 +114,7 @@ export const ModelFormMobile: React.FC<ModelFormProps> = ({
 
           <AddVariable append={append} />
 
-          <FormAction
+          <FormActionButtons
             primaryLabel="Submit"
             secondaryLabel="Cancel"
             onSubmit={handleSubmit(onSubmit)}
