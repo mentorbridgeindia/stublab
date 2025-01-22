@@ -18,10 +18,18 @@ export const CreateCustomAPIForm = ({ onSubmit, onCancel }: any) => {
     setValue,
     watch,
     trigger,
-    formState: { errors, isSubmitted },
+    formState: { errors, isSubmitted, isValid },
   } = useForm<ICreateCustomAPIForm>({
     resolver: yupResolver(schema),
     mode: "onChange",
+    defaultValues: {
+      url: 'http://try',
+      method: "POST",
+      requestBodyType:"string",
+     
+      
+      
+    }
   });
 
   const values = watch();
@@ -34,6 +42,14 @@ export const CreateCustomAPIForm = ({ onSubmit, onCancel }: any) => {
   const triggerValidation = (field: keyof ICreateCustomAPIForm) => {
     isSubmitted && trigger(field);
   };
+
+  console.log(values);
+
+  const triggerSubmit = () => {
+    if(!!errors){
+      onSubmit(values);
+    }
+  }
 
   return (
     <Drawer show={true} onHide={onCancel} title={"Create Custom API"}>
@@ -63,6 +79,7 @@ export const CreateCustomAPIForm = ({ onSubmit, onCancel }: any) => {
                 type="text"
                 placeholder="Enter URL"
                 className="form-control-l"
+                value={values.url}
                 isInvalid={!!errors.url}
                 onChange={(e) => {
                   setValue("url", e.target.value);
@@ -97,6 +114,7 @@ export const CreateCustomAPIForm = ({ onSubmit, onCancel }: any) => {
                 </Form.Select>
                 {errors.requestBodyType?.message && (
                   <small className="text-danger">
+                      value={values.requestBodyType}
                     {String(errors.requestBodyType.message)}
                   </small>
                 )}
@@ -108,6 +126,7 @@ export const CreateCustomAPIForm = ({ onSubmit, onCancel }: any) => {
                   <FormLabel>Request Body</FormLabel>
                   <Form.Select
                     value={values.requestBody}
+                    
                     isInvalid={!!errors.requestBody}
                     onChange={(e) => {
                       setValue("requestBody", e.target.value);
@@ -136,13 +155,13 @@ export const CreateCustomAPIForm = ({ onSubmit, onCancel }: any) => {
           errors={errors}
           trigger={triggerValidation}
         />
-        <FormActionButtons
+      </Form>
+      <FormActionButtons
           primaryLabel="Submit"
           secondaryLabel="Cancel"
           onCancel={onCancel}
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={triggerSubmit}
         />
-      </Form>
     </Drawer>
   );
 };

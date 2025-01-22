@@ -18,6 +18,7 @@ export const ApplicationViewPage = () => {
       toast.error("Error creating API");
     },
   });
+
   return (
     <div className="d-flex flex-column gap-3 pt-2 px-5">
       <div
