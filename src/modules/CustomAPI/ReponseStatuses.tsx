@@ -16,17 +16,19 @@ export const ResponseStatuses = ({
   trigger,
 }: IResponseStatusesProps) => {
   const { data: models } = useGetModels();
+ 
 
   const emptyResponse: IResponsesForStatusCodes = {
     id: uuidv4(),
-    name: "",
-    description: "",
-    statusCode: "",
-    responseBodyType: "",
+    name: "viji",
+    description: "abcd",
+    statusCode: "200",
+    responseBodyType: "number",
     listCount: 0,
     responseBody: "",
-    primitiveResponse: "",
-    isPrimitiveResponseStatic: false,
+    primitiveResponse: "2",
+    isPrimitiveResponseStatic: true,
+    
   };
 
   const handleAddResponse = () => {
@@ -57,6 +59,7 @@ export const ResponseStatuses = ({
   };
 
   console.log(errors.responseStatusCodes);
+ 
 
   useEffect(() => {
     setResponses("responseStatusCodes", [emptyResponse]);
@@ -88,6 +91,7 @@ export const ResponseStatuses = ({
                     placeholder="Enter Name"
                     isInvalid={!!errors.responseStatusCodes?.[index]?.name}
                     value={response.name}
+                    
                     onChange={(e) => {
                       handleFieldChange(response.id, "name", e.target.value);
                       trigger("responseStatusCodes");
