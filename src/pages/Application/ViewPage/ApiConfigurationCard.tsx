@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, DropdownButton, Dropdown } from 'react-bootstrap';
+import { Button, Card, DropdownButton, Dropdown, Row, Col } from 'react-bootstrap';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 
 interface ApiConfigurationCardProps {
@@ -31,35 +31,55 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({
                 style={{ borderWidth: '1px', backgroundColor: `rgba(var(--bs-${method.variant}-rgb), 0.1)` }}
             >
                 <Card.Body>
-                    <Card.Text>
-                        <div className="d-flex align-items-center justify-content-between gap-5">
-                            <div className="d-flex align-items-center gap-4">
-                                <Button variant={method.variant} className="text-white fw-bold" size="sm">
-                                    {method.label}
-                                </Button>
-                                <p className="mb-0 fw-bold">{apiPath}</p>
-                            </div>
+                    <Row className="align-items-center">
+                        {/* Column 1: Method */}
+                        <Col lg={2} className='d-flex justify-content-center'>
+                            <Button variant={method.variant} className="text-white fw-bold" size="sm">
+                                {method.label}
+                            </Button>
+                        </Col>
 
-                            <div className="d-flex flex-column gap-2 align-items-start">
-                                <DropdownButton
-                                    id="status-code-dropdown"
-                                    title={statusCode || 'Select Status Code'}
-                                    variant="outline-secondary"
-                                    size="sm"
-                                    onSelect={(code: string | null) => {
-                                        if (code) {
-                                            onStatusCodeChange(code);
-                                        }
-                                    }}
-                                >
-                                    <Dropdown.Item eventKey="200">200 OK</Dropdown.Item>
-                                    <Dropdown.Item eventKey="400">400 Bad Request</Dropdown.Item>
-                                    <Dropdown.Item eventKey="404">404 Not Found</Dropdown.Item>
-                                    <Dropdown.Item eventKey="500">500 Internal Server Error</Dropdown.Item>
-                                </DropdownButton>
-                            </div>
+                        {/* Column 2: API Path */}
+                        <Col lg={4} className='d-flex justify-content-center'>
+                            <p className="mb-0 fw-bold">{apiPath}</p>
+                        </Col>
 
-                            <div className="d-flex align-items-center gap-4" style={{ minWidth: '150px' }}>
+                        {/* Column 3: Status Code */}
+                        <Col lg={2} className='d-flex justify-content-center'>
+                            <DropdownButton
+                                id="status-code-dropdown"
+                                title={statusCode || 'Select Status Code'}
+                                variant="outline-secondary"
+                                size="sm"
+                                onSelect={(code: string | null) => {
+                                    if (code) {
+                                        onStatusCodeChange(code);
+                                    }
+                                }}
+                            >
+                                <Dropdown.Item eventKey="200">200 OK</Dropdown.Item>
+                                <Dropdown.Item eventKey="400">400 Bad Request</Dropdown.Item>
+                                <Dropdown.Item eventKey="404">404 Not Found</Dropdown.Item>
+                                <Dropdown.Item eventKey="500">500 Internal Server Error</Dropdown.Item>
+                            </DropdownButton>
+                        </Col>
+
+                        <Col lg={2} className='d-flex justify-content-center'>
+                            <Button
+                                variant="primary"
+                                size="sm"
+                                onClick={onSave}
+                                style={{
+                                    visibility: statusCode ? 'visible' : 'hidden',
+                                    width: '60px',
+                                }}
+                            >
+                                Save
+                            </Button>
+                        </Col>
+                        {/* Column 4: Actions */}
+                        <Col lg={2} className='d-flex justify-content-center'>
+                            <div className="d-flex align-items-center gap-3">
                                 <Button
                                     variant="outline-secondary"
                                     className="rounded-circle d-flex justify-content-center align-items-center p-2"
@@ -76,20 +96,12 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({
                                 >
                                     <FaTrash />
                                 </Button>
-                                <Button
-                                    variant="primary"
-                                    size="sm"
-                                    onClick={onSave}
-                                    style={{
-                                        visibility: statusCode ? 'visible' : 'hidden',
-                                        width: '60px', 
-                                    }}
-                                >
-                                    Save
-                                </Button>
                             </div>
-                        </div>
-                    </Card.Text>
+                        </Col>
+
+                        {/* Column 5: Save Button */}
+
+                    </Row>
                 </Card.Body>
             </Card>
         </div>
