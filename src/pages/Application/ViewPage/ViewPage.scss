@@ -1,0 +1,33 @@
+.tab-100 {
+    .tab-content{
+        width: 100%;
+    }
+}
+
+.api-table {
+    width: 100%;
+    .api-header,
+    .api-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #ddd;
+    }
+    .api-header {
+      font-weight: bold;
+      border-bottom: 2px solid #000;
+    }
+    .api-item {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .api-item:first-child {
+      justify-content: flex-start;
+    }
+    .api-item:last-child {
+      justify-content: flex-end;
+    }
+  }
+  
