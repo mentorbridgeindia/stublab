@@ -42,13 +42,47 @@
 }
 
 .header-row .col-method {
-  padding-left: 40px;
+  padding-right: 65px;
 }
 
 .header-row .col-actions {
-  padding-right: 40px;
+  padding-right: 120px;
 
 }
-.header-row .col-status{
-  padding-right: 20px;
+
+.header-row .col-status {
+  padding-right: 60px;
+}
+
+#status-code-dropdown {
+  width: 180px;
+}
+
+.accordion-header {
+  width: 96.7%;
+}
+
+
+.success {
+  .accordion-button.collapsed {
+    background-color: rgba(212, 237, 218, 0.1);
+  }
+}
+
+.info {
+  .accordion-button.collapsed {
+    background-color: rgba(209, 236, 241, 0.1);
+  }
+}
+
+.warning {
+  .accordion-button.collapsed {
+    background-color: rgba(255, 243, 205, 0.1); 
+  }
+}
+
+.danger {
+  .accordion-button.collapsed {
+    background-color: rgba(248, 215, 218, 0.1);
+  }
 }

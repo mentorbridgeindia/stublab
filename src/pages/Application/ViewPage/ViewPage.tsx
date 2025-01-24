@@ -5,20 +5,18 @@ import { ReactComponent as PlusIcon } from '@icons/icon-plus.svg';
 import { CreateCustomAPIForm } from '@modules/CustomAPI/CreateCustomAPIForm';
 import { useCreateCustomAPI } from '@entities/CustomAPI/useCreateCustomAPI';
 import { useIsDesktop } from '@hooks/useIsDesktop';
-import ApiConfigurationCard from './ApiConfigurationCard'; 
+import ApiConfigurationCard from './ApiConfigurationCard';
 import './ViewPage.scss';
+import SwaggerUI from 'swagger-ui-react';
+import "swagger-ui-react/swagger-ui.css"
+import { appDetails } from './data';
 
 export const ApplicationViewPage: React.FC = () => {
     const isDesktop = useIsDesktop();
     const [createAPI, setCreateAPI] = useState<boolean>(false);
     const [activeTab, setActiveTab] = useState<string>('swagger');
-
-    const [statusCodes, setStatusCodes] = useState<Record<string, string | null>>({
-        post: null,
-        get: null,
-        put: null,
-        delete: null,
-    });
+    const [applicationDetails,setApplicationDetails]=useState(appDetails)
+    
 
     const { mutate: handleSubmit } = useCreateCustomAPI({
         onSuccess: () => {
@@ -30,38 +28,16 @@ export const ApplicationViewPage: React.FC = () => {
         },
     });
 
-    const handleSave = (method: string): void => {
-        const code = statusCodes[method];
-        if (code) {
-            toast.success(`${method.toUpperCase()} status code ${code} saved successfully!`);
-        } else {
-            toast.error(`Please select a status code for ${method.toUpperCase()}`);
-        }
-    };
-
-    const handleStatusCodeChange = (method: string, code: string): void => {
-        setStatusCodes((prev) => ({
-            ...prev,
-            [method]: code,
-        }));
-    };
-
-    const handleEdit = (method: string): void => {
-        console.log(`${method.toUpperCase()} Edit Clicked`);
-    };
-
-    const handleDelete = (method: string): void => {
-        console.log(`${method.toUpperCase()} Delete Clicked`);
-    };
+    
 
     return (
         <div className="d-flex flex-column gap-3 pt-2 px-5">
             <div
-                className={
+                className={ 
                     'd-flex align-items-center flex-wrap ' + (isDesktop ? 'justify-content-between' : 'justify-content-center')
                 }
             >
-                <h1 className="mt-5">Flight Attendance</h1>
+                <h1 className="mt-5">{applicationDetails.name}</h1>
                 <Button
                     variant="outline-primary"
                     className="d-flex align-items-center gap-2"
@@ -74,8 +50,7 @@ export const ApplicationViewPage: React.FC = () => {
             </div>
             <div className="d-flex flex-column align-items-start">
                 <p className="text-left mt-3 mb-3">
-                    This is a sample server Petstore server. You can find out more about Swagger at http://swagger.io or on
-                    irc.freenode.net, #swagger.
+                    {appDetails.description}
                 </p>
                 <div className="d-flex flex-column align-items-center w-100 tab-100 py-4">
                     <Tabs
@@ -88,37 +63,27 @@ export const ApplicationViewPage: React.FC = () => {
                         id="justify-tab-example"
                         className="mb-3 d-flex justify-content-center gap-4 w-100"
                     >
-                        <Tab eventKey="swagger" title={<span style={{ color: 'black' }}>Swagger</span>}>
-                            Tab content for swagger
+                        <Tab
+                            eventKey="swagger"
+                            title={<span style={{ color: 'black' }}>Swagger</span>}
+                        >
+                            <SwaggerUI spec=
+                                {applicationDetails.swaggerJson}
+                            />
                         </Tab>
+
                         <Tab eventKey="configuration" title={<span style={{ color: 'black' }}>Configuration</span>}>
                             <Row className="header-row mb-3 ">
-                                <Col lg={2}  className="col-method">Method</Col>
+                                <Col lg={2} className="col-method">Method</Col>
                                 <Col lg={4}>URL</Col>
                                 <Col lg={2} className='col-status'>Update Status Code</Col>
                                 <Col lg={2}></Col>
-                                <Col lg={2}  className="col-actions">Actions</Col>
+                                <Col lg={2} className="col-actions">Actions</Col>
                             </Row>
-                            {['post', 'get', 'put', 'delete'].map((method) => (
+                            {applicationDetails.apiDetails.map((api) => (
                                 <ApiConfigurationCard
-                                    key={method}
-                                    method={{
-                                        label: method.toUpperCase(),
-                                        variant:
-                                            method === 'post'
-                                                ? 'info'
-                                                : method === 'get'
-                                                ? 'success'
-                                                : method === 'put'
-                                                ? 'warning'
-                                                : 'danger',
-                                    }}
-                                    apiPath={`/api/v1/pet`}
-                                    statusCode={statusCodes[method]}
-                                    onStatusCodeChange={(code) => handleStatusCodeChange(method, code)}
-                                    onEdit={() => handleEdit(method)}
-                                    onDelete={() => handleDelete(method)}
-                                    onSave={() => handleSave(method)}
+                                    key={api.method}
+                                    api={api}
                                 />
                             ))}
                         </Tab>
