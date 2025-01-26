@@ -1,14 +1,20 @@
+import { useGetApplicationById } from "@entities/Application";
 import { useCreateCustomAPI } from "@entities/CustomAPI/useCreateCustomAPI";
 import { useIsDesktop } from "@hooks/useIsDesktop";
 import { ReactComponent as PlusIcon } from "@icons/icon-plus.svg";
 import { CreateCustomAPIForm } from "@modules/CustomAPI/CreateCustomAPIForm";
 import { useState } from "react";
 import { Button, Card } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export const ApplicationViewPage = () => {
   const isDesktop = useIsDesktop();
   const [createAPI, setCreateAPI] = useState(false);
+  const { id } = useParams();
+  const { data: application } = useGetApplicationById(id ?? "", {
+    queryConfig: { enabled: !!id },
+  });
   const { mutate: handleSubmit } = useCreateCustomAPI({
     onSuccess: () => {
       toast.success("API created successfully");
@@ -26,7 +32,7 @@ export const ApplicationViewPage = () => {
           (isDesktop ? "justify-content-between" : "justify-content-center")
         }
       >
-        <h1 className="mt-5">Flight Attendance</h1>
+        <h1 className="mt-5">{application?.name}</h1>
         <Button
           variant="outline-primary"
           className="d-flex align-items-center gap-2"
@@ -38,12 +44,7 @@ export const ApplicationViewPage = () => {
         </Button>
       </div>
       <div className="d-flex justify-content-start flex-column align-items-start">
-        <p className="text-left mt-3 mb-5">
-          This is a sample server Petstore server. You can find out more about
-          Swagger at http://swagger.io or on irc.freenode.net, #swagger. For
-          this sample, you can use the api key special-key to test the
-          authorization filters.
-        </p>
+        <p className="text-left mt-3 mb-5">{application?.description}</p>
         <div id="api-list">
           <Card className="card-light-success">
             <Card.Body>
