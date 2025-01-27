@@ -3,6 +3,7 @@ import { IResponseStatusCodeEntity } from "../ResponseStatusCode";
 
 export interface ICustomAPIEntity {
   id: string;
+  name: string;
   applicationId: string;
   createdAt: string;
   createdBy: string;
@@ -13,6 +14,7 @@ export interface ICustomAPIEntity {
   url: string;
   updatedAt: string;
   updatedBy: string;
+  defaultStatusCode?: number;
 }
 
 export interface ICustomAPIMutation {

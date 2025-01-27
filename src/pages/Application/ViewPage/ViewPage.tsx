@@ -19,7 +19,7 @@ export const ApplicationViewPage: React.FC = () => {
     const [activeTab, setActiveTab] = useState<string>('swagger');
     
     const { id } = useParams();
-    const { data: applicationDetails } = useGetApplicationById(id ?? "", {
+    const { data } = useGetApplicationById(id ?? "", {
         queryConfig: { enabled: !!id },
     });
 
@@ -33,19 +33,21 @@ export const ApplicationViewPage: React.FC = () => {
         },
     });
 
+    const applicationDetails = appDetails;
+
     
 
     return (
-        <div className="d-flex flex-column gap-3 pt-2 px-5">
+        <div className="d-flex flex-column gap-3 pt-2 px-lg-5">
             <div
                 className={ 
                     'd-flex align-items-center flex-wrap ' + (isDesktop ? 'justify-content-between' : 'justify-content-center')
                 }
             >
-                <h1 className="mt-5">{applicationDetails.name}</h1>
+                <h1 className="mt-5">{applicationDetails?.name}</h1>
                 <Button
                     variant="outline-primary"
-                    className="d-flex align-items-center gap-2"
+                    className="d-flex align-items-center gap-2  "
                     size="sm"
                     onClick={() => setCreateAPI(true)}
                 >
@@ -66,26 +68,27 @@ export const ApplicationViewPage: React.FC = () => {
                             }
                         }}
                         id="justify-tab-example"
-                        className="mb-3 d-flex justify-content-center gap-4 w-100"
+                        className="mb-3 d-flex justify-content-center gap-4 w-100 " 
                     >
                         <Tab
                             eventKey="swagger"
+                            className="mx-sm-2"
                             title={<span style={{ color: 'black' }}>Swagger</span>}
                         >
                             <SwaggerUI spec=
-                                {applicationDetails.swaggerJson}
+                                {applicationDetails?.swaggerJson}
                             />
                         </Tab>
 
                         <Tab eventKey="configuration" title={<span style={{ color: 'black' }}>Configuration</span>}>
-                            <Row className="header-row mb-3 ">
-                                <Col lg={2} className="col-method">Method</Col>
-                                <Col lg={4}>URL</Col>
-                                <Col lg={2} className='col-status'>Update Status Code</Col>
-                                <Col lg={2}></Col>
-                                <Col lg={2} className="col-actions">Actions</Col>
+                            <Row className="header-row mb-3  ">
+                                <Col lg={2} md={2} sm={2} className="col-method d-none d-md-block d-lg-block">Method</Col>
+                                <Col lg={4} md={4} sm={4} className="d-none d-md-block d-lg-block">URL</Col>
+                                <Col lg={2} md={2} sm={2} className='col-status d-none d-md-block d-lg-block'>Update Status Code</Col>
+                                <Col lg={2} md={2} sm={2} className="d-none d-md-block d-lg-block"></Col>
+                                <Col lg={2} md={2} sm={2} className="col-actions d-none d-md-block d-lg-block">Actions</Col>
                             </Row>
-                            {applicationDetails.apiDetails.map((api) => (
+                            {applicationDetails?.apiDetails?.map((api) => (
                                 <ApiConfigurationCard
                                     key={api.method}
                                     api={api}

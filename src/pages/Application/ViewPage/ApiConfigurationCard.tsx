@@ -4,21 +4,17 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import { ICustomAPIEntity } from '@/entities/CustomAPI';
+import {ReactComponent as IconSave} from '@icons/icon-save.svg';
 
 interface ApiConfigurationCardProps {
-    api: {
-        id: string;
-        method: string;
-        url: string;
-        defaultStatusCode: string;
-        name: string;
-    };
+    api: ICustomAPIEntity;
 }
 
 const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api }) => {
-    const { method, url, defaultStatusCode, name, id } = api;
+    const { method, url, defaultStatusCode, name, responseStatusCodes,id } = api;
 
-    const [statusCode, setStatusCode] = useState<string>(defaultStatusCode);
+    const [statusCode, setStatusCode] = useState<number>(defaultStatusCode ?? 200);
 
     const variant =
         method === 'POST'
@@ -39,7 +35,7 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api }) => {
     };
 
     const handleStatusCodeChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
-        setStatusCode(event.target.value);
+        setStatusCode(Number(event.target.value));
     };
 
     const handleEdit = (): void => {
@@ -87,22 +83,22 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api }) => {
                 >
                     <Accordion.Header className={`accordion-header ${variant}`}>
                         <Row
-                            className="w-100 align-items-center py-2 px-3"
+                            className="w-100 align-items-sm-start py-2 px-lg-3"
                             style={{
                                 borderRadius: '5px',
                             }}
                         >
-                            <Col lg={2} md={3} xs={4} className="text-center">
+                            <Col lg={2} md={4} sm={4} xs={4} className="text-center mb-3">
                                 <Button variant={variant} className="text-white fw-bold" size="sm">
                                     {method}
                                 </Button>
                             </Col>
 
-                            <Col lg={4} md={5} xs={8} className="text-center text-truncate">
+                            <Col lg={4} md={8} xs={8} sm={8} className="text-sm-center text-truncate">
                                 <p className="mb-0 fw-bold">{url}</p>
                             </Col>
 
-                            <Col lg={2} md={4} xs={6} className="text-center">
+                            <Col lg={2} md={6} xs={6} sm={6} className="text-center">
                                 <Form.Select
                                     aria-label="Select Status Code"
                                     value={statusCode}
@@ -110,29 +106,31 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api }) => {
                                     size="sm"
                                 >
                                     <option value="">Select Status Code</option>
-                                    <option value="200 OK">200 OK</option>
-                                    <option value="400 Bad Request">400 Bad Request</option>
-                                    <option value="404 Not Found">404 Not Found</option>
-                                    <option value="500 Internal Server Error">500 Internal Server Error</option>
+                                    {api.responseStatusCodes?.map((statusCode) => (
+                                        <option key={statusCode.code} value={statusCode.code}>
+                                            {statusCode.code}
+                                        </option>
+                                    ))}
                                 </Form.Select>
                             </Col>
 
-                            <Col lg={2} md={4} xs={6} className="text-center">
+                            <Col lg={2} md={2} xs={2} sm={2} className="text-center">
                                 <Button
                                     variant="primary"
                                     size="sm"
                                     onClick={handleSave}
                                     style={{
                                         visibility: statusCode !== defaultStatusCode ? 'visible' : 'hidden',
-                                        width: '60px',
+                                        
                                     }}
+                                    className='w-sm-50'
                                 >
-                                    Save
+                                   <IconSave/><span className=' d-none d-md-block d-lg-block'>Save</span> 
                                 </Button>
                             </Col>
 
-                            <Col lg={2} md={4} xs={12} className="text-center">
-                                <div className="d-flex justify-content-center gap-3">
+                            <Col lg={2} md={4} xs={4} sm={4} className="text-center">
+                                <div className="d-flex justify-content-center  gap-3">
                                     <Button
                                         variant="outline-secondary"
                                         className="rounded-circle d-flex justify-content-center align-items-center p-2"
