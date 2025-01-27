@@ -1,3 +1,4 @@
+import { useGetApplicationById } from "@entities/Application";
 import React, { useState } from 'react';
 import { Button, Col, Row, Tab, Tabs } from 'react-bootstrap';
 import { toast } from 'react-toastify';
@@ -9,14 +10,18 @@ import ApiConfigurationCard from './ApiConfigurationCard';
 import './ViewPage.scss';
 import SwaggerUI from 'swagger-ui-react';
 import "swagger-ui-react/swagger-ui.css"
+import { useParams } from "react-router-dom";
 import { appDetails } from './data';
 
 export const ApplicationViewPage: React.FC = () => {
     const isDesktop = useIsDesktop();
     const [createAPI, setCreateAPI] = useState<boolean>(false);
     const [activeTab, setActiveTab] = useState<string>('swagger');
-    const [applicationDetails,setApplicationDetails]=useState(appDetails)
     
+    const { id } = useParams();
+    const { data: applicationDetails } = useGetApplicationById(id ?? "", {
+        queryConfig: { enabled: !!id },
+    });
 
     const { mutate: handleSubmit } = useCreateCustomAPI({
         onSuccess: () => {
