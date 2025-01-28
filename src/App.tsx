@@ -12,6 +12,9 @@ import { ToastContainer } from "react-toastify";
 import "./App.scss";
 import { ApplicationViewPage } from "./pages/Application/ViewPage";
 
+import OrganizationorganizationPage from "@pages/Organization/organizationPage";
+
+
 const App: React.FC = () => {
   const queryClient = new QueryClient();
 
@@ -19,12 +22,17 @@ const App: React.FC = () => {
     <div className="App">
       <ToastContainer position="bottom-left" />
       <Header />
+      
+
       <Container className="well-container">
         <QueryClientProvider client={queryClient}>
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/application" element={<ApplicationIndexPage />} />
+             
+              <Route path="/organization" element={<OrganizationorganizationPage />} />
+
               <Route path="/model" element={<ModelIndexPage />} />
               <Route path="/model/create" element={<CreateModelPage />} />
               <Route path="/model/edit/:id" element={<CreateModelPage />} />
@@ -32,6 +40,7 @@ const App: React.FC = () => {
                 path="/application/:id"
                 element={<ApplicationViewPage />}
               />
+             {/* New Route */}
             </Routes>
           </BrowserRouter>
         </QueryClientProvider>
