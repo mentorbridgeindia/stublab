@@ -1,3 +1,5 @@
+import { ICustomAPIEntity } from "../CustomAPI";
+
 export interface IApplicationEntity {
   id: string;
   createdAt: string;
@@ -8,6 +10,8 @@ export interface IApplicationEntity {
   updatedAt: string;
   updatedBy: string;
   apiCount?: number;
+  apiDetails?: ICustomAPIEntity[];
+  swaggerJson?: string;
 }
 
 export interface IApplicationMutation {
