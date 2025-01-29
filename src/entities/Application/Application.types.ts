@@ -10,8 +10,8 @@ export interface IApplicationEntity {
   updatedAt: string;
   updatedBy: string;
   apiCount?: number;
-  apiDetails?: ICustomAPIEntity[];
-  swaggerJson?: string;
+  mockApiList?: ICustomAPIEntity[];
+  swagger?: string;
 }
 
 export interface IApplicationMutation {

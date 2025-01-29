@@ -3,18 +3,11 @@ import { dropdownData } from "./dropdownData";
 
 export const schema = yup.object().shape({
   url: yup.string().url("Please enter a valid URL").required("URL is required"),
+  name: yup.string().required("Name is required"),
   method: yup
     .string()
     .oneOf(["POST", "GET", "PUT", "DELETE"], "Invalid HTTP Method")
     .required("Method is required"),
-  requestBodyType: yup
-    .string()
-    .oneOf(
-      dropdownData.contentTypes.map((item) => item.value),
-      "Invalid Request Body Type"
-    )
-    .required("Request Body Type is required"),
-  requestBody: yup.string().required("Request Body is required"),
   responseStatusCodes: yup
     .array()
     .of(

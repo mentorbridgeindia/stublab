@@ -1,3 +1,4 @@
+import { json } from "@codemirror/lang-json";
 import { useGetModels } from "@entities/Model";
 import { ReactComponent as IconDotsVertical } from "@icons/icon-dots-vertical.svg";
 import { ReactComponent as IconEye } from "@icons/icon-eye.svg";
@@ -13,8 +14,6 @@ import { ViewModel } from "../ViewModel";
 import { transformData } from "../ViewModel/helpers";
 import { DeleteModel } from "./components/DeleteModel";
 import "./ModelsList.scss";
-import { sample } from "./sample";
-import { json } from "@codemirror/lang-json";
 
 export const ModelsList = () => {
   const navigate = useNavigate();
@@ -27,63 +26,64 @@ export const ModelsList = () => {
 
   return (
     <Row>
-      {sample.map((item) => (
-        <Col sm={12} md={6} lg={4} key={item.id} className="mb-5">
-          <Card className="model-card">
-            <Card.Header>
-              <Card.Title>
-                <div className="d-flex justify-content-between">
-                  <div>{item.name}</div>
-                  <div>
-                    <Dropdown trigger={<IconDotsVertical />}>
-                      <Dropdown.Item
-                        className="DropdownMenuItem"
-                        onClick={() => setViewingModelId(item.id)}
-                      >
-                        <IconEye />
-                        View
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        className="DropdownMenuItem"
-                        onClick={() => handleEditModel(item)}
-                      >
-                        <IconPencil />
-                        Edit
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        className="DropdownMenuItem text-danger"
-                        onClick={() => setSelectedModelId(item.id)}
-                      >
-                        <IconTrash />
-                        Delete
-                      </Dropdown.Item>
-                    </Dropdown>
+      {!isLoading &&
+        models?.map((item) => (
+          <Col sm={12} md={6} lg={4} key={item.id} className="mb-5">
+            <Card className="model-card">
+              <Card.Header>
+                <Card.Title>
+                  <div className="d-flex justify-content-between">
+                    <div>{item.modelName}</div>
+                    <div>
+                      <Dropdown trigger={<IconDotsVertical />}>
+                        <Dropdown.Item
+                          className="DropdownMenuItem"
+                          onClick={() => setViewingModelId(item.id)}
+                        >
+                          <IconEye />
+                          View
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          className="DropdownMenuItem"
+                          onClick={() => handleEditModel(item)}
+                        >
+                          <IconPencil />
+                          Edit
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          className="DropdownMenuItem text-danger"
+                          onClick={() => setSelectedModelId(item.id)}
+                        >
+                          <IconTrash />
+                          Delete
+                        </Dropdown.Item>
+                      </Dropdown>
+                    </div>
                   </div>
+                </Card.Title>
+              </Card.Header>
+              <Card.Body>
+                <div className="text-start mt-3">
+                  <CodeMirror
+                    theme={vscodeDark}
+                    editable={false}
+                    readOnly
+                    basicSetup={{
+                      lineNumbers: false,
+                      bracketMatching: true,
+                      foldGutter: true,
+                      syntaxHighlighting: true,
+                    }}
+                    extensions={[json()]}
+                    height="250px"
+                    maxHeight="250px"
+                    value={transformData(item)}
+                  />
                 </div>
-              </Card.Title>
-            </Card.Header>
-            <Card.Body>
-              <div className="text-start mt-3">
-                <CodeMirror
-                  theme={vscodeDark}
-                  editable={false}
-                  readOnly
-                  basicSetup={{
-                    lineNumbers: false,
-                    bracketMatching: true,
-                    foldGutter: true,
-                    syntaxHighlighting: true,
-                  }}
-                  extensions={[json()]}
-                  height="250px"
-                  maxHeight="250px"
-                  value={transformData(item)}
-                />
-              </div>
-            </Card.Body>
-          </Card>
-        </Col>
-      ))}
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
       {selectedModelId && (
         <DeleteModel
           id={selectedModelId}
@@ -91,7 +91,7 @@ export const ModelsList = () => {
           onHide={() => setSelectedModelId(null)}
         />
       )}
-      {viewingModelId && (
+      {viewingModelId !== null && (
         <ViewModel
           id={viewingModelId}
           show={true}

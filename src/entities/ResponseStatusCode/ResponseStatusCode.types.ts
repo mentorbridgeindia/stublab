@@ -1,8 +1,10 @@
 import { ModelTypes } from "@/types";
+import { IResponsesForStatusCodes } from "../../modules/CustomAPI/CreateCustomAPIForm.types";
 
 export interface IResponseStatusCodeEntity {
   id: string;
-  code: StatusCodes;
+  name: string;
+  statusCode: StatusCodes;
   createdAt?: string;
   createdBy?: string;
   responseType: ResponseTypes;
@@ -35,3 +37,8 @@ export type StatusCodes =
   | "502"
   | "503"
   | "504";
+
+export type IResponseStatusCodeMutation = Omit<
+  IResponsesForStatusCodes,
+  "createdAt" | "createdBy" | "updatedAt" | "updatedBy"
+>;

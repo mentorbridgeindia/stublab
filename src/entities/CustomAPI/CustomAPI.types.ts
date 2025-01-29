@@ -8,8 +8,6 @@ export interface ICustomAPIEntity {
   createdAt: string;
   createdBy: string;
   method: MethodTypes;
-  requestBody: ModelTypes;
-  requestBodyType: string;
   responseStatusCodes: IResponseStatusCodeEntity[];
   url: string;
   updatedAt: string;
@@ -20,9 +18,8 @@ export interface ICustomAPIEntity {
 export interface ICustomAPIMutation {
   id?: string;
   applicationId: string;
+  name: string;
   method: MethodTypes;
-  requestBody: ModelTypes;
-  requestBodyType: string;
   responseStatusCodes: IResponseStatusCodeEntity[];
   url: string;
 }

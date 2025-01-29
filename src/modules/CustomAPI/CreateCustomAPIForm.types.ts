@@ -9,10 +9,9 @@ export interface IResponseStatusesProps {
 }
 
 export interface ICreateCustomAPIForm {
+  name: string;
   method: MethodTypes;
   url: string;
-  requestBodyType: string;
-  requestBody: string;
   responseStatusCodes: IResponsesForStatusCodes[];
 }
 
@@ -26,4 +25,5 @@ export interface IResponsesForStatusCodes {
   listCount?: number;
   primitiveResponse?: string;
   isPrimitiveResponseStatic?: boolean;
+
 }

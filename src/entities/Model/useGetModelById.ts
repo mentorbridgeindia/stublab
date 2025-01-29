@@ -13,7 +13,7 @@ const getModelById = async (id: string) => {
 
 export const useGetModelById = (id: string, queryConfig: IQueryConfig) =>
   useQuery<IModelEntity>({
-    queryKey: [ENTITY_TYPE],
+    queryKey: [ENTITY_TYPE, id],
     queryFn: () => getModelById(id),
     staleTime: STALE_TIME_FOR_NOT_URGENT_UPDATES,
     ...queryConfig,
