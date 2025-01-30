@@ -1,6 +1,7 @@
 import { useFieldArray } from "react-hook-form";
 
-import { IUseCreateModel, ModelData } from "../CreateModel.types";
+import { IModelMutation } from "@entities/Model";
+import { IUseCreateModel } from "../CreateModel.types";
 
 export const useCreateModelForm = ({ form, onFormSubmit }: IUseCreateModel) => {
   const {
@@ -16,7 +17,7 @@ export const useCreateModelForm = ({ form, onFormSubmit }: IUseCreateModel) => {
     name: "variables",
   });
 
-  const onSubmit = async (data: ModelData) => {
+  const onSubmit = async (data: IModelMutation) => {
     onFormSubmit(data, reset);
   };
 

@@ -1,12 +1,14 @@
 import React from "react";
 import "./FolderCard.scss";
 import { IFolderCardProps } from "./FolderCard.types";
+import { Link } from "react-router-dom";
 
 export const FolderCard: React.FC<IFolderCardProps> = ({
   type,
   label,
   count,
   subLabel,
+  link,
 }) => {
   return (
     <div className={`folder type-${type}`}>
@@ -27,7 +29,11 @@ export const FolderCard: React.FC<IFolderCardProps> = ({
         <div className="fg-1"></div>
         <div className="fg-2"></div>
         <div className="fg">
-          <div className="folder-label">{label}</div>
+          <div className="folder-label">
+            <Link className="text-white" to={link}>
+              {label}
+            </Link>
+          </div>
           {subLabel && <div className="folder-sub-label">{subLabel}</div>}
           <div className="folder-count">
             {count} <span>API&apos;s</span>

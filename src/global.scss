@@ -33,13 +33,22 @@ html {
 body {
   min-height: 100vh;
   font-size: 16px !important;
-  color: $content-color;
+  color: $content-color !important;
   letter-spacing: 0.3px;
 }
 
+p {
+  color: $content-color !important;
+}
+
+.card-title {
+  color: $content-color !important;
+  margin-bottom: 0 !important;
+}
+
 svg {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
 }
 
 ::placeholder {
@@ -84,15 +93,29 @@ input[type="number"] {
   background: #eee;
 }
 
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.005rem $primary !important;
+}
+
 .btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 8px;
+}
+
+.btn-primary {
+  color: $light !important;
+}
+
+.btn-outline-primary:hover {
+  color: $light !important;
 }
 
 .form-label {
-  margin-bottom: 0 !important;
+  margin-bottom: 0.25rem !important;
 }
 
 .table {
@@ -116,7 +139,15 @@ input[type="number"] {
   text-overflow: ellipsis;
 }
 
-a {
+a.dropdown-item {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+a:not(.dropdown-item) {
   font-size: 14px;
   color: $primary;
   cursor: pointer;
@@ -150,6 +181,14 @@ a {
   @extend .truncate;
 }
 
+a.text-white {
+  color: $light !important;
+
+  &::after {
+    background-color: $light !important;
+  }
+}
+
 .cm-editor,
 .cm-scroller {
   border-radius: 10px;
@@ -168,4 +207,35 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.icon-md {
+  svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+}
+
+.logo-lg {
+  svg {
+    width: 132px !important;
+    height: 35px !important;
+  }
+}
+
+.dropdown-item {
+  width: -webkit-fill-available;
+}
+
+.fw-bold button {
+  font-weight: 500 !important;
+}
+
+.btn-info,
+.btn-success {
+  color: $light !important;
+}
+
+.card-light-success {
+  background-color: #49cc901a;
 }

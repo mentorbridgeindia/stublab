@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 const tokenType = "Bearer";
 const token = sessionStorage.getItem("access-token") ?? null;
-const baseURL = process.env.BASE_API_URL;
+const baseURL = process.env.REACT_APP_BASE_API_URL;
 const axiosParams = {
   baseURL: baseURL,
   headers: {

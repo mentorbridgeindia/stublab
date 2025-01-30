@@ -1,24 +1,23 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 
+import { IModelMutation, useCreateModel } from "@entities/Model";
 import { useIsDesktop } from "@hooks/useIsDesktop";
-import { ICreateModel, ModelData } from "./CreateModel.types";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { ModelFormDesktop } from "./ModelFormDesktop";
 import { ModelFormMobile } from "./ModelFormMobile";
 
-export const CreateModel: React.FC<ICreateModel> = ({
-  onFormSubmit,
-  onCancel,
-}) => {
+export const CreateModel = () => {
   const isDesktop = useIsDesktop();
+  const navigate = useNavigate();
 
-  const form = useForm<ModelData>({
+  const form = useForm<IModelMutation>({
     defaultValues: {
-      modelName: "",
+      name: "",
       variables: [
         {
           name: "",
-          type: "String",
+          type: "string",
           isNullable: false,
           defaultValue: "",
           sampleText: "",
@@ -27,9 +26,33 @@ export const CreateModel: React.FC<ICreateModel> = ({
     },
   });
 
+  const handleError = (error: any) => {
+    toast.error("Something went wrong. Please try again.");
+  };
+
+  const { mutate: createModel, isPending } = useCreateModel({
+    onSuccess: (res) => {
+      if (res.status === 201) {
+        toast.success("Model data submitted successfully!");
+        navigate("/model");
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
+    },
+    onError: (error) => handleError(error),
+  });
+
+  const handleSubmit = async (data: IModelMutation, reset: () => void) => {
+    const jsonData = {
+      name: data.name,
+      variables: data.variables,
+    };
+    createModel(jsonData);
+  };
+
   const handleCancel = () => {
     form.reset({
-      modelName: "",
+      name: "",
       variables: [
         {
           name: "",
@@ -40,17 +63,17 @@ export const CreateModel: React.FC<ICreateModel> = ({
         },
       ],
     });
-    onCancel();
+    navigate("/model");
   };
 
   return isDesktop ? (
     <ModelFormDesktop
-      onFormSubmit={onFormSubmit}
+      onFormSubmit={handleSubmit}
       onCancel={handleCancel}
       form={form}   />
   ) : (
     <ModelFormMobile
-      onFormSubmit={onFormSubmit}
+      onFormSubmit={handleSubmit}
       onCancel={handleCancel}
       form={form}
     />
