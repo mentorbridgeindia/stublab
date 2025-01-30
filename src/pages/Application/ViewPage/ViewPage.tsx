@@ -14,6 +14,7 @@ import { ICreateCustomAPIForm } from "../../../modules/CustomAPI/CreateCustomAPI
 import { useUpdateCustomAPI } from "../../../entities/CustomAPI/useUpdateCustomAPI";
 import { ICustomAPIMutation } from "../../../entities/CustomAPI/CustomAPI.types";
 import ApiConfigurationCard from "./ApiConfigurationCard";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const ApplicationViewPage: React.FC = () => {
   const isDesktop = useIsDesktop();
@@ -25,9 +26,19 @@ export const ApplicationViewPage: React.FC = () => {
     queryConfig: { enabled: !!id },
   });
 
+  const queryClient = useQueryClient();
+
+  function handleInvalidate(){
+    queryClient.invalidateQueries({
+      queryKey: ['application', id],
+    })
+    
+  }
+
   const { mutate: handleCreateCustomAPI } = useCreateCustomAPI({
     onSuccess: () => {
       toast.success("API created successfully");
+      handleInvalidate();
       setCreateAPI(false);
     },
     onError: () => {
@@ -38,6 +49,7 @@ export const ApplicationViewPage: React.FC = () => {
   const { mutate: handleUpdateCustomAPI } = useUpdateCustomAPI({
     onSuccess: () => {
       toast.success("API updated successfully");
+      handleInvalidate();
     },
     onError: () => {
       toast.error("Error updating API");
@@ -47,6 +59,7 @@ export const ApplicationViewPage: React.FC = () => {
   const handleSubmit = (
     data: ICreateCustomAPIForm & { applicationId: string }
   ) => {
+    data.applicationId = id ?? "";
     if (createAPI) {
       handleCreateCustomAPI(data as unknown as ICustomAPIMutation);
     } else {

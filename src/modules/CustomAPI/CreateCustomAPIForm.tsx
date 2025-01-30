@@ -47,6 +47,11 @@ export const CreateCustomAPIForm = ({ onSubmit, onCancel }: any) => {
             type="text"
             placeholder="Enter Name"
             defaultValue={values.name}
+            isInvalid={!!errors.name}
+            onChange={(e)=>{
+              setValue("name", e.target.value);
+              triggerValidation("name");
+            }}
           />
         </div>
         <Row className="mb-3">
