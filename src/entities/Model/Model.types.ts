@@ -2,7 +2,7 @@ import { IVariableEntity } from "../Variable";
 
 export interface IModelEntity {
   id: string;
-  name: string;
+  modelName: string;
   variables: IVariableEntity[];
   createdAt?: string;
   updatedAt?: string;
@@ -16,6 +16,6 @@ export interface IGetModelsResult {
 
 export interface IModelMutation {
   id?: string;
-  name: string;
+  modelName: string;
   variables: IVariableEntity[];
 }

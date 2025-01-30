@@ -11,10 +11,10 @@ const getApplicationById = async (id: string) => {
   return await fetchData<IApplicationEntity>(`${APPLICATIONS_ENDPOINT}/${id}`);
 };
 
-export const useGetApplicationById = (id: string, queryConfig: IQueryConfig) =>
+export const useGetApplicationById = (id: string, options?: IQueryConfig) =>
   useQuery<IApplicationEntity>({
-    queryKey: [ENTITY_TYPE],
+    queryKey: [ENTITY_TYPE, id],
     queryFn: () => getApplicationById(id),
     staleTime: STALE_TIME_FOR_NOT_URGENT_UPDATES,
-    ...queryConfig,
+    ...options,
   });

@@ -1,0 +1,88 @@
+.tab-100 {
+  .tab-content {
+    width: 100%;
+  }
+}
+
+.api-table {
+  width: 100%;
+
+  .api-header,
+  .api-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .api-header {
+    font-weight: bold;
+    border-bottom: 2px solid #000;
+  }
+
+  .api-item {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .api-item:first-child {
+    justify-content: flex-start;
+  }
+
+  .api-item:last-child {
+    justify-content: flex-end;
+  }
+}
+
+.header-row {
+  font-size: smaller;
+  font-weight: bold;
+}
+
+.header-row .col-method {
+  padding-right: 65px;
+}
+
+.header-row .col-actions {
+  padding-right: 120px;
+
+}
+
+.header-row .col-status {
+  padding-right: 60px;
+}
+
+#status-code-dropdown {
+  width: 180px;
+}
+
+.accordion-header {
+  width: 96.7%;
+}
+
+
+.success {
+  .accordion-button.collapsed {
+    background-color: rgba(212, 237, 218, 0.1);
+  }
+}
+
+.info {
+  .accordion-button.collapsed {
+    background-color: rgba(209, 236, 241, 0.1);
+  }
+}
+
+.warning {
+  .accordion-button.collapsed {
+    background-color: rgba(255, 243, 205, 0.1); 
+  }
+}
+
+.danger {
+  .accordion-button.collapsed {
+    background-color: rgba(248, 215, 218, 0.1);
+  }
+}

@@ -26,7 +26,7 @@ export const ModelFormDesktop: React.FC<ModelFormProps> = ({
     <Container>
       <div className="model-container border p-4 rounded bg-light">
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <ModelName register={register} errors={errors} />
+          <ModelName register={register} errors={errors} form={form} />
           <hr />
 
           <Table responsive borderless>
@@ -50,6 +50,9 @@ export const ModelFormDesktop: React.FC<ModelFormProps> = ({
                       })}
                       type="text"
                       placeholder="Ex: City"
+                      defaultValue={
+                        form?.getValues().variables?.[index]?.name || ""
+                      }
                       isInvalid={!!errors?.variables?.[index]?.name}
                     />
                     {errors?.variables?.[index]?.name && (
@@ -63,12 +66,16 @@ export const ModelFormDesktop: React.FC<ModelFormProps> = ({
                       register={register}
                       index={index}
                       errors={errors}
+                      form={form}
                     />
                   </td>
                   <td>
                     <Form.Check
                       {...register(`variables.${index}.isNullable` as const)}
                       type="checkbox"
+                      defaultChecked={
+                        form?.getValues().variables?.[index]?.isNullable
+                      }
                     />
                   </td>
                   <td>
@@ -76,6 +83,9 @@ export const ModelFormDesktop: React.FC<ModelFormProps> = ({
                       {...register(`variables.${index}.defaultValue` as const)}
                       type="text"
                       placeholder=""
+                      defaultValue={
+                        form?.getValues().variables?.[index]?.defaultValue ?? ""
+                      }
                     />
                   </td>
                   <td>
@@ -83,6 +93,9 @@ export const ModelFormDesktop: React.FC<ModelFormProps> = ({
                       {...register(`variables.${index}.sampleText` as const)}
                       type="text"
                       placeholder="Ex: Chennai"
+                      defaultValue={
+                        form?.getValues().variables?.[index]?.sampleText ?? ""
+                      }
                     />
                   </td>
                   <td className="d-flex justify-content-center">

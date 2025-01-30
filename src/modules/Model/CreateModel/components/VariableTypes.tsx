@@ -1,6 +1,6 @@
 import { Form } from "react-bootstrap";
 
-export const VariableTypes = ({ register, index, errors }: any) => {
+export const VariableTypes = ({ register, index, errors, form }: any) => {
   return (
     <>
       <Form.Select
@@ -9,6 +9,7 @@ export const VariableTypes = ({ register, index, errors }: any) => {
         })}
         isInvalid={!!errors?.variables?.[index]?.type}
         required
+        defaultValue={form?.getValues().variables?.[index]?.type || ""}
       >
         <option value="">Select Type</option>
         <option value="string">String</option>
@@ -17,7 +18,7 @@ export const VariableTypes = ({ register, index, errors }: any) => {
       </Form.Select>
       {errors?.variables?.[index]?.type && (
         <p className="text-danger fs-6">
-          {errors?.variables?.[index]?.type?.message}
+          {errors.variables[index].type.message}
         </p>
       )}
     </>

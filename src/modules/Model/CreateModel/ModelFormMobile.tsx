@@ -50,6 +50,7 @@ export const ModelFormMobile: React.FC<ModelFormProps> = ({
                     })}
                     type="text"
                     placeholder="Ex: City"
+                    defaultValue={form?.getValues().variables?.[index]?.name}
                     isInvalid={!!errors?.variables?.[index]?.name}
                   />
                   {errors.variables?.[index]?.name && (
@@ -81,6 +82,9 @@ export const ModelFormMobile: React.FC<ModelFormProps> = ({
                   <Form.Check
                     {...register(`variables.${index}.isNullable`)}
                     type="checkbox"
+                    defaultChecked={
+                      form?.getValues().variables?.[index]?.isNullable
+                    }
                     className="ms-4"
                   />
                 </Col>
@@ -94,6 +98,9 @@ export const ModelFormMobile: React.FC<ModelFormProps> = ({
                   <FormInput
                     {...register(`variables.${index}.defaultValue`)}
                     placeholder=""
+                    defaultValue={
+                      form?.getValues().variables?.[index]?.defaultValue
+                    }
                   />
                 </Col>
               </Row>
@@ -106,6 +113,9 @@ export const ModelFormMobile: React.FC<ModelFormProps> = ({
                   <FormInput
                     {...register(`variables.${index}.sampleText`)}
                     placeholder="Ex: Chennai"
+                    defaultValue={
+                      form?.getValues().variables?.[index]?.sampleText
+                    }
                   />
                 </Col>
               </Row>

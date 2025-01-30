@@ -1,6 +1,7 @@
 import { FormLabel } from "@atoms/FormLabel";
 import { Col, Form, Row } from "react-bootstrap";
-export const ModelName = ({ register, errors }: any) => {
+export const ModelName = ({ register, errors, form }: any) => {
+  console.log(form?.getValues());
   return (
     <Row className="align-items-center mb-4 mx-sm-5">
       <Col sm={12} md={3} lg={2} className="mb-2">
@@ -8,16 +9,17 @@ export const ModelName = ({ register, errors }: any) => {
       </Col>
       <Col sm={10} md={6} lg={4}>
         <Form.Control
-          {...register("name", {
+          {...register("modelName", {
             required: "Please enter model name",
           })}
           type="text"
+          value={form?.getValues().modelName}
           placeholder="Ex: Address"
           className="model-name-input"
-          isInvalid={!!errors?.name}
+          isInvalid={!!errors?.modelName}
         />
-        {errors?.name && (
-          <p className="text-danger fs-6">{errors.name.message}</p>
+        {errors?.modelName && (
+          <p className="text-danger fs-6">{errors.modelName.message}</p>
         )}
       </Col>
     </Row>

@@ -222,7 +222,7 @@ export const ResponseStatuses = ({
                         <option value="">Select Response Body</option>
                         {models?.map((model) => (
                           <option key={model.id} value={model.id}>
-                            {model.name}
+                            {model.modelName}
                           </option>
                         ))}
                       </Form.Select>

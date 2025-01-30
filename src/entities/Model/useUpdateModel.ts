@@ -5,7 +5,10 @@ import { updateData } from "../../api";
 import { IModelMutation } from "./Model.types";
 
 const updateModel = async (data: IModelMutation) => {
-  return await updateData<IModelMutation>(MODELS_ENDPOINT, data);
+  return await updateData<IModelMutation>(
+    MODELS_ENDPOINT + "/" + data.id,
+    data
+  );
 };
 
 export const useUpdateModel = (params: IMutationParams = {}) =>
