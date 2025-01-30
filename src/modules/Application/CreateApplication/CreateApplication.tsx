@@ -1,18 +1,15 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { FormLabel } from "@atoms/FormLabel/FormLabel";
-import { FormActionButtons } from "@molecules/FormActionButtons";
 import React, { useState } from "react";
 import { Form, Modal } from "react-bootstrap";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { FormLabel } from "@atoms/FormLabel/FormLabel";
+import { FormActionButtons } from "@molecules/FormActionButtons";
 import {
   ApplicationFormData,
   ICreateApplication,
 } from "./CreateApplication.types";
 import { useCreateApplication } from "@/entities/Application/useCreateApplication";
-import { useNavigate } from "react-router-dom";
-import { json } from "stream/consumers";
-
 
 const validationSchema = Yup.object({
   name: Yup.string()
@@ -20,27 +17,34 @@ const validationSchema = Yup.object({
     .max(255, "Name must not exceed 255 characters"),
   path: Yup.string()
     .required("Path is required")
-    .matches(/^\/[a-zA-Z0-9-/]*$/, "Path must start with '/' and contain valid characters"),
+    .matches(
+      /^\/[a-zA-Z0-9-/]*$/,
+      "Path must start with '/' and contain valid characters"
+    ),
   description: Yup.string()
     .required("Description is required")
     .max(1000, "Description must not exceed 1000 characters"),
 });
 
-export const CreateApplication = ({ show, handleClose }: ICreateApplication) => {
+export const CreateApplication = ({
+  show,
+  handleClose,
+}: ICreateApplication) => {
   const navigate = useNavigate();
-      const { mutate: createApplication } = useCreateApplication({
-        onSuccess: () => {
-          toast.success("Application submitted successfully!");
-          setFormData({ name: "", path: "", description: "" });
-          setErrors({});
-          handleClose();
-          navigate("/application");
 
-        },
-        onError:(error) =>{
-          toast.error("Failed to submit application. Please check the server.");
-        }
-      });
+  const createApplicationMutation = useCreateApplication({
+    onSuccess: () => {
+      toast.success("Application submitted successfully!");
+      setFormData({ name: "", path: "", description: "" });
+      setErrors({});
+      handleClose();
+      navigate("/application");
+    },
+    onError: () => {
+      toast.error("Failed to submit application. Please check the server.");
+    },
+  });
+
   const [formData, setFormData] = useState<ApplicationFormData>({
     name: "",
     path: "",
@@ -49,7 +53,9 @@ export const CreateApplication = ({ show, handleClose }: ICreateApplication) => 
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
@@ -75,36 +81,9 @@ export const CreateApplication = ({ show, handleClose }: ICreateApplication) => 
   const onSubmit = async () => {
     const isValid = await validateForm();
     if (isValid) {
-      const jsonData = {
-        name: formData.name,
-        path: formData.path,
-        description: formData.description,
-      };
-      createApplication(jsonData);
+      createApplicationMutation.mutate(formData); // ✅ Use TanStack Query mutation
     }
-   
-  }
-
-      // try {
-      //   const response = await axios.post("http://localhost:8080/add", jsonData, {
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //   });
-
-      //   if (response.status === 201) {
-      //     toast.success("Application submitted successfully!");
-      //     setFormData({ name: "", path: "", description: "" });
-      //     setErrors({});
-      //     handleClose();
-      //   } else {
-      //     toast.error("Something went wrong. Please try again.");
-      //   }
-      // } catch (error) {
-      //   console.log();
-        
-      //   toast.error("Failed to submit application. Please check the server.");
-      // }
+  };
 
   return (
     <Modal show={show} onHide={handleClose} centered size="lg">
@@ -166,7 +145,10 @@ export const CreateApplication = ({ show, handleClose }: ICreateApplication) => 
           onCancel={handleClose}
           onSubmit={onSubmit}
           isPrimaryDisabled={
-            !formData.name.trim() || !formData.path.trim() || !formData.description.trim()
+            createApplicationMutation.status === "pending" || 
+            !formData.name.trim() ||
+            !formData.path.trim() ||
+            !formData.description.trim()
           }
         />
       </div>
