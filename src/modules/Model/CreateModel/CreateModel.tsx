@@ -42,6 +42,7 @@ export const CreateModel = () => {
     onError: (error) => handleError(error),
   });
 
+  
   const handleSubmit = async (data: IModelMutation, reset: () => void) => {
     const jsonData = {
       name: data.name,

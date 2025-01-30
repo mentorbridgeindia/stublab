@@ -33,6 +33,7 @@ export const FormActionButtons = (props: IFormActionButtons) => {
         disabled={isPrimaryDisabled}
         onClick={onSubmit}
       >
+        
         {isPrimaryDelete ? <IconTrash /> : <IconCheck />}
         {primaryLabel}
       </Button>
