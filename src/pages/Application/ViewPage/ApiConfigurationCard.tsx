@@ -9,9 +9,10 @@ import { toast } from "react-toastify";
 
 interface ApiConfigurationCardProps {
   api: ICustomAPIEntity;
+  handleEdit: () => void;
 }
 
-const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api }) => {
+const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api, handleEdit }) => {
   const { method, url, defaultStatusCode, name, responseStatusCodes, id } = api;
 
   const [statusCode, setStatusCode] = useState<number>(
@@ -22,10 +23,10 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api }) => {
     method === "POST"
       ? "info"
       : method === "GET"
-      ? "success"
-      : method === "PUT"
-      ? "warning"
-      : "danger";
+        ? "success"
+        : method === "PUT"
+          ? "warning"
+          : "danger";
 
   const handleSave = (): void => {
     if (statusCode) {
@@ -43,9 +44,7 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api }) => {
     setStatusCode(Number(event.target.value));
   };
 
-  const handleEdit = (): void => {
-    console.log(`${id.toUpperCase()} Edit Clicked`);
-  };
+
 
   const handleDelete = (id: string): void => {
     confirmAlert({
@@ -138,7 +137,7 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api }) => {
                   onClick={handleSave}
                   style={{
                     visibility:
-                      statusCode !== defaultStatusCode ? "visible" : "hidden",
+                      defaultStatusCode && statusCode !== defaultStatusCode ? "visible" : "hidden",
                   }}
                   className="w-sm-50"
                 >

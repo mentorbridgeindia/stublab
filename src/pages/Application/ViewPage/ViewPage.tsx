@@ -20,6 +20,7 @@ export const ApplicationViewPage: React.FC = () => {
   const isDesktop = useIsDesktop();
   const [createAPI, setCreateAPI] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string>("swagger");
+  const [editingApi, setEditingApi] = useState<string>("");
 
   const { id } = useParams();
   const { data: applicationDetails } = useGetApplicationById(id ?? "", {
@@ -28,11 +29,11 @@ export const ApplicationViewPage: React.FC = () => {
 
   const queryClient = useQueryClient();
 
-  function handleInvalidate(){
+  function handleInvalidate() {
     queryClient.invalidateQueries({
       queryKey: ['application', id],
     })
-    
+
   }
 
   const { mutate: handleCreateCustomAPI } = useCreateCustomAPI({
@@ -66,6 +67,7 @@ export const ApplicationViewPage: React.FC = () => {
       handleUpdateCustomAPI(data as unknown as ICustomAPIMutation);
     }
   };
+
 
   return (
     <div className="d-flex flex-column gap-3 pt-2 px-lg-5">
@@ -155,7 +157,7 @@ export const ApplicationViewPage: React.FC = () => {
                   </Row>
                   <div>
                     {applicationDetails?.mockApiList?.map((api) => (
-                      <ApiConfigurationCard key={api.method} api={api} />
+                      <ApiConfigurationCard key={api.method} api={api} handleEdit={() => { setCreateAPI(true); setEditingApi(api.id) }} />
                     ))}
                   </div>
                 </div>
@@ -172,6 +174,7 @@ export const ApplicationViewPage: React.FC = () => {
         <CreateCustomAPIForm
           onCancel={() => setCreateAPI(false)}
           onSubmit={handleSubmit}
+          editingApi={editingApi}
         />
       )}
     </div>

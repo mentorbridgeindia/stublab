@@ -9,8 +9,10 @@ import { ICreateCustomAPIForm } from "./CreateCustomAPIForm.types";
 import { dropdownData } from "./dropdownData";
 import { ResponseStatuses } from "./ReponseStatuses";
 import { schema } from "./schema";
+import { useGetCustomAPIById } from "@/entities/CustomAPI";
+import { useCreateCustomAPI } from "@/entities/CustomAPI/useCreateCustomAPI";
 
-export const CreateCustomAPIForm = ({ onSubmit, onCancel }: any) => {
+export const CreateCustomAPIForm = ({ onSubmit, onCancel, editingApi }: any) => {
   const {
     setValue,
     watch,
@@ -19,7 +21,18 @@ export const CreateCustomAPIForm = ({ onSubmit, onCancel }: any) => {
   } = useForm<ICreateCustomAPIForm>({
     resolver: yupResolver(schema),
     mode: "onChange",
+    // defaultValues: data,
   });
+
+  console.log(editingApi)
+
+  const { data } = useGetCustomAPIById(editingApi, {
+    queryConfig: {
+      enabled: !!editingApi
+    }
+  });
+  console.log(data);
+
 
   const values = watch();
 
@@ -34,6 +47,14 @@ export const CreateCustomAPIForm = ({ onSubmit, onCancel }: any) => {
 
   const triggerSubmit = () => {
     if (!!errors && values.responseStatusCodes?.length > 0) {
+      const status_200 = values.responseStatusCodes.find(
+        (code) => code.statusCode === "200"
+      );
+      if (status_200) {
+        values.defaultStatusCode = status_200.id
+      } else {
+        values.defaultStatusCode = values.responseStatusCodes[0]?.id
+      }
       onSubmit(values);
     }
   };
@@ -48,7 +69,7 @@ export const CreateCustomAPIForm = ({ onSubmit, onCancel }: any) => {
             placeholder="Enter Name"
             defaultValue={values.name}
             isInvalid={!!errors.name}
-            onChange={(e)=>{
+            onChange={(e) => {
               setValue("name", e.target.value);
               triggerValidation("name");
             }}

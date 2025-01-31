@@ -13,6 +13,7 @@ export interface ICreateCustomAPIForm {
   method: MethodTypes;
   url: string;
   responseStatusCodes: IResponsesForStatusCodes[];
+  defaultStatusCode?: string;
 }
 
 export interface IResponsesForStatusCodes {
