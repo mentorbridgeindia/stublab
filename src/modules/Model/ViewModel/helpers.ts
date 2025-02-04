@@ -3,33 +3,40 @@ import { IModelEntity } from "@entities/Model";
 import { IVariableEntity } from "@entities/Variable";
 
 export const transformData = (data: IModelEntity) => {
-  const transformType = (type: ModelTypes, indentLevel: number = 0): string => {
+  const transformType = (
+    type: ModelTypes,
+    typeDetails: IModelEntity,
+    indentLevel: number = 0
+  ): string => {
     const indentation = "  ".repeat(indentLevel);
 
-    if (typeof type === "string") {
+    if (type === "string" || type === "number" || type === "boolean") {
       return `"${type}"`;
     }
 
-    if (typeof type === "object" && type.variables) {
-      return `{
-${type.variables
-  .map(
-    (variable) =>
-      `${indentation}  "${variable.name}": ${transformType(
-        variable.type,
-        indentLevel + 1
-      )}`
-  )
-  .join(",\n")}
-${indentation}}`;
-    }
-
-    return `"unknown"`;
+    return `{
+      ${typeDetails?.variables
+        ?.map(
+          (variable) =>
+            `${indentation}  "${variable.name}": ${transformType(
+              variable.type,
+              variable.typeDetails,
+              indentLevel + 1
+            )}`
+        )
+        .join(",\n")}
+      ${indentation}
+  }
+    `;
   };
 
   const processVariables = (variables: IVariableEntity[]) => {
     return variables.reduce<Record<string, string>>((acc, variable) => {
-      acc[variable.name] = transformType(variable.type, 1);
+      acc[variable.name] = transformType(
+        variable.type,
+        variable.typeDetails,
+        1
+      );
       return acc;
     }, {});
   };

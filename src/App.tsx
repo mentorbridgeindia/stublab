@@ -11,7 +11,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "./App.scss";
 import { ApplicationViewPage } from "./pages/Application/ViewPage";
-
+import { CreateOrganizationPage } from "./pages/Organization/CreatePage/CreateOrganizationPage";
 const App: React.FC = () => {
   const queryClient = new QueryClient();
 
@@ -25,6 +25,7 @@ const App: React.FC = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/application" element={<ApplicationIndexPage />} />
+              <Route path="/organization" element={<CreateOrganizationPage/>} />
               <Route path="/model" element={<ModelIndexPage />} />
               <Route path="/model/create" element={<CreateModelPage />} />
               <Route path="/model/edit/:id" element={<CreateModelPage />} />
