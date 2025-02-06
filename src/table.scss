@@ -1,0 +1,23 @@
+.table-responsive {
+  border-radius: 10px;
+
+  thead {
+    height: 50px;
+
+    &.bg-secondary {
+      th {
+        color: #fff;
+      }
+    }
+
+    th {
+      vertical-align: middle !important;
+    }
+  }
+
+  tr {
+    td {
+      vertical-align: middle !important;
+    }
+  }
+}

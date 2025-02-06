@@ -1,1 +1,241 @@
-@import "bootstrap/dist/css/bootstrap.min.css";
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "./colors.scss";
+
+$theme-colors: map-merge(
+  $theme-colors,
+  (
+    "primary": $primary,
+    "secondary": $secondary,
+    "success": $success,
+    "info": $info,
+    "warning": $warning,
+    "danger": $danger,
+    "light": $light,
+    "dark": $dark,
+  )
+);
+
+@import "bootstrap/scss/bootstrap.scss";
+@import "./margin.scss";
+@import "react-toastify/dist/ReactToastify.css";
+@import "./table.scss";
+@import "https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap";
+
+html {
+  /* font-family: Roboto, system-ui, Avenir, Helvetica, Arial, sans-serif; */
+  font-family: "Inter", -apple-system, "BlinkMacSystemFont", "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif !important;
+  font-size: 100%;
+}
+
+body {
+  min-height: 100vh;
+  font-size: 16px !important;
+  color: $content-color !important;
+  letter-spacing: 0.3px;
+}
+
+p {
+  color: $content-color !important;
+}
+
+.card-title {
+  color: $content-color !important;
+  margin-bottom: 0 !important;
+}
+
+svg {
+  width: 16px;
+  height: 16px;
+}
+
+::placeholder {
+  color: $content-color;
+  font-size: 14px;
+  opacity: 1; /* Firefox */
+}
+
+::-ms-input-placeholder {
+  /* Edge 12 -18 */
+  font-size: 14px;
+  color: $content-color;
+}
+
+textarea {
+  resize: none !important;
+}
+
+textarea::-webkit-resizer {
+  display: none;
+}
+
+// remove arrows/spinners from input type number
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+::-moz-selection {
+  /* Code for Firefox */
+  background: #eee;
+}
+
+::selection {
+  background: #eee;
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.005rem $primary !important;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  color: $light !important;
+}
+
+.btn-outline-primary:hover {
+  color: $light !important;
+}
+
+.form-label {
+  margin-bottom: 0.25rem !important;
+}
+
+.table {
+  background: none !important;
+  --bs-table-bg: none !important;
+
+  th {
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 14px;
+  }
+}
+
+.form-control {
+  font-size: 14px !important;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+a.dropdown-item {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+a:not(.dropdown-item) {
+  font-size: 14px;
+  color: $primary;
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px 0;
+  position: relative;
+  text-decoration: none;
+  font-weight: 500;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &::after {
+    background-color: $info;
+    bottom: 0;
+    content: "";
+    height: 1px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    transform: scaleX(0);
+    transition: transform 0.8s;
+    width: 100%;
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
+  }
+
+  @extend .truncate;
+}
+
+a.text-white {
+  color: $light !important;
+
+  &::after {
+    background-color: $light !important;
+  }
+}
+
+.cm-editor,
+.cm-scroller {
+  border-radius: 10px;
+}
+
+.cm-line {
+  font-size: 14px;
+}
+
+.cm-editor,
+.cm-line {
+  font-family: "Fira Code", monospace;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-md {
+  svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+}
+
+.logo-lg {
+  svg {
+    width: 132px !important;
+    height: 35px !important;
+  }
+}
+
+.dropdown-item {
+  width: -webkit-fill-available;
+}
+
+.fw-bold button {
+  font-weight: 500 !important;
+}
+
+.btn-info,
+.btn-success {
+  color: $light !important;
+}
+
+.card-light-success {
+  background-color: #49cc901a;
+}
