@@ -5,7 +5,7 @@ import { CreateModelPage } from "@pages/Model/CreatePage";
 import { ModelIndexPage } from "@pages/Model/IndexPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useEffect, useState } from "react";
+import "./global.scss";
 import Container from "react-bootstrap/esm/Container";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -22,7 +22,7 @@ const App: React.FC = () => {
       <ToastContainer position="bottom-left" />
       <Header />
       <Container className="well-container">
-        <Loader />
+        <Loader isLoading/>
         <QueryClientProvider client={queryClient}>
           <BrowserRouter>
             <Routes>

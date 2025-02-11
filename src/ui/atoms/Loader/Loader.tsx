@@ -1,11 +1,11 @@
 
 import { ReactComponent as Logo } from "@icons/stublab-logo.svg";
 import "./Loader.scss";
-function Loader() {
+function Loader({isLoading}: {isLoading: boolean}) {
   return (
-    <div className="App">
+    isLoading ? <div className="App">
        <Logo className="logo"/>
-    </div>
+    </div> : null
   );
 }
 export default Loader;
