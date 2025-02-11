@@ -1,5 +1,5 @@
 
-import { ReactComponent as Logo } from "@icons/stublab-logo.svg";
+import { ReactComponent as Logo } from "@icons/icon-logo.svg";
 import "./Loader.scss";
 function Loader({isLoading}: {isLoading: boolean}) {
   return (

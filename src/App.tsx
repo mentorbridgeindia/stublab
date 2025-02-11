@@ -12,7 +12,7 @@ import { ToastContainer } from "react-toastify";
 import "./App.scss";
 import { ApplicationViewPage } from "./pages/Application/ViewPage";
 import { CreateOrganizationPage } from "./pages/Organization/CreatePage/CreateOrganizationPage";
-import Loader from "./ui/atoms/Loader/Loader";
+
 
 const App: React.FC = () => {
   const queryClient = new QueryClient();
@@ -22,7 +22,6 @@ const App: React.FC = () => {
       <ToastContainer position="bottom-left" />
       <Header />
       <Container className="well-container">
-        <Loader isLoading/>
         <QueryClientProvider client={queryClient}>
           <BrowserRouter>
             <Routes>
