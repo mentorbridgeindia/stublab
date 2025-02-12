@@ -1,11 +1,12 @@
 
 import { ReactComponent as Logo } from "@icons/icon-logo.svg";
 import "./Loader.scss";
-function Loader({isLoading}: {isLoading: boolean}) {
+export const Loader = ({ isLoading }: { readonly isLoading: boolean }) => {
+  if (!isLoading) return null;
+
   return (
-    isLoading ? <div className="App">
+    <div className="App">
        <Logo className="logo"/>
-    </div> : null
+    </div>
   );
 }
-export default Loader;
