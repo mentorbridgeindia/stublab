@@ -5,13 +5,15 @@ import { CreateModelPage } from "@pages/Model/CreatePage";
 import { ModelIndexPage } from "@pages/Model/IndexPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "bootstrap/dist/css/bootstrap.min.css";
-import React from "react";
+import "./global.scss";
 import Container from "react-bootstrap/esm/Container";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "./App.scss";
 import { ApplicationViewPage } from "./pages/Application/ViewPage";
 import { CreateOrganizationPage } from "./pages/Organization/CreatePage/CreateOrganizationPage";
+
+
 const App: React.FC = () => {
   const queryClient = new QueryClient();
 
