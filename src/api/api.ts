@@ -13,10 +13,11 @@ const axiosInstance: AxiosInstance = axios.create({
 
 // Request Interceptor
 axiosInstance.interceptors.request.use((config) => {
-  const token = sessionStorage.getItem("accessToken"); // Standardized key
+  const token = sessionStorage.getItem("accessToken");
   const clientId = sessionStorage.getItem("clientId");
 
   if (token) {
+    console.log("token", token);
     config.headers.Authorization = `${tokenType} ${token}`;
   }
   if (clientId) {
@@ -39,7 +40,7 @@ axiosInstance.interceptors.response.use(
     ) {
       // sessionStorage.removeItem("accessToken");
       // sessionStorage.removeItem("clientId");
-      window.location.href = "https://stublab.securosphere.in/login";
+      // window.location.href = "https://stublab.securosphere.in/login";
     }
     return Promise.reject(error);
   }

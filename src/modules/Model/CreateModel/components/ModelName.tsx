@@ -13,7 +13,7 @@ export const ModelName = ({ register, errors, form }: any) => {
             required: "Please enter model name",
           })}
           type="text"
-          value={form?.getValues().modelName}
+          // value={form?.getValues().modelName}
           placeholder="Ex: Address"
           className="model-name-input"
           isInvalid={!!errors?.modelName}

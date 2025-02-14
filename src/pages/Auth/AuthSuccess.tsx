@@ -11,8 +11,8 @@ export const AuthSuccessPage = () => {
   if (!token && accessToken === null) {
     navigate("/auth/error");
   }
-  sessionStorage.setItem("accessToken", token!);
-  searchParams.delete("token");
+
+  sessionStorage.setItem("accessToken", token ?? "");
 
   const { data, isLoading } = useGetInit();
 
@@ -23,6 +23,7 @@ export const AuthSuccessPage = () => {
   if (!data) {
     navigate("/organization/create");
   } else {
+    sessionStorage.setItem("clientId", data.id);
     navigate("/home");
   }
 

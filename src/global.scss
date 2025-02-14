@@ -149,7 +149,7 @@ a.dropdown-item {
 }
 
 // Start of Selection
-a:not(.dropdown-item):not(.logo-lg) {
+a:not(.dropdown-item):not(.logo-lg):not(.nav-link) {
   font-size: 14px;
   color: $primary;
   cursor: pointer;
