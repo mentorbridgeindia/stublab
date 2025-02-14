@@ -82,6 +82,7 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 ::-moz-selection {
@@ -147,7 +148,8 @@ a.dropdown-item {
   }
 }
 
-a:not(.dropdown-item) {
+// Start of Selection
+a:not(.dropdown-item):not(.logo-lg) {
   font-size: 14px;
   color: $primary;
   cursor: pointer;
