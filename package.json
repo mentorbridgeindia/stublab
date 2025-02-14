@@ -9,7 +9,7 @@
     "@codemirror/view": "^6.36.1",
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-dropdown-menu": "^2.1.4",
-    "@sentry/cli": "^2.39.1",
+    "@sentry/cli": "^2.41.1",
     "@sentry/react": "^8.44.0",
     "@tanstack/react-query": "^5.66.0",
     "@testing-library/jest-dom": "^5.17.0",
@@ -49,11 +49,11 @@
     "yup": "^1.6.1"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build && npm run sentry:sourcemaps && npm run sentry:sourcemaps && npm run sentry:sourcemaps",
+    "start": "GENERATE_SOURCEMAP=false craco start",
+    "build": "GENERATE_SOURCEMAP=false craco build && npm run sentry:sourcemaps",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org stublab-ce --project javascript-react ./build/static/js && sentry-cli sourcemaps upload --org stublab-ce --project javascript-react ./build/static/js"
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org mentorbridge-36 --project javascript-react ./build/static/js"
   },
   "eslintConfig": {
     "extends": [

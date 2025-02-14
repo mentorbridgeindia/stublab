@@ -25,6 +25,7 @@ const useDeviceType = (minWidth: number) => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("orientationchange", handleResize);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [minWidth]);
 
   return isDeviceWide;

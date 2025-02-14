@@ -12,20 +12,20 @@ interface ApiConfigurationCardProps {
 }
 
 const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api }) => {
-  const { method, url, defaultStatusCode, name, responseStatusCodes, id } = api;
+  const { method, url, defaultStatusCode, id } = api;
 
   const [statusCode, setStatusCode] = useState<number>(
     defaultStatusCode ?? 200
   );
 
-  const variant =
-    method === "POST"
-      ? "info"
-      : method === "GET"
-      ? "success"
-      : method === "PUT"
-      ? "warning"
-      : "danger";
+  const variant = (() => {
+    const methodVariants: Record<string, string> = {
+      POST: "info",
+      GET: "success",
+      PUT: "warning",
+    };
+    return methodVariants[method] || "danger";
+  })();
 
   const handleSave = (): void => {
     if (statusCode) {
@@ -170,7 +170,6 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api }) => {
             </Row>
           </Accordion.Header>
           <Accordion.Body>
-            {/* TODO: Display the response body here */}
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
