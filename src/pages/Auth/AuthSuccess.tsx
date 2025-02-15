@@ -6,7 +6,7 @@ export const AuthSuccessPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
-
+  console.log(token);
   const accessToken = sessionStorage.getItem("accessToken");
   if (!token && accessToken === null) {
     navigate("/auth/error");

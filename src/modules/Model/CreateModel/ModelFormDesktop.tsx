@@ -2,7 +2,6 @@ import { FormActionButtons } from "@molecules/FormActionButtons";
 import React from "react";
 import { Container, Form, Table } from "react-bootstrap";
 
-import { useGetModels } from "@entities/Model/useGetModels";
 import { ModelFormProps } from "./CreateModel.types";
 import {
   AddVariable,
