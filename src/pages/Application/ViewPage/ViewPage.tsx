@@ -15,6 +15,8 @@ import { toast } from "react-toastify";
 import SwaggerUI from "swagger-ui-react";
 import "swagger-ui-react/swagger-ui.css";
 import ApiConfigurationCard from "./ApiConfigurationCard";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 import "./ViewPage.scss";
 
 export const ApplicationViewPage: React.FC = () => {
@@ -76,6 +78,32 @@ export const ApplicationViewPage: React.FC = () => {
     navigate("/model/create");
   };
 
+  const handleDelete = (id: any): void => {
+    confirmAlert({
+      title: "Confirm Deletion",
+      message: `Are you sure you want to delete API configuration for ${id.toUpperCase()}?`,
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            console.log(`${id.toUpperCase()} Deleted Successfully`);
+            toast.success(`${id.toUpperCase()} deleted successfully!`);
+          },
+          style: { backgroundColor: "green", color: "white", border: "none" },
+        },
+        {
+          label: "No",
+          onClick: () => {
+            console.log(`${id.toUpperCase()} Deletion Canceled`);
+          },
+          style: { backgroundColor: "red", color: "white", border: "none" },
+        },
+      ],
+      closeOnEscape: true,
+      closeOnClickOutside: true,
+    });
+  };
+  
   return (
     <div className="d-flex flex-column gap-3 pt-2 px-lg-5">
       <div
@@ -104,7 +132,7 @@ export const ApplicationViewPage: React.FC = () => {
             <PlusIcon />
             Add Model
           </Button>
-          <Button variant="outline-danger" size="sm">
+          <Button variant="outline-danger" size="sm" onClick={() => handleDelete(id)}>
             <TrashIcon />
             Delete Application
           </Button>

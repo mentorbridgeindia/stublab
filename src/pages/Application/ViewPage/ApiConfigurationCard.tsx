@@ -1,4 +1,5 @@
 import { ICustomAPIEntity } from "@/entities/CustomAPI";
+import { CreateCustomAPIForm } from "@/modules/CustomAPI";
 import { ReactComponent as IconSave } from "@icons/icon-save.svg";
 import React, { useState } from "react";
 import { Accordion, Button, Col, Form, Row } from "react-bootstrap";
@@ -17,6 +18,8 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api }) => {
   const [statusCode, setStatusCode] = useState<number>(
     defaultStatusCode ?? 200
   );
+  const [showEditForm,setShowEditForm]=useState<boolean>(false);
+  const [editApiData,setEditApiData]=useState<ICustomAPIEntity | null>(null);
 
   const variant = (() => {
     const methodVariants: Record<string, string> = {
@@ -45,6 +48,12 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api }) => {
 
   const handleEdit = (): void => {
     console.log(`${id.toUpperCase()} Edit Clicked`);
+    setEditApiData(api);
+    setShowEditForm(true);
+  };
+
+  const handleCloseEditForm = () => {
+    setShowEditForm(false); // Close the form when canceled
   };
 
   const handleDelete = (id: string): void => {
@@ -58,13 +67,15 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api }) => {
             console.log(`${id.toUpperCase()} Deleted Successfully`);
             toast.success(`${id.toUpperCase()} deleted successfully!`);
           },
+          style:{backgroundColor:"green",color:"white",border:"none"}
         },
         {
           label: "No",
           onClick: () => {
             console.log(`${id.toUpperCase()} Deletion Canceled`);
-            toast.info(`${id.toUpperCase()} deletion canceled.`);
+           
           },
+          style:{backgroundColor:"red",color:"white",border:"none"}
         },
       ],
       closeOnEscape: true,
@@ -173,6 +184,7 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api }) => {
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
+      {showEditForm && editApiData && <CreateCustomAPIForm onCancel={handleCloseEditForm} initialValues={editApiData}  />}
     </div>
   );
 };
