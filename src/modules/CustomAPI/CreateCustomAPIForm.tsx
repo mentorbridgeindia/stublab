@@ -33,7 +33,7 @@ export const CreateCustomAPIForm = ({ onSubmit, onCancel }: any) => {
   };
 
   const triggerSubmit = () => {
-    if (!!errors) {
+    if (!!errors && values.responseStatusCodes?.length > 0) {
       onSubmit(values);
     }
   };
