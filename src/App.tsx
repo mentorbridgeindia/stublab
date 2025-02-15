@@ -11,6 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/esm/Container";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import {CreateCustomAPIForm } from "@modules/CustomAPI/CreateCustomAPIForm";
 import "./App.scss";
 import "./global.scss";
 
@@ -40,6 +41,7 @@ const App: React.FC = () => {
                 path="/application/:id"
                 element={<ApplicationViewPage />}
               />
+              <Route path="/edit-api/:id" element={<CreateCustomAPIForm />} />
             </Routes>
           </BrowserRouter>
         </QueryClientProvider>
