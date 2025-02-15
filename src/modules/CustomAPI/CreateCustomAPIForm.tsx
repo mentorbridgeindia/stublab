@@ -10,15 +10,21 @@ import { dropdownData } from "./dropdownData";
 import { ResponseStatuses } from "./ReponseStatuses";
 import { schema } from "./schema";
 
-export const CreateCustomAPIForm = ({ onSubmit, onCancel }: any) => {
+export const CreateCustomAPIForm = ({ onSubmit, onCancel,initialValues }: any) => {
   const {
+    register,
     setValue,
     watch,
     trigger,
+    handleSubmit,
     formState: { errors, isSubmitted },
   } = useForm<ICreateCustomAPIForm>({
     resolver: yupResolver(schema),
     mode: "onChange",
+    defaultValues: {
+      method: initialValues?.method || "GET",
+      ...initialValues,
+    },
   });
 
   const values = watch();
@@ -32,34 +38,42 @@ export const CreateCustomAPIForm = ({ onSubmit, onCancel }: any) => {
     isSubmitted && trigger(field);
   };
 
-  const triggerSubmit = () => {
-    if (!!errors && values.responseStatusCodes?.length > 0) {
+  const triggerSubmit = async() => {
+    const isValid=await trigger();
+    if (!!isValid && values.responseStatusCodes?.length > 0) {
       onSubmit(values);
     }
   };
 
   return (
-    <Drawer show={true} onHide={onCancel} title={"Create Custom API"}>
-      <Form>
+    <Drawer show={true} onHide={onCancel} title={initialValues? "Edit API": "Create Custom API"}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-3">
           <FormLabel>Name</FormLabel>
           <Form.Control
             type="text"
             placeholder="Enter Name"
             defaultValue={values.name}
+            isInvalid={!!errors.name}
+            onChange={(e) => {
+              setValue("name", e.target.value);
+              triggerValidation("name");
+            }}
           />
+          {errors.name && (<Form.Text className="text-danger">{errors.name.message}</Form.Text>) }
         </div>
         <Row className="mb-3">
           <Col sm={12} md={4} lg={2}>
             <DropdownButton
               size="sm"
-              title={values.method ?? "Method"}
+              title={values.method || "GET"}
               variant={renderVariant()}
               id="method-dropdown"
               className="fw-bold"
-              onSelect={(selectedValue) =>
-                setValue("method", (selectedValue as MethodTypes) ?? "GET")
-              }
+              onSelect={(selectedValue) =>{
+                setValue("method", (selectedValue as MethodTypes) );
+                trigger("method");
+              }}
             >
               {dropdownData.methods.map((item) => (
                 <Dropdown.Item key={item.value} eventKey={item.value}>
@@ -67,6 +81,15 @@ export const CreateCustomAPIForm = ({ onSubmit, onCancel }: any) => {
                 </Dropdown.Item>
               ))}
             </DropdownButton>
+            <input
+              type="hidden"
+              {...register("method", {
+                required: "Method is required",
+                validate: (value) =>
+                  ["GET", "POST", "PUT", "DELETE"].includes(value) || "Invalid method", 
+              })}
+            />
+            {errors.method && <small className="text-danger">{errors.method.message}</small>}
           </Col>
           <Col sm={12} md={8} lg={10}>
             <Form.Group>
