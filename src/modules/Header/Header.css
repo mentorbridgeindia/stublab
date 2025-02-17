@@ -2,18 +2,22 @@
   width: 100%;
   box-shadow: none;
   opacity: 1;
-  background-color: #22292a;
+  background-color: #000000;
   height: 60px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.02);
 }
 
 .navbar-brand {
   font-weight: 500;
   font-size: 18px;
   margin-left: 10px;
-  color: #fff !important;
+  color: #141313 !important;
 }
 
 .nav-link {
   font-weight: 500;
-  color: #fff !important;
+  color: #ffffff !important;
+  &:hover {
+    color: #3cef3c !important;
+  }
 }
