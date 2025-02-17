@@ -15,8 +15,8 @@ export const transformData = (data: IModelEntity) => {
     }
 
     return `{
-      ${typeDetails.variables
-        .map(
+      ${typeDetails?.variables
+        ?.map(
           (variable) =>
             `${indentation}  "${variable.name}": ${transformType(
               variable.type,
