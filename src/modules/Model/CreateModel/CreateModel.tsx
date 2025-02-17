@@ -101,8 +101,7 @@ export const CreateModel = () => {
     <ModelFormDesktop
       onFormSubmit={handleSubmit}
       onCancel={handleCancel}
-      form={form}
-    />
+      form={form}   />
   ) : (
     <ModelFormMobile
       onFormSubmit={handleSubmit}

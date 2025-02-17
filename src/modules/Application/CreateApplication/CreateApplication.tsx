@@ -1,12 +1,15 @@
-import { FormLabel } from "@atoms/FormLabel/FormLabel";
-import { FormActionButtons } from "@molecules/FormActionButtons";
 import React, { useState } from "react";
 import { Form, Modal } from "react-bootstrap";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { FormLabel } from "@atoms/FormLabel/FormLabel";
+import { FormActionButtons } from "@molecules/FormActionButtons";
 import {
   ApplicationFormData,
   ICreateApplication,
 } from "./CreateApplication.types";
+import { useCreateApplication } from "@/entities/Application/useCreateApplication";
 
 const validationSchema = Yup.object({
   name: Yup.string()
@@ -26,8 +29,22 @@ const validationSchema = Yup.object({
 export const CreateApplication = ({
   show,
   handleClose,
-  handleSubmit,
 }: ICreateApplication) => {
+  const navigate = useNavigate();
+
+  const createApplicationMutation = useCreateApplication({
+    onSuccess: () => {
+      toast.success("Application submitted successfully!");
+      setFormData({ name: "", path: "", description: "" });
+      setErrors({});
+      handleClose();
+      navigate("/application");
+    },
+    onError: () => {
+      toast.error("Failed to submit application. Please check the server.");
+    },
+  });
+
   const [formData, setFormData] = useState<ApplicationFormData>({
     name: "",
     path: "",
@@ -64,10 +81,7 @@ export const CreateApplication = ({
   const onSubmit = async () => {
     const isValid = await validateForm();
     if (isValid) {
-      handleSubmit(formData);
-      setFormData({ name: "", path: "", description: "" });
-      setErrors({});
-      handleClose();
+      createApplicationMutation.mutate(formData); // ✅ Use TanStack Query mutation
     }
   };
 
@@ -105,6 +119,7 @@ export const CreateApplication = ({
               {errors.path}
             </Form.Control.Feedback>
           </div>
+
           <div className="mb-3">
             <FormLabel className="mb-1">Description</FormLabel>
             <Form.Control
@@ -130,6 +145,7 @@ export const CreateApplication = ({
           onCancel={handleClose}
           onSubmit={onSubmit}
           isPrimaryDisabled={
+            createApplicationMutation.status === "pending" || 
             !formData.name.trim() ||
             !formData.path.trim() ||
             !formData.description.trim()
