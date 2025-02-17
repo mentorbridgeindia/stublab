@@ -26,7 +26,7 @@ const App: React.FC = () => {
         <QueryClientProvider client={queryClient}>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Dashboard />} />
+              <Route path="/" element={<Dashboard/>} />
               <Route path="/application" element={<ApplicationIndexPage />} />
               <Route path="/organization" element={<CreateOrganizationPage/>} />
               <Route path="/model" element={<ModelIndexPage />} />

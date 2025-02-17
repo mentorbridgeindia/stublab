@@ -8,6 +8,10 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  PieChart,
+  Pie, 
+  Cell, 
+  Legend,
 } from "recharts";
 import "./Dashboard.scss";
 import { ReactComponent as Apilogo } from "@icons/icon-api.svg";
@@ -87,6 +91,16 @@ const graphData = [
   { day: "Saturday", time: "6-7", value: 95 },
 ];
 
+const Piechartdata = [
+  { name: '200', value: 32 },
+  { name: '400', value: 21 },
+  { name: '403', value: 15 },
+  { name: '404', value: 18 },
+  { name: '500', value: 5 },
+];
+
+const COLORS = ['#34A853', '#E74C3C' ,'#4285f4','#8884d8',  '#E67E22', '#F1C40F'];
+
 const Dashboard: React.FC = () => {
   return (
     <Container className="dashboard-container py-4">
@@ -147,67 +161,49 @@ const Dashboard: React.FC = () => {
           </tbody>
         </Table>
       </div>
+      <Col md={4}>
+        <Card className="shadow-sm p-3" style={{ backgroundColor: "#eef5fc", borderRadius: "10px", height: "350px" }}>
+          <Card.Body className="d-flex flex-column align-items-center">
+            <PieChart width={250} height={250}>
+              <Pie
+                data={Piechartdata}
+                cx={125}
+                cy={100}
+                innerRadius={50}
+                outerRadius={90}
+                paddingAngle={2}
+                dataKey="value"
+                label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
+              >
+                {Piechartdata.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend layout="horizontal" align="center" verticalAlign="bottom" />
+            </PieChart>
+          </Card.Body>
+        </Card>
+      </Col>
 
       <Row className="mt-5">
-        <Col md={12}>
-          <Card
-            className="shadow-sm p-4 w-100"
-            style={{ backgroundColor: "#f8f9fa", borderRadius: "10px" }}
-          >
-            <Card.Body>
-              <h4 className="text-primary">User Activity Hours</h4>
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart
-                  data={graphData}
-                  margin={{ top: 20, right: 30, left: 0, bottom: 10 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" stroke="#ddd" />
-                  <XAxis
-                    dataKey="day"
-                    stroke="#333"
-                    label={{
-                      value: "Days",
-                      position: "insideBottom",
-                      dy: 10, 
-                      style: { textAnchor: "middle" },
-                    }}
-                  />
-                  <YAxis
-                    stroke="#333"
-                    label={{
-                      value: "Number of Hits",
-                      angle: -90,
-                      position: "center",
-                      dx: -15,
-                      style: { textAnchor: "middle" },
-                    }}
-                  />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: "#ffffff",
-                      border: "1px solid #ccc",
-                    }}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="value"
-                    stroke="#4A90E2"
-                    strokeWidth={3}
-                    fill="#4A90E2"
-                  />
-                  <XAxis
-                    dataKey="time"
-                    axisLine={false}
-                    tickLine={false}
-                    orientation="top"
-                    stroke="#666"
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
+      <Col md={8}>
+        <Card className="shadow-sm p-4 w-100" style={{ backgroundColor: "#eef5fc", borderRadius: "10px", height: "350px" }}>
+          <Card.Body>
+            <h4 className="text-primary">User Activity Hours</h4>
+            <ResponsiveContainer width="100%" height={250}>
+              <LineChart data={graphData} margin={{ top: 20, right: 30, left: 0, bottom: 10 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#ddd" />
+                <XAxis dataKey="day" stroke="#333" label={{ value: "Days", position: "insideBottom", dy: 10, style: { textAnchor: "middle" } }} />
+                <YAxis stroke="#333" label={{ value: "Number of Hits", angle: -90, position: "insideLeft", dx: -10, style: { textAnchor: "middle" } }} />
+                <Tooltip contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #ccc" }} />
+                <Line type="monotone" dataKey="value" stroke="#4A90E2" strokeWidth={3} />
+              </LineChart>
+            </ResponsiveContainer>
+          </Card.Body>
+        </Card>
+      </Col>
+    </Row>
     </Container>
   );
 };
