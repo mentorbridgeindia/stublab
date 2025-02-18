@@ -1,10 +1,10 @@
 .navbar {
   width: 100%;
-  box-shadow: none;
   opacity: 1;
   background-color: #ffffff;
   height: 60px;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.08);}
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.08);
+}
 
 .navbar-brand {
   font-weight: 500;
