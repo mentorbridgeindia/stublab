@@ -15,8 +15,7 @@ export const Header = () => {
         <Nav className="ms-auto">
           <Nav.Link href="/application">Applications</Nav.Link>
           <Nav.Link href="/model">Models</Nav.Link>
-          <Nav.Link>Login</Nav.Link>
-          <Nav.Link>Register</Nav.Link>
+          <Nav.Link href="/account">Account</Nav.Link>
         </Nav>
       </Container>
     </Navbar>

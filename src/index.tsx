@@ -1,26 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.scss';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import ErrorBoundary from "./ErrorBoundary";
-import ReactGA from "react-ga4";
 import * as Sentry from "@sentry/react";
-
+import { SpeedInsights } from "@vercel/speed-insights/react";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import ReactGA from "react-ga4";
+import App from "./App";
 import {
   GOOGLE_ANALYTICS_CODE,
-  SENTRY_DSN,
   SENTRY_CONFIG,
-} from './constants/constants';
+  SENTRY_DSN,
+} from "./constants/constants";
+import ErrorBoundary from "./ErrorBoundary";
+import "./index.scss";
+import reportWebVitals from "./reportWebVitals";
 
-// Initialize Google Analytics
 ReactGA.initialize(GOOGLE_ANALYTICS_CODE);
 ReactGA.send({ hitType: "pageview", page: window.location.pathname });
 
 Sentry.init({
   dsn: SENTRY_DSN,
-  ...SENTRY_CONFIG
-})
+  ...SENTRY_CONFIG,
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -28,10 +27,10 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ErrorBoundary>
-    <App />
+      <App />
+      <SpeedInsights />
     </ErrorBoundary>
   </React.StrictMode>
-  
 );
 
 // If you want to start measuring performance in your app, pass a function

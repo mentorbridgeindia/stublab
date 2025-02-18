@@ -1,110 +1,151 @@
-import { IOrganizationMutation } from "@/entities/Organization/Organization.types";
-import { useCreateOrganization } from "@/entities/Organization/useCreateOrganization";
-import { FormActionButtons } from "@/ui/molecules/FormActionButtons";
-import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useState } from "react";
+import { IOrganizationMutation } from "@entities/Organization/Organization.types";
+import { useCreateOrganization } from "@entities/Organization/useCreateOrganization";
+import { ReactComponent as IconCrossCircle } from "@icons/icon-cross.svg";
+import { FormActionButtons } from "@molecules/FormActionButtons";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+
+import { FormLabel } from "@atoms/FormLabel";
+import { useGetInit } from "@entities/Organization/useGetOrganization";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useEffect, useState } from "react";
+import { Form, InputGroup } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import { orgSchema } from "./orgSchema";
 
 const CreateOrganization = () => {
-  const [organizationData, setOrganizationData] = useState({
-    organization: "",
-    website: "",
+  const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IOrganizationMutation>({
+    resolver: yupResolver(orgSchema),
   });
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setOrganizationData({ ...organizationData, [name]: value });
-  };
-
-  const handleCancel = () => {
-    toast.info("Form cancelled.");
-    setOrganizationData({ organization: "", website: "" });
-  };
-
-  const validateWebsite = (url: string) => {
-    const websiteRegex =
-      /^(https?:\/\/)([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d{1,5})?(\/.*)?$/;
-    return websiteRegex.test(url);
-  };
-
-  const isFormValid = () => {
-    return (
-      organizationData.organization.trim().length > 0 &&
-      organizationData.website.trim().length > 0 &&
-      validateWebsite(organizationData.website)
-    );
-  };
+  const data = useGetInit();
 
   const { mutate: createOrganization } = useCreateOrganization({
-    onSuccess: (res: { status: number }) => {
-      if (res.status === 201) {
-        toast.success("Model data submitted successfully!");
-        setOrganizationData({ organization: "", website: "" });
-      } else {
-        toast.error("Something went wrong. Please try again.");
-      }
+    onSuccess: () => {
+      toast.success("Organization created successfully!");
+      navigate("/home");
     },
-    onError: () => {
-      toast.error("Something went wrong. Please try again.");
+    onError: (error: Error) => {
+      console.log("error ", error);
+      // @ts-ignore
+      if (error.status === 403) {
+        setError("Sub Domain is not available");
+      }
     },
   });
 
-  const handleSubmit = async () => {
-    if (!isFormValid()) {
-      toast.error("Invalid URL! Please enter a valid website URL.");
-      return;
+  useEffect(() => {
+    if (data) {
+      navigate("/home");
     }
-    const jsonData: IOrganizationMutation = {
-      name: organizationData.organization,
-      website: organizationData.website,
-    };
-    createOrganization(jsonData);
+  }, [data, navigate]);
+
+  const onSubmit = (data: IOrganizationMutation) => {
+    createOrganization(data);
   };
 
   return (
-    <div className="mt-3 d-flex justify-content-center align-items-center">
-      <div className="card shadow-sm" style={{ width: "28rem" }}>
+    <div className="mt-5 py-5 d-flex justify-content-center align-items-center">
+      <div className="card shadow-sm" style={{ width: "40%" }}>
         <div className="card-body">
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label htmlFor="organization" className="form-label">
+          <h2 className="mb-5 text-center">Create Organization</h2>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="mb-5">
+              <FormLabel htmlFor="name" className="form-label">
                 Organization Name
-              </label>
-              <input
-                type="text"
-                id="organization"
-                name="organization"
-                value={organizationData.organization}
-                onChange={handleChange}
-                className="form-control"
-                placeholder="Enter organization name"
-                required
+              </FormLabel>
+              <Controller
+                name="name"
+                control={control}
+                render={({ field }) => (
+                  <input
+                    type="text"
+                    id="name"
+                    {...field}
+                    className={`form-control ${
+                      errors.name ? "is-invalid" : ""
+                    }`}
+                    placeholder="Enter Organization Name"
+                  />
+                )}
               />
+              {errors.name && (
+                <div className="invalid-feedback">{errors.name.message}</div>
+              )}
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="website" className="form-label">
+            <div className="mb-5">
+              <FormLabel htmlFor="name" className="form-label">
+                Sub Domain
+              </FormLabel>
+              <InputGroup className="mb-3">
+                <Controller
+                  name="subDomain"
+                  control={control}
+                  render={({ field }) => (
+                    <Form.Control
+                      type="text"
+                      {...field}
+                      className={`form-control ${
+                        errors.subDomain ? "is-invalid" : ""
+                      }`}
+                    />
+                  )}
+                />
+                <InputGroup.Text className="text-small">
+                  .mock-api.stublab.in
+                </InputGroup.Text>
+              </InputGroup>
+              {errors.subDomain && (
+                <div className="invalid-feedback">
+                  {errors.subDomain.message}
+                </div>
+              )}
+              {error && (
+                <div
+                  className={`d-flex align-items-center gap-2 text-small text-danger fs-8`}
+                >
+                  <IconCrossCircle /> Sub Domain is not available
+                </div>
+              )}
+            </div>
+            <div className="mb-5">
+              <FormLabel htmlFor="website" className="form-label">
                 Website
-              </label>
-              <input
-                type="url"
-                id="website"
+              </FormLabel>
+              <Controller
                 name="website"
-                value={organizationData.website}
-                onChange={handleChange}
-                className="form-control"
-                placeholder="https://example.com"
-                required
+                control={control}
+                render={({ field }) => (
+                  <input
+                    type="url"
+                    id="website"
+                    {...field}
+                    className={`form-control ${
+                      errors.website ? "is-invalid" : ""
+                    }`}
+                    placeholder="https://example.com"
+                  />
+                )}
               />
+              {errors.website && (
+                <div className="invalid-feedback">{errors.website.message}</div>
+              )}
             </div>
 
             <FormActionButtons
               primaryLabel="Submit"
               secondaryLabel="Cancel"
-              onCancel={handleCancel}
-              onSubmit={handleSubmit}
-              isPrimaryDisabled={!isFormValid()}
+              onCancel={() => toast.info("Form cancelled.")}
+              onSubmit={handleSubmit(onSubmit)}
+              isPrimaryDisabled={!!Object.keys(errors).length}
               isPrimaryDelete={false}
             />
           </form>

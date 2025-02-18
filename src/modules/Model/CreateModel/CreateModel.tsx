@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 
+import { Loader } from "@atoms/Loader";
 import {
   IModelMutation,
   useCreateModel,
@@ -43,7 +44,7 @@ export const CreateModel = () => {
     if (model) {
       form.reset(model);
     }
-  }, [model]);
+  }, [model, form]);
 
   const handleError = (error: any) => {
     toast.error("Something went wrong. Please try again.");
@@ -96,6 +97,10 @@ export const CreateModel = () => {
     });
     navigate("/model");
   };
+
+  if (isLoading || isUpdating || isPending) {
+    return <Loader isLoading={isLoading || isUpdating || isPending} />;
+  }
 
   return isDesktop ? (
     <ModelFormDesktop

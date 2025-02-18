@@ -1,11 +1,11 @@
 import { IMutationParams, MutationResponse } from "@/api/types";
-import { ORANIZATION_ENDPOINT } from "@api/endpoints";
+import { ORGANIZATION_ENDPOINT } from "@api/endpoints";
 import { sendData } from "@api/Post/sendData";
 import { useMutation } from "@tanstack/react-query";
 import { IOrganizationMutation } from "./Organization.types";
 
 const createOrganization = async (data: IOrganizationMutation) => {
-  return await sendData<IOrganizationMutation>(ORANIZATION_ENDPOINT, data);
+  return await sendData<IOrganizationMutation>(ORGANIZATION_ENDPOINT, data);
 };
 
 export const useCreateOrganization = (params: IMutationParams = {}) =>

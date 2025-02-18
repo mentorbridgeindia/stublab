@@ -1,3 +1,4 @@
+import { Loader } from "@atoms/Loader";
 import { useDeleteModelById } from "@entities/Model";
 import { FormActionButtons } from "@molecules/FormActionButtons";
 import { Modal } from "react-bootstrap";
@@ -34,6 +35,7 @@ export const DeleteModel = ({
       </Modal.Header>
       <Modal.Body>
         <p>Are you sure you want to delete this model?</p>
+        {isPending && <Loader isLoading={isPending} />}
       </Modal.Body>
       <Modal.Footer>
         <FormActionButtons
