@@ -1,0 +1,73 @@
+.data-card {
+    padding: 15px;
+    border-radius: 16px;
+    text-align: center;
+    font-weight: bold;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    border: none !important;
+    &:hover {
+      transform: translateY(-10px) scale(1.05); 
+    }
+  
+    h5 {
+      margin: 10px 0;
+      font-size: 18px;
+    }
+  
+    h4 {
+      font-size: 22px;
+      margin: 10px 0;
+    }
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0.5;
+      z-index: 0; 
+    }
+  }
+  
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .icon {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .api-logo-icon {
+    width: 55px;
+    height: 55px;
+  }
+  
+  .api {
+    background-color: rgba(255, 0, 212, 0.1) !important;
+    color: rgba(255, 0, 212, 0.862) !important;
+  }
+  
+  .model {
+    background-color: #cbe6f7 !important;
+    color:  #28bff6 !important;
+  
+  }
+  
+  .application {
+    background-color: rgba(40, 167, 69, 0.1) !important;
+    color:  rgba(40, 167, 70, 0.892) !important;
+  }
+  
+  .response {
+    background-color: #fff5de !important;
+    color: #f4c415 !important;
+  }
