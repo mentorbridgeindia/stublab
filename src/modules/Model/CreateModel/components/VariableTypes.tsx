@@ -17,6 +17,7 @@ export const VariableTypes = ({ register, index, errors, form }: any) => {
         <option value="string">String</option>
         <option value="number">Number</option>
         <option value="boolean">Boolean</option>
+        <option value="array">Array</option>
         {modelsList?.map((model) => (
           <option value={model.id} key={model.id}>
             {model.modelName}
