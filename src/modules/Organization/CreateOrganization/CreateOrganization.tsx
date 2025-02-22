@@ -25,7 +25,7 @@ const CreateOrganization = () => {
     resolver: yupResolver(orgSchema),
   });
 
-  const data = useGetInit();
+  const { data } = useGetInit();
 
   const { mutate: createOrganization } = useCreateOrganization({
     onSuccess: () => {
