@@ -7,12 +7,12 @@ export const AuthSuccessPage = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   console.log(token);
-  const accessToken = sessionStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem("accessToken");
   if (!token && accessToken === null) {
     navigate("/auth/error");
   }
 
-  sessionStorage.setItem("accessToken", token ?? "");
+  localStorage.setItem("accessToken", token ?? "");
 
   const { data, isLoading } = useGetInit();
 
@@ -21,9 +21,9 @@ export const AuthSuccessPage = () => {
   }
 
   if (!data) {
-    navigate("/organization/create");
+    navigate("/organization/create")
   } else {
-    sessionStorage.setItem("clientId", data.id);
+    localStorage.setItem("clientId", data.id);
     navigate("/home");
   }
 
