@@ -13,8 +13,8 @@ const axiosInstance: AxiosInstance = axios.create({
 
 // Request Interceptor
 axiosInstance.interceptors.request.use((config) => {
-  const token = sessionStorage.getItem("accessToken");
-  const clientId = sessionStorage.getItem("clientId");
+  const token = localStorage.getItem("accessToken");
+  const clientId = localStorage.getItem("clientId");
 
   if (token) {
     console.log("token", token);

@@ -1,5 +1,6 @@
 import { Loader } from "@atoms/Loader";
 import { useGetInit } from "@entities/Organization/useGetOrganization";
+import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 export const AuthSuccessPage = () => {
@@ -7,24 +8,27 @@ export const AuthSuccessPage = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   console.log(token);
-  const accessToken = sessionStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem("accessToken");
+
+  const { data, isLoading } = useGetInit();
+
+  useEffect(() => {
+    if (!data?.id) {
+      navigate("/organization/create");
+    } else {
+      localStorage.setItem("clientId", data.id);
+      navigate("/home");
+    }
+  }, [data, navigate]);
+
   if (!token && accessToken === null) {
     navigate("/auth/error");
   }
 
-  sessionStorage.setItem("accessToken", token ?? "");
-
-  const { data, isLoading } = useGetInit();
+  localStorage.setItem("accessToken", token ?? "");
 
   if (isLoading) {
     return <Loader isLoading={isLoading} />;
-  }
-
-  if (!data) {
-    navigate("/organization/create");
-  } else {
-    sessionStorage.setItem("clientId", data.id);
-    navigate("/home");
   }
 
   return <div></div>;
