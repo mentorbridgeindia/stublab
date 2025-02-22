@@ -35,7 +35,7 @@ export const CreateApplication = ({
   });
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -60,16 +60,19 @@ export const CreateApplication = ({
       return false;
     }
   };
-
   const onSubmit = async () => {
+    setSubmitError(null);
     const isValid = await validateForm();
     if (isValid) {
-      handleSubmit(formData);
-      setFormData({ name: "", path: "", description: "" });
-      setErrors({});
-      handleClose();
+      try {
+        handleSubmit(formData); // Ensure this is awaited if it's async
+        setErrors({});
+      } catch (error) {
+        console.error("Submission failed:", error);
+      }
     }
   };
+
 
   return (
     <Modal show={show} onHide={handleClose} centered size="lg">

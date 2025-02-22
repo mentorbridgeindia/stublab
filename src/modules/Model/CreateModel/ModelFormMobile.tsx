@@ -37,7 +37,7 @@ export const ModelFormMobile: React.FC<ModelFormProps> = ({
               className="border rounded p-2 mb-3 bg-white shadow-sm"
             >
               <div className="d-flex justify-content-end p-2 pe-4">
-                <RemoveVariable remove={remove} index={index} />
+                {fields.length > 1 && <RemoveVariable remove={remove} index={index} />}
               </div>
               <Row className="align-items-center mb-4 mx-sm-5">
                 <Col sm={12} md={3} lg={2} className="mb-2">

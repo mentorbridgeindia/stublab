@@ -69,9 +69,8 @@ const CreateOrganization = () => {
                     type="text"
                     id="name"
                     {...field}
-                    className={`form-control ${
-                      errors.name ? "is-invalid" : ""
-                    }`}
+                    className={`form-control ${errors.name ? "is-invalid" : ""
+                      }`}
                     placeholder="Enter Organization Name"
                   />
                 )}
@@ -93,9 +92,9 @@ const CreateOrganization = () => {
                     <Form.Control
                       type="text"
                       {...field}
-                      className={`form-control ${
-                        errors.subDomain ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${errors.subDomain ? "is-invalid" : ""
+                        }`}
+                      onChange={(e) => field.onChange(e.target.value.toLowerCase())}
                     />
                   )}
                 />
@@ -128,9 +127,8 @@ const CreateOrganization = () => {
                     type="url"
                     id="website"
                     {...field}
-                    className={`form-control ${
-                      errors.website ? "is-invalid" : ""
-                    }`}
+                    className={`form-control ${errors.website ? "is-invalid" : ""
+                      }`}
                     placeholder="https://example.com"
                   />
                 )}
