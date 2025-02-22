@@ -54,7 +54,7 @@ export const ModelFormDesktop: React.FC<ModelFormProps> = ({
                         form?.getValues().variables?.[index]?.name || ""
                       }
                       isInvalid={!!errors?.variables?.[index]?.name}
-                      onChange={(e) => e.target.value=e.target.value.toLowerCase() }
+                      onChange={(e) => e.target.value=e.target.value?.toLowerCase() }
                     />
                     {errors?.variables?.[index]?.name && (
                       <p className="text-danger fs-6">

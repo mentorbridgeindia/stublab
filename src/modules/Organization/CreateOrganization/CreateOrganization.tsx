@@ -94,7 +94,7 @@ const CreateOrganization = () => {
                       {...field}
                       className={`form-control ${errors.subDomain ? "is-invalid" : ""
                         }`}
-                      onChange={(e) => field.onChange(e.target.value.toLowerCase())}
+                      onChange={(e) => field.onChange(e.target.value?.toLowerCase())}
                     />
                   )}
                 />

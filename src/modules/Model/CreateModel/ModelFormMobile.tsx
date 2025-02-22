@@ -52,6 +52,7 @@ export const ModelFormMobile: React.FC<ModelFormProps> = ({
                     placeholder="Ex: City"
                     defaultValue={form?.getValues().variables?.[index]?.name}
                     isInvalid={!!errors?.variables?.[index]?.name}
+                    onChange={(e) => e.target.value=e.target.value?.toLowerCase() }
                   />
                   {errors.variables?.[index]?.name && (
                     <p className="text-danger small">
