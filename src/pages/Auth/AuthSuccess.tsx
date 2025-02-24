@@ -13,13 +13,15 @@ export const AuthSuccessPage = () => {
   const { data, isLoading } = useGetInit();
 
   useEffect(() => {
-    if (!data?.id) {
+    if (!isLoading && !data?.id) {
       navigate("/organization/create");
-    } else {
+    } else if (data?.id) {
+      debugger;
       localStorage.setItem("clientId", data.id);
+      // 67b9936a9a3e9a782d63c27d
       navigate("/home");
     }
-  }, [data, navigate]);
+  }, [data, navigate, isLoading]);
 
   if (!token && accessToken === null) {
     navigate("/auth/error");
