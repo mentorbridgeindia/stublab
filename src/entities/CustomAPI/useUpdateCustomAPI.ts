@@ -5,7 +5,7 @@ import { updateData } from "../../api";
 import { ICustomAPIMutation } from "./CustomAPI.types";
 
 const updateCustomAPI = async (data: ICustomAPIMutation) => {
-  return await updateData<ICustomAPIMutation>(CUSTOM_APIS_ENDPOINT, data);
+  return await updateData<ICustomAPIMutation>(CUSTOM_APIS_ENDPOINT + "/" + data.id, data);
 };
 
 export const useUpdateCustomAPI = (params: IMutationParams = {}) =>
