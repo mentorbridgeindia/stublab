@@ -13,6 +13,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "./App.scss";
 import "./global.scss";
+import ApiConfigurationCard from "./pages/Application/ViewPage/ApiConfigurationCard";
+import { CreateCustomAPIForm } from "./modules/CustomAPI";
 
 const App: React.FC = () => {
   const queryClient = new QueryClient();
@@ -41,6 +43,8 @@ const App: React.FC = () => {
                 element={<ApplicationViewPage />}
               />
             </Routes>
+            <Route path="/api-configuration/create" element={<CreateCustomAPIForm />} />
+            <Route path="/api-configuration/edit/:id" element={<CreateCustomAPIForm />} />
           </BrowserRouter>
         </QueryClientProvider>
       </Container>
