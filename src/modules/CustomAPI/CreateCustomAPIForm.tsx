@@ -120,7 +120,7 @@ export const CreateCustomAPIForm = ({ onSubmit, onCancel,initialValues }: any) =
           primaryLabel="Submit"
           secondaryLabel="Cancel"
           onCancel={onCancel}
-          onSubmit={triggerSubmit}
+          onSubmit={handleSubmit(triggerSubmit)}
         />
       </Form>
     </Drawer>
