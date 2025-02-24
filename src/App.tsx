@@ -11,9 +11,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/esm/Container";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import {CreateCustomAPIForm } from "@modules/CustomAPI/CreateCustomAPIForm";
 import "./App.scss";
 import "./global.scss";
+import ApiConfigurationCard from "./pages/Application/ViewPage/ApiConfigurationCard";
+import { CreateCustomAPIForm } from "./modules/CustomAPI";
 
 const App: React.FC = () => {
   const queryClient = new QueryClient();
@@ -41,7 +42,6 @@ const App: React.FC = () => {
                 path="/application/:id"
                 element={<ApplicationViewPage />}
               />
-              <Route path="/edit-api/:id" element={<CreateCustomAPIForm />} />
             </Routes>
           </BrowserRouter>
         </QueryClientProvider>

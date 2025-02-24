@@ -54,12 +54,14 @@ export const ModelFormDesktop: React.FC<ModelFormProps> = ({
                         form?.getValues().variables?.[index]?.name || ""
                       }
                       isInvalid={!!errors?.variables?.[index]?.name}
+                      onChange={(e) => e.target.value=e.target.value?.toLowerCase() }
                     />
                     {errors?.variables?.[index]?.name && (
                       <p className="text-danger fs-6">
                         {errors?.variables?.[index]?.name?.message}
                       </p>
                     )}
+                    
                   </td>
                   <td>
                     <VariableTypes
@@ -99,7 +101,7 @@ export const ModelFormDesktop: React.FC<ModelFormProps> = ({
                     />
                   </td>
                   <td className="d-flex justify-content-center">
-                    <RemoveVariable remove={remove} index={index} />
+                    {fields.length > 1 && <RemoveVariable remove={remove} index={index} />}
                   </td>
                 </tr>
               ))}

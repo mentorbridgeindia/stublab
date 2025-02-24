@@ -5,6 +5,13 @@ import Navbar from "react-bootstrap/Navbar";
 import "./Header.css";
 
 export const Header = () => {
+
+  function getAccountUrl() {
+    const jwtToken = localStorage.getItem("accessToken");
+    const accountURL = `https://stublab.securosphere.in/profile?token=${jwtToken}`;
+    return accountURL;
+  }
+
   return (
     <Navbar fixed="top" expand="lg">
       <Container>

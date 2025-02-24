@@ -1,15 +1,12 @@
-import React, { useState } from "react";
-import { Form, Modal } from "react-bootstrap";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import * as Yup from "yup";
 import { FormLabel } from "@atoms/FormLabel/FormLabel";
 import { FormActionButtons } from "@molecules/FormActionButtons";
+import React, { useState } from "react";
+import { Form, Modal } from "react-bootstrap";
+import * as Yup from "yup";
 import {
   ApplicationFormData,
   ICreateApplication,
 } from "./CreateApplication.types";
-import { useCreateApplication } from "@/entities/Application/useCreateApplication";
 
 const validationSchema = Yup.object({
   name: Yup.string()
@@ -29,22 +26,8 @@ const validationSchema = Yup.object({
 export const CreateApplication = ({
   show,
   handleClose,
+  handleSubmit,
 }: ICreateApplication) => {
-  const navigate = useNavigate();
-
-  const createApplicationMutation = useCreateApplication({
-    onSuccess: () => {
-      toast.success("Application submitted successfully!");
-      setFormData({ name: "", path: "", description: "" });
-      setErrors({});
-      handleClose();
-      navigate("/application");
-    },
-    onError: () => {
-      toast.error("Failed to submit application. Please check the server.");
-    },
-  });
-
   const [formData, setFormData] = useState<ApplicationFormData>({
     name: "",
     path: "",
@@ -52,7 +35,7 @@ export const CreateApplication = ({
   });
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -77,13 +60,19 @@ export const CreateApplication = ({
       return false;
     }
   };
-
   const onSubmit = async () => {
+    setSubmitError(null);
     const isValid = await validateForm();
     if (isValid) {
-      createApplicationMutation.mutate(formData); // ✅ Use TanStack Query mutation
+      try {
+        handleSubmit(formData); // Ensure this is awaited if it's async
+        setErrors({});
+      } catch (error) {
+        console.error("Submission failed:", error);
+      }
     }
   };
+
 
   return (
     <Modal show={show} onHide={handleClose} centered size="lg">
@@ -119,7 +108,6 @@ export const CreateApplication = ({
               {errors.path}
             </Form.Control.Feedback>
           </div>
-
           <div className="mb-3">
             <FormLabel className="mb-1">Description</FormLabel>
             <Form.Control
@@ -145,7 +133,6 @@ export const CreateApplication = ({
           onCancel={handleClose}
           onSubmit={onSubmit}
           isPrimaryDisabled={
-            createApplicationMutation.status === "pending" || 
             !formData.name.trim() ||
             !formData.path.trim() ||
             !formData.description.trim()

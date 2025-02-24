@@ -14,5 +14,5 @@ export const orgSchema = yup.object().shape({
     .string()
     .required("Sub Domain is required")
     .max(10, "Sub Domain must be less than 10 characters")
-    .matches(/^[a-zA-Z0-9]+$/, "Sub Domain is invalid"),
+    .matches(/^[a-z0-9-]+$/, "Only lowercase letters, numbers, and hyphens allowed"),
 });

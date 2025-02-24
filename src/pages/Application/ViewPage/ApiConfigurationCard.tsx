@@ -53,7 +53,7 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api }) => {
   };
 
   const handleCloseEditForm = () => {
-    setShowEditForm(false); // Close the form when canceled
+    setShowEditForm(false); 
   };
 
   const handleDelete = (id: string): void => {

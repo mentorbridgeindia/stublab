@@ -13,8 +13,8 @@ const axiosInstance: AxiosInstance = axios.create({
 
 // Request Interceptor
 axiosInstance.interceptors.request.use((config) => {
-  const token = sessionStorage.getItem("accessToken");
-  const clientId = sessionStorage.getItem("clientId");
+  const token = localStorage.getItem("accessToken");
+  const clientId = localStorage.getItem("clientId");
 
   if (token) {
     console.log("token", token);
@@ -38,9 +38,9 @@ axiosInstance.interceptors.response.use(
       error.response.status === 401 &&
       error.response.data.error === "JWT_EXPIRED"
     ) {
-      // sessionStorage.removeItem("accessToken");
-      // sessionStorage.removeItem("clientId");
-      // window.location.href = "https://stublab.securosphere.in/login";
+      sessionStorage.removeItem("accessToken");
+      sessionStorage.removeItem("clientId");
+      window.location.href = "https://stublab.securosphere.in/login";
     }
     return Promise.reject(error);
   }
