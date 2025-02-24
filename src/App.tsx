@@ -43,8 +43,6 @@ const App: React.FC = () => {
                 element={<ApplicationViewPage />}
               />
             </Routes>
-            <Route path="/api-configuration/create" element={<CreateCustomAPIForm />} />
-            <Route path="/api-configuration/edit/:id" element={<CreateCustomAPIForm />} />
           </BrowserRouter>
         </QueryClientProvider>
       </Container>
