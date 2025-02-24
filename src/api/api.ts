@@ -38,9 +38,9 @@ axiosInstance.interceptors.response.use(
       error.response.status === 401 &&
       error.response.data.error === "JWT_EXPIRED"
     ) {
-      // sessionStorage.removeItem("accessToken");
-      // sessionStorage.removeItem("clientId");
-      // window.location.href = "https://stublab.securosphere.in/login";
+      sessionStorage.removeItem("accessToken");
+      sessionStorage.removeItem("clientId");
+      window.location.href = "https://stublab.securosphere.in/login";
     }
     return Promise.reject(error);
   }
