@@ -10,7 +10,7 @@ import { dropdownData } from "./dropdownData";
 import { ResponseStatuses } from "./ReponseStatuses";
 import { schema } from "./schema";
 
-export const CreateCustomAPIForm = ({ onSubmit, onCancel,initialValues }: any) => {
+export const CreateCustomAPIForm = ({ onSubmit, onCancel, initialValues }: any) => {
   const {
     register,
     setValue,
@@ -38,16 +38,16 @@ export const CreateCustomAPIForm = ({ onSubmit, onCancel,initialValues }: any) =
     isSubmitted && trigger(field);
   };
 
-  const triggerSubmit = async() => {
-    const isValid=await trigger();
+  const triggerSubmit = async () => {
+    const isValid = await trigger();
     if (!!isValid && values.responseStatusCodes?.length > 0) {
       onSubmit(values);
     }
   };
 
   return (
-    <Drawer show={true} onHide={onCancel} title={initialValues? "Edit API": "Create Custom API"}>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+    <Drawer show={true} onHide={onCancel} title={initialValues ? "Edit API" : "Create Custom API"}>
+      <Form>
         <div className="mb-3">
           <FormLabel>Name</FormLabel>
           <Form.Control
@@ -60,7 +60,7 @@ export const CreateCustomAPIForm = ({ onSubmit, onCancel,initialValues }: any) =
               triggerValidation("name");
             }}
           />
-          {errors.name && (<Form.Text className="text-danger">{errors.name.message}</Form.Text>) }
+          {errors.name && (<Form.Text className="text-danger">{errors.name.message}</Form.Text>)}
         </div>
         <Row className="mb-3">
           <Col sm={12} md={4} lg={2}>
@@ -70,8 +70,8 @@ export const CreateCustomAPIForm = ({ onSubmit, onCancel,initialValues }: any) =
               variant={renderVariant()}
               id="method-dropdown"
               className="fw-bold"
-              onSelect={(selectedValue) =>{
-                setValue("method", (selectedValue as MethodTypes) );
+              onSelect={(selectedValue) => {
+                setValue("method", (selectedValue as MethodTypes));
                 trigger("method");
               }}
             >
@@ -86,7 +86,7 @@ export const CreateCustomAPIForm = ({ onSubmit, onCancel,initialValues }: any) =
               {...register("method", {
                 required: "Method is required",
                 validate: (value) =>
-                  ["GET", "POST", "PUT", "DELETE"].includes(value) || "Invalid method", 
+                  ["GET", "POST", "PUT", "DELETE"].includes(value) || "Invalid method",
               })}
             />
             {errors.method && <small className="text-danger">{errors.method.message}</small>}
