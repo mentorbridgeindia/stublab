@@ -39,7 +39,7 @@ export const ApplicationIndexPage = () => {
         </Button>
       </div>
 
-      {applications && applications.length > 0 && !isLoading ? (
+      {!!applications && applications?.length > 0 && !isLoading ? (
         <div className="mt-3">
           <Card>
             <Card.Body>

@@ -11,10 +11,11 @@ const deleteApplicationById = async (id: string) => {
   return await deleteData<IApplicationEntity>(`${APPLICATIONS_ENDPOINT}/${id}`);
 };
 
-export const useDeleteApplicationById = (id: string, queryConfig: IQueryConfig) =>
+
+export const useDeleteApplicationById = (id: string, enabled = false) =>
   useQuery<IApplicationEntity>({
     queryKey: [ENTITY_TYPE],
     queryFn: () => deleteApplicationById(id),
     staleTime: STALE_TIME_FOR_NOT_URGENT_UPDATES,
-    ...queryConfig,
+    enabled,
   });
