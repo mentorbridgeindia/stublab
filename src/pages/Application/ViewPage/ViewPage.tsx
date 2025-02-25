@@ -207,7 +207,7 @@ export const ApplicationViewPage: React.FC = () => {
                   </Row>
                   <div>
                     {applicationDetails?.mockApiList?.map((api) => (
-                      <ApiConfigurationCard key={api.method} api={api} />
+                      <ApiConfigurationCard key={api.method} api={api} handleSubmit={handleSubmit}/>
                     ))}
                   </div>
                 </div>

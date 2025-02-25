@@ -10,16 +10,17 @@ import { toast } from "react-toastify";
 
 interface ApiConfigurationCardProps {
   api: ICustomAPIEntity;
+  handleSubmit: (data: any) => void;
 }
 
-const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api }) => {
+const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api, handleSubmit }) => {
   const { method, url, defaultStatusCode, id } = api;
 
   const [statusCode, setStatusCode] = useState<number>(
     defaultStatusCode ?? 200
   );
-  const [showEditForm,setShowEditForm]=useState<boolean>(false);
-  const [editApiData,setEditApiData]=useState<ICustomAPIEntity | null>(null);
+  const [showEditForm, setShowEditForm] = useState<boolean>(false);
+  const [editApiData, setEditApiData] = useState<ICustomAPIEntity | null>(null);
 
   const variant = (() => {
     const methodVariants: Record<string, string> = {
@@ -53,7 +54,7 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api }) => {
   };
 
   const handleCloseEditForm = () => {
-    setShowEditForm(false); 
+    setShowEditForm(false);
   };
 
   const handleDelete = (id: string): void => {
@@ -67,15 +68,15 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api }) => {
             console.log(`${id.toUpperCase()} Deleted Successfully`);
             toast.success(`${id.toUpperCase()} deleted successfully!`);
           },
-          style:{backgroundColor:"green",color:"white",border:"none"}
+          style: { backgroundColor: "green", color: "white", border: "none" }
         },
         {
           label: "No",
           onClick: () => {
             console.log(`${id.toUpperCase()} Deletion Canceled`);
-           
+
           },
-          style:{backgroundColor:"red",color:"white",border:"none"}
+          style: { backgroundColor: "red", color: "white", border: "none" }
         },
       ],
       closeOnEscape: true,
@@ -184,7 +185,7 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api }) => {
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
-      {showEditForm && editApiData && <CreateCustomAPIForm onCancel={handleCloseEditForm} initialValues={editApiData}  />}
+      {showEditForm && editApiData && <CreateCustomAPIForm onSubmit={handleSubmit} onCancel={handleCloseEditForm} initialValues={editApiData} />}
     </div>
   );
 };
