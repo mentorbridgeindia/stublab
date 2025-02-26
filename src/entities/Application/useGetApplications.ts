@@ -11,10 +11,8 @@ const getApplications = async () => {
   return await fetchData<IApplicationEntity[]>(APPLICATIONS_ENDPOINT);
 };
 
-export const useGetApplications = ({ queryConfig }: IQueryConfig = {}) =>
+export const useGetApplications = () =>
   useQuery<IApplicationEntity[]>({
     queryKey: [ENTITY_TYPE],
-    queryFn: getApplications,
-    staleTime: STALE_TIME_FOR_NOT_URGENT_UPDATES,
-    ...queryConfig,
+    queryFn: getApplications
   });

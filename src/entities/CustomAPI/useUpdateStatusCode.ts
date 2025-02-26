@@ -1,12 +1,12 @@
 import { CUSTOM_APIS_ENDPOINT, IMutationParams, MutationResponse, updateData } from '@/api'
 import { useMutation } from '@tanstack/react-query'
-import { ICustomAPIMutation } from './CustomAPI.types'
+import { IChangeDefaultStatusCode } from './CustomAPI.types'
 
-const updateStatusCode = async (data: ICustomAPIMutation) => {
-    return await updateData<ICustomAPIMutation>(CUSTOM_APIS_ENDPOINT + "/" + data.id, data);
+const updateStatusCode = async (data: IChangeDefaultStatusCode) => {
+    return await updateData<IChangeDefaultStatusCode>(CUSTOM_APIS_ENDPOINT + "/" + data.id + "/updateStatusCode", data);
 }
-export const useUpdateStatusCode = (params: IMutationParams = {}) => 
-    useMutation<MutationResponse, Error, ICustomAPIMutation>({
+export const useUpdateStatusCode = (params: IMutationParams = {}) =>
+    useMutation<MutationResponse, Error, IChangeDefaultStatusCode>({
         mutationFn: updateStatusCode,
         ...params,
-})
+    })
