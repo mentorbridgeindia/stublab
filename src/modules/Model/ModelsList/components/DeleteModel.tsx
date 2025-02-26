@@ -3,6 +3,8 @@ import { useDeleteModelById } from "@entities/Model";
 import { FormActionButtons } from "@molecules/FormActionButtons";
 import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const DeleteModel = ({
   id,
@@ -13,20 +15,24 @@ export const DeleteModel = ({
   show: boolean;
   onHide: () => void;
 }) => {
-  const handleError = (error: any) => {
-    console.log(error);
-  };
+  const navigate = useNavigate();
 
-  const { mutate: deleteModel, isPending } = useDeleteModelById(id, {
-    onSuccess: (res) => {
-      if (res.status === 201) {
-        toast.success("Model data deleted successfully!");
-      } else {
-        toast.error("Something went wrong. Please try again.");
-      }
+  const { mutate: deleteModel, isPending, isSuccess } = useDeleteModelById(id, {
+    onSuccess: () => {
+      toast.success("Model data deleted successfully!");
+      onHide(); 
+      navigate("/models"); 
     },
-    onError: (error) => handleError(error),
+    onError: () => {
+      toast.error("Something went wrong. Please try again.");
+    },
   });
+
+  useEffect(() => {
+    if (isSuccess) {
+      onHide();
+    }
+  }, [isSuccess, onHide]);
 
   return (
     <Modal show={show} onHide={onHide}>
@@ -40,7 +46,7 @@ export const DeleteModel = ({
       <Modal.Footer>
         <FormActionButtons
           onCancel={onHide}
-          onSubmit={() => deleteModel(id)}
+          onSubmit={() => deleteModel(id)} 
           primaryLabel="Delete"
           secondaryLabel="Cancel"
           isPrimaryDelete
