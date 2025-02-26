@@ -7,6 +7,7 @@ import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 interface ApiConfigurationCardProps {
   api: ICustomAPIEntity;
@@ -21,7 +22,6 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api, handle
   );
   const [showEditForm, setShowEditForm] = useState<boolean>(false);
   const [editApiData, setEditApiData] = useState<ICustomAPIEntity | null>(null);
-
   const variant = (() => {
     const methodVariants: Record<string, string> = {
       POST: "info",
@@ -86,6 +86,15 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api, handle
   };
 
   return (
+    <GoogleReCaptchaProvider
+    reCaptchaKey="6LdnMeMqAAAAALAIZOV0ksjT-lIUQf4-ywfNVGGe"
+    scriptProps={{
+      async: true,
+      defer: true,
+      appendTo: 'head',
+    }}
+  >
+
     <div className="mt-4 api-card-accordion">
       <Accordion defaultActiveKey="1">
         <Accordion.Item
@@ -187,6 +196,7 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api, handle
       </Accordion>
       {showEditForm && editApiData && <CreateCustomAPIForm onSubmit={handleSubmit} onCancel={handleCloseEditForm} initialValues={editApiData} />}
     </div>
+    </GoogleReCaptchaProvider>
   );
 };
 
