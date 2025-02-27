@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const DeleteModel = ({
   id,
@@ -16,9 +17,13 @@ export const DeleteModel = ({
 }) => {
   const navigate = useNavigate();
 
+  const queryClient = useQueryClient();
+  
+
   const { mutate: deleteModel, isPending, isSuccess } = useDeleteModelById(id, {
     onSuccess: () => {
       toast.success("Model deleted successfully!");
+      queryClient.invalidateQueries({queryKey:["model"]})
       onHide();
       navigate("/model");
     },
