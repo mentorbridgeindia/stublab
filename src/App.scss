@@ -40,3 +40,23 @@
     transform: rotate(360deg);
   }
 }
+
+.title {
+  // background: -webkit-linear-gradient(#ccc, #00b140);
+  color: #006600;
+  background-image: linear-gradient(
+    45deg,
+    #006600 40%,
+    #008000 43%,
+    #339933 15%,
+    #66cc66 86%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+}
+
+.vh-90 {
+  height: 90vh;
+}

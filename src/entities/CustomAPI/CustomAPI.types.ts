@@ -24,6 +24,11 @@ export interface ICustomAPIMutation {
   url: string;
 }
 
+export interface IChangeDefaultStatusCode {
+  id: string;
+  defaultStatusCode: number;
+}
+
 export interface IGetCustomAPIsResult {
   data: ICustomAPIEntity[];
 }

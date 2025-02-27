@@ -1,4 +1,4 @@
-import { useGetApplicationById } from "@entities/Application";
+import { useDeleteApplicationById, useGetApplicationById } from "@entities/Application";
 import { ICustomAPIMutation } from "@entities/CustomAPI/CustomAPI.types";
 import { useCreateCustomAPI } from "@entities/CustomAPI/useCreateCustomAPI";
 import { useUpdateCustomAPI } from "@entities/CustomAPI/useUpdateCustomAPI";
@@ -8,7 +8,7 @@ import { ReactComponent as TrashIcon } from "@icons/icon-trash.svg";
 import { CreateCustomAPIForm } from "@modules/CustomAPI/CreateCustomAPIForm";
 import { ICreateCustomAPIForm } from "@modules/CustomAPI/CreateCustomAPIForm.types";
 import { useQueryClient } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Row, Tab, Tabs } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -25,6 +25,7 @@ export const ApplicationViewPage: React.FC = () => {
   const isDesktop = useIsDesktop();
   const [createAPI, setCreateAPI] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string>("swagger");
+  const [idToDelete, setIdtoDelete] = useState<null>(null);
 
   const { id } = useParams();
   const { data: applicationDetails } = useGetApplicationById(id ?? "", {
@@ -51,6 +52,17 @@ export const ApplicationViewPage: React.FC = () => {
       toast.error("Error updating API");
     },
   });
+
+  console.log("verify", idToDelete !== null);
+
+  const { data: isDeleted, isLoading } = useDeleteApplicationById(id ?? "", idToDelete !== null);
+
+  useEffect(() => {
+    if (isDeleted && !isLoading && idToDelete !== null) {
+      toast.success(`${id?.toUpperCase()} deleted successfully!`);
+      navigate("/application");
+    }
+  }, [isDeleted, isLoading])
 
   const invalidateQuery = () => {
     queryClient.invalidateQueries({
@@ -87,7 +99,7 @@ export const ApplicationViewPage: React.FC = () => {
           label: "Yes",
           onClick: () => {
             console.log(`${id.toUpperCase()} Deleted Successfully`);
-            toast.success(`${id.toUpperCase()} deleted successfully!`);
+            setIdtoDelete(id);
           },
           style: { backgroundColor: "green", color: "white", border: "none" },
         },
@@ -103,7 +115,7 @@ export const ApplicationViewPage: React.FC = () => {
       closeOnClickOutside: true,
     });
   };
-  
+
   return (
     <div className="d-flex flex-column gap-3 pt-2 px-lg-5">
       <div
@@ -207,7 +219,7 @@ export const ApplicationViewPage: React.FC = () => {
                   </Row>
                   <div>
                     {applicationDetails?.mockApiList?.map((api) => (
-                      <ApiConfigurationCard key={api.method} api={api} handleSubmit={handleSubmit}/>
+                      <ApiConfigurationCard key={api.method} api={api} handleSubmit={handleSubmit} />
                     ))}
                   </div>
                 </div>
