@@ -20,7 +20,7 @@ export const ApplicationIndexPage = () => {
 
   const { data: applications, isLoading, isPending } = useGetApplications();
 
-  const { mutate: createApplication } = useCreateApplication({
+  const { mutate: createApplication, isPending: isCreating } = useCreateApplication({
     onSuccess: () => {
       toast.success("Application created successfully");
       queryClient.invalidateQueries({ queryKey: ["application"] });
@@ -33,7 +33,7 @@ export const ApplicationIndexPage = () => {
 
   return (
     <div className="mb-5">
-      {(isLoading || isPending) ? (
+      {(isLoading || isPending || isCreating) ? (
         <Loader isLoading={true} />
       ) : (
         <>
@@ -80,9 +80,9 @@ export const ApplicationIndexPage = () => {
             show={show}
             handleClose={handleClose}
             handleSubmit={createApplication}
-            isLoading={isLoading}
+            isLoading={isLoading || isCreating}
             isPending={isPending}
-            isUpdating={isLoading}
+            isUpdating={isLoading || isCreating}
           />
         </>
       )}

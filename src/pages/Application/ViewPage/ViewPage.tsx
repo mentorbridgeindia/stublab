@@ -18,6 +18,7 @@ import ApiConfigurationCard from "./ApiConfigurationCard";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import "./ViewPage.scss";
+import { Loader } from "@/ui/atoms/Loader";
 
 export const ApplicationViewPage: React.FC = () => {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ export const ApplicationViewPage: React.FC = () => {
   const [createAPI, setCreateAPI] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string>("swagger");
   const [idToDelete, setIdtoDelete] = useState<null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { id } = useParams();
   const { data: applicationDetails } = useGetApplicationById(id ?? "", {
@@ -37,9 +39,11 @@ export const ApplicationViewPage: React.FC = () => {
       toast.success("API created successfully");
       invalidateQuery();
       setCreateAPI(false);
+      setLoading(false);
     },
     onError: () => {
       toast.error("Error creating API");
+      setLoading(false);
     },
   });
 
@@ -55,14 +59,14 @@ export const ApplicationViewPage: React.FC = () => {
 
   console.log("verify", idToDelete !== null);
 
-  const { data: isDeleted, isLoading } = useDeleteApplicationById(id ?? "", idToDelete !== null);
+  const { data: isDeleted, isLoading: isDeleting } = useDeleteApplicationById(id ?? "", idToDelete !== null);
 
   useEffect(() => {
-    if (isDeleted && !isLoading && idToDelete !== null) {
+    if (isDeleted && !isDeleting && idToDelete !== null) {
       toast.success(`${id?.toUpperCase()} deleted successfully!`);
       navigate("/application");
     }
-  }, [isDeleted, isLoading])
+  }, [isDeleted, isDeleting])
 
   const invalidateQuery = () => {
     queryClient.invalidateQueries({
@@ -115,6 +119,10 @@ export const ApplicationViewPage: React.FC = () => {
       closeOnClickOutside: true,
     });
   };
+
+  if (loading || isDeleting) {
+    return <Loader isLoading={false} />;
+  }
 
   return (
     <div className="d-flex flex-column gap-3 pt-2 px-lg-5">
