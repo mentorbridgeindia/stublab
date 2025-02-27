@@ -8,6 +8,7 @@ import { useState } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { assignType } from "./helpers";
+import { Loader } from "@/ui/atoms/Loader";
 
 export const ApplicationIndexPage = () => {
   const queryClient = useQueryClient();
@@ -17,7 +18,7 @@ export const ApplicationIndexPage = () => {
     setShow(false);
   };
 
-  const { data: applications, isLoading } = useGetApplications();
+  const { data: applications, isLoading, isPending } = useGetApplications();
 
   const { mutate: createApplication } = useCreateApplication({
     onSuccess: () => {
@@ -32,50 +33,59 @@ export const ApplicationIndexPage = () => {
 
   return (
     <div className="mb-5">
-      <div className="d-flex justify-content-end">
-        <Button onClick={() => setShow(true)}>
-          <IconPlus />
-          Create Application
-        </Button>
-      </div>
-
-      {applications && applications.length > 0 && !isLoading ? (
-        <div className="mt-3">
-          <Card>
-            <Card.Body>
-              <Row>
-                {applications?.map((application) => (
-                  <Col
-                    sm={12}
-                    md={6}
-                    lg={3}
-                    className="mb-3 center"
-                    key={application.id}
-                  >
-                    <FolderCard
-                      type={assignType(application.apiCount ?? 0)}
-                      label={application.name}
-                      count={application.apiCount ?? 0}
-                      subLabel={application.path}
-                      link={`/application/${application.id}`}
-                    />
-                  </Col>
-                ))}
-              </Row>
-            </Card.Body>
-          </Card>
-        </div>
+      {(isLoading || isPending) ? (
+        <Loader isLoading={true} />
       ) : (
-        <div className="mt-3">
-          <p>No applications found</p>
-        </div>
+        <>
+          <div className="d-flex justify-content-end">
+            <Button onClick={() => setShow(true)}>
+              <IconPlus />
+              Create Application
+            </Button>
+          </div>
+  
+          {applications && applications.length > 0 ? (
+            <div className="mt-3">
+              <Card>
+                <Card.Body>
+                  <Row>
+                    {applications?.map((application) => (
+                      <Col
+                        sm={12}
+                        md={6}
+                        lg={3}
+                        className="mb-3 center"
+                        key={application.id}
+                      >
+                        <FolderCard
+                          type={assignType(application.apiCount ?? 0)}
+                          label={application.name}
+                          count={application.apiCount ?? 0}
+                          subLabel={application.path}
+                          link={`/application/${application.id}`}
+                        />
+                      </Col>
+                    ))}
+                  </Row>
+                </Card.Body>
+              </Card>
+            </div>
+          ) : (
+            <div className="mt-3">
+              <p>No applications found</p>
+            </div>
+          )}
+  
+          <CreateApplication
+            show={show}
+            handleClose={handleClose}
+            handleSubmit={createApplication}
+            isLoading={isLoading}
+            isPending={isPending}
+            isUpdating={isLoading}
+          />
+        </>
       )}
-
-      <CreateApplication
-        show={show}
-        handleClose={handleClose}
-        handleSubmit={createApplication}
-      />
     </div>
   );
-};
+}

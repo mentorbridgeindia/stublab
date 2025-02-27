@@ -13,6 +13,7 @@ import { Form, InputGroup } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { orgSchema } from "./orgSchema";
+import { Loader } from "@atoms/Loader";
 
 const CreateOrganization = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const CreateOrganization = () => {
 
   const { data } = useGetInit();
 
-  const { mutate: createOrganization } = useCreateOrganization({
+  const { mutate: createOrganization, isPending, isError } = useCreateOrganization({
     onSuccess: () => {
       toast.success("Organization created successfully!");
       navigate("/home");
@@ -50,6 +51,10 @@ const CreateOrganization = () => {
   const onSubmit = (data: IOrganizationMutation) => {
     createOrganization(data);
   };
+
+  if (isPending) {
+    return <Loader isLoading={isPending} />;
+  }
 
   return (
     <div className="mt-5 py-5 d-flex justify-content-center align-items-center">

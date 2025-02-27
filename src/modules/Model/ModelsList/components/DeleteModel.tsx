@@ -28,6 +28,10 @@ export const DeleteModel = ({
     onError: (error) => handleError(error),
   });
 
+  if (isPending) {
+    return <Loader isLoading={isPending} />;
+  }
+
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>

@@ -7,6 +7,7 @@ import {
   ApplicationFormData,
   ICreateApplication,
 } from "./CreateApplication.types";
+import { Loader } from "@/ui/atoms/Loader";
 
 const validationSchema = Yup.object({
   name: Yup.string()
@@ -27,7 +28,10 @@ export const CreateApplication = ({
   show,
   handleClose,
   handleSubmit,
-}: ICreateApplication) => {
+  isLoading,
+  isUpdating,
+  isPending,
+}: ICreateApplication & { isLoading: boolean; isUpdating: boolean; isPending: boolean }) => {
   const [formData, setFormData] = useState<ApplicationFormData>({
     name: "",
     path: "",
@@ -36,6 +40,8 @@ export const CreateApplication = ({
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -60,19 +66,26 @@ export const CreateApplication = ({
       return false;
     }
   };
+
   const onSubmit = async () => {
     setSubmitError(null);
     const isValid = await validateForm();
     if (isValid) {
+      setLoading(true);
       try {
-        handleSubmit(formData); // Ensure this is awaited if it's async
+        await handleSubmit(formData); // Ensure this is awaited if it's async
         setErrors({});
       } catch (error) {
         console.error("Submission failed:", error);
+      } finally {
+        setLoading(false);
       }
     }
   };
 
+  if (loading || isLoading || isUpdating || isPending) {
+    return <Loader isLoading={loading || isLoading || isUpdating || isPending} />;
+  }
 
   return (
     <Modal show={show} onHide={handleClose} centered size="lg">

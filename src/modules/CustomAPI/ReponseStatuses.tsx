@@ -59,8 +59,7 @@ export const ResponseStatuses = ({
   console.log(errors.responseStatusCodes);
 
   useEffect(() => {
-    setResponses("responseStatusCodes", [emptyResponse]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setResponses("responseStatusCodes", responses ?? [emptyResponse]);
   }, []);
 
   return (
@@ -300,58 +299,58 @@ export const ResponseStatuses = ({
               {["string", "boolean", "number"].includes(
                 response.responseBodyType
               ) && (
-                <>
-                  <Col sm={12} md={6} className="mb-3">
-                    <Form.Group>
-                      <Form.Label>Response</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Sample response"
-                        value={response.primitiveResponse}
-                        isInvalid={
-                          !!errors.responseStatusCodes?.[index]
-                            ?.primitiveResponse
-                        }
-                        onChange={(e) => {
-                          handleFieldChange(
-                            response.id,
-                            "primitiveResponse",
-                            e.target.value
-                          );
-                          trigger("responseStatusCodes");
-                        }}
-                      />
-                      {errors.responseStatusCodes?.[index]
-                        ?.primitiveResponse && (
-                        <Form.Text className="text-danger">
-                          {
-                            errors.responseStatusCodes?.[index]
-                              ?.primitiveResponse?.message
+                  <>
+                    <Col sm={12} md={6} className="mb-3">
+                      <Form.Group>
+                        <Form.Label>Response</Form.Label>
+                        <Form.Control
+                          type="text"
+                          placeholder="Sample response"
+                          value={response.primitiveResponse}
+                          isInvalid={
+                            !!errors.responseStatusCodes?.[index]
+                              ?.primitiveResponse
                           }
-                        </Form.Text>
-                      )}
-                    </Form.Group>
-                  </Col>
+                          onChange={(e) => {
+                            handleFieldChange(
+                              response.id,
+                              "primitiveResponse",
+                              e.target.value
+                            );
+                            trigger("responseStatusCodes");
+                          }}
+                        />
+                        {errors.responseStatusCodes?.[index]
+                          ?.primitiveResponse && (
+                            <Form.Text className="text-danger">
+                              {
+                                errors.responseStatusCodes?.[index]
+                                  ?.primitiveResponse?.message
+                              }
+                            </Form.Text>
+                          )}
+                      </Form.Group>
+                    </Col>
 
-                  <Col sm={12} md={6} className="mb-3">
-                    <Form.Group>
-                      <Form.Check
-                        type="checkbox"
-                        label="Is Response constant?"
-                        checked={response.isPrimitiveResponseStatic}
-                        onChange={(e) => {
-                          handleFieldChange(
-                            response.id,
-                            "isPrimitiveResponseStatic",
-                            e.target.checked
-                          );
-                          trigger("responseStatusCodes");
-                        }}
-                      />
-                    </Form.Group>
-                  </Col>
-                </>
-              )}
+                    <Col sm={12} md={6} className="mb-3">
+                      <Form.Group>
+                        <Form.Check
+                          type="checkbox"
+                          label="Is Response constant?"
+                          checked={response.isPrimitiveResponseStatic}
+                          onChange={(e) => {
+                            handleFieldChange(
+                              response.id,
+                              "isPrimitiveResponseStatic",
+                              e.target.checked
+                            );
+                            trigger("responseStatusCodes");
+                          }}
+                        />
+                      </Form.Group>
+                    </Col>
+                  </>
+                )}
               {responses.length > 1 && (
                 <Col className="d-flex justify-content-end align-items-end">
                   <Button
