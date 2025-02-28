@@ -12,9 +12,14 @@ import {
 import ErrorBoundary from "./ErrorBoundary";
 import "./index.scss";
 import reportWebVitals from "./reportWebVitals";
+import { PostHogProvider} from 'posthog-js/react'
+
 
 ReactGA.initialize(GOOGLE_ANALYTICS_CODE);
 ReactGA.send({ hitType: "pageview", page: window.location.pathname });
+const options = {
+  api_host: process.env.REACT_APP_PUBLIC_POSTHOG_HOST,
+}
 
 Sentry.init({
   dsn: SENTRY_DSN,
@@ -26,6 +31,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
+    <PostHogProvider 
+      apiKey={process.env.REACT_APP_PUBLIC_POSTHOG_KEY ??""}
+      options={options}
+    >
+    </PostHogProvider>
     <ErrorBoundary>
       <App />
       <SpeedInsights />
