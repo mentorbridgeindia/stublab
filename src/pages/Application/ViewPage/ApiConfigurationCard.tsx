@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { useDeleteCustomAPIById } from "@/entities/CustomAPI";
 import { useQueryClient } from "@tanstack/react-query";
 import { useUpdateStatusCode } from "@/entities/CustomAPI/useUpdateStatusCode";
+import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 interface ApiConfigurationCardProps {
   api: ICustomAPIEntity;
@@ -115,6 +116,15 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api, handle
   };
 
   return (
+    <GoogleReCaptchaProvider
+    reCaptchaKey="6LdnMeMqAAAAALAIZOV0ksjT-lIUQf4-ywfNVGGe"
+    scriptProps={{
+      async: true,
+      defer: true,
+      appendTo: 'head',
+    }}
+  >
+
     <div className="mt-4 api-card-accordion">
       <Accordion defaultActiveKey="1">
         <Accordion.Item
@@ -216,6 +226,7 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api, handle
       </Accordion>
       {showEditForm && editApiData && <CreateCustomAPIForm onSubmit={handleSubmit} onCancel={handleCloseEditForm} initialValues={editApiData} />}
     </div>
+    </GoogleReCaptchaProvider>
   );
 };
 
