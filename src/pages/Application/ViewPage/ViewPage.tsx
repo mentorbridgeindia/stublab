@@ -218,8 +218,8 @@ export const ApplicationViewPage: React.FC = () => {
                     </Col>
                   </Row>
                   <div>
-                    {applicationDetails?.mockApiList?.map((api) => (
-                      <ApiConfigurationCard key={api.method} api={api} handleSubmit={handleSubmit} />
+                    {id && applicationDetails?.mockApiList?.map((api) => (
+                      <ApiConfigurationCard key={api.method} applicationId={id} api={api} handleSubmit={handleSubmit} />
                     ))}
                   </div>
                 </div>
