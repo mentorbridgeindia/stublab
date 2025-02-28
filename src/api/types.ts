@@ -4,6 +4,7 @@ export interface IQueryConfigObject {
 
 export interface IQueryConfig {
   queryConfig?: IQueryConfigObject;
+  enabled?:boolean;
 }
 
 export type MutationResponse = any;

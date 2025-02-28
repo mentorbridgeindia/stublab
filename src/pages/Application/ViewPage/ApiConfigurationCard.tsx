@@ -1,12 +1,14 @@
 import { ICustomAPIEntity } from "@/entities/CustomAPI";
 import { CreateCustomAPIForm } from "@/modules/CustomAPI";
 import { ReactComponent as IconSave } from "@icons/icon-save.svg";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Accordion, Button, Col, Form, Row } from "react-bootstrap";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { useDeleteCustomAPIById } from "@/entities/CustomAPI";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface ApiConfigurationCardProps {
   api: ICustomAPIEntity;
@@ -15,12 +17,24 @@ interface ApiConfigurationCardProps {
 
 const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api, handleSubmit }) => {
   const { method, url, defaultStatusCode, id } = api;
-
+  const queryClient = useQueryClient();
   const [statusCode, setStatusCode] = useState<number>(
     defaultStatusCode ?? 200
   );
   const [showEditForm, setShowEditForm] = useState<boolean>(false);
   const [editApiData, setEditApiData] = useState<ICustomAPIEntity | null>(null);
+  const [idToDelete, setIdToDelete] = useState<string | null>(null);
+
+  const { data: isDeleted, isLoading } = useDeleteCustomAPIById(idToDelete ?? "", {
+    enabled: !!idToDelete
+  });
+
+  useEffect(() => {
+    if (isDeleted && !isLoading && idToDelete) {
+
+      setIdToDelete(null);
+    }
+  }, [isDeleted, isLoading]);
 
   const variant = (() => {
     const methodVariants: Record<string, string> = {
@@ -66,7 +80,9 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api, handle
           label: "Yes",
           onClick: () => {
             console.log(`${id.toUpperCase()} Deleted Successfully`);
-            toast.success(`${id.toUpperCase()} deleted successfully!`);
+            setIdToDelete(id);
+            queryClient.invalidateQueries({ queryKey: ["customAPI"] });
+            toast.success(`API  deleted successfully!`);
           },
           style: { backgroundColor: "green", color: "white", border: "none" }
         },
