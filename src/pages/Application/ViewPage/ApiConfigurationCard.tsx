@@ -1,27 +1,45 @@
 import { ICustomAPIEntity } from "@/entities/CustomAPI";
 import { CreateCustomAPIForm } from "@/modules/CustomAPI";
 import { ReactComponent as IconSave } from "@icons/icon-save.svg";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Accordion, Button, Col, Form, Row } from "react-bootstrap";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { useDeleteCustomAPIById } from "@/entities/CustomAPI";
+import { useQueryClient } from "@tanstack/react-query";
+import { useUpdateStatusCode } from "@/entities/CustomAPI/useUpdateStatusCode";
 import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 interface ApiConfigurationCardProps {
   api: ICustomAPIEntity;
+  applicationId: string;
   handleSubmit: (data: any) => void;
 }
 
-const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api, handleSubmit }) => {
-  const { method, url, defaultStatusCode, id } = api;
-
-  const [statusCode, setStatusCode] = useState<number>(
-    defaultStatusCode ?? 200
+const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api, handleSubmit, applicationId }) => {
+  const { method, url, defaultStatusCodes, id } = api;
+  const queryClient = useQueryClient();
+  const [statusCode, setStatusCode] = useState<string | null>(
+    defaultStatusCodes
   );
+  console.log(statusCode);
   const [showEditForm, setShowEditForm] = useState<boolean>(false);
   const [editApiData, setEditApiData] = useState<ICustomAPIEntity | null>(null);
+  const [idToDelete, setIdToDelete] = useState<string | null>(null);
+
+  const { data: isDeleted, isLoading } = useDeleteCustomAPIById(idToDelete ?? "", {
+    enabled: !!idToDelete
+  });
+
+  useEffect(() => {
+    if (isDeleted && !isLoading && idToDelete) {
+
+      setIdToDelete(null);
+    }
+  }, [isDeleted, isLoading]);
+
   const variant = (() => {
     const methodVariants: Record<string, string> = {
       POST: "info",
@@ -30,21 +48,29 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api, handle
     };
     return methodVariants[method] || "danger";
   })();
+  const { mutate: updateStatusCode, isPending: isUpdating } = useUpdateStatusCode({
+    onSuccess: () => {
+      toast.success(`${id.toUpperCase()} status code updated successfully!`);
+      queryClient.invalidateQueries({ queryKey: ["application", applicationId] });
+    },
+    onError: (error) => {
+      toast.error(`Failed to update status code: ${error.message}`);
+    },
+  });
 
   const handleSave = (): void => {
     if (statusCode) {
-      toast.success(
-        `${id.toUpperCase()} status code ${statusCode} saved successfully!`
-      );
+      updateStatusCode({ id, defaultStatusCode: statusCode });
     } else {
       toast.error(`Please select a status code for ${id.toUpperCase()}`);
     }
   };
 
+
   const handleStatusCodeChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ): void => {
-    setStatusCode(Number(event.target.value));
+    setStatusCode(event.target.value);
   };
 
   const handleEdit = (): void => {
@@ -66,7 +92,11 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api, handle
           label: "Yes",
           onClick: () => {
             console.log(`${id.toUpperCase()} Deleted Successfully`);
-            toast.success(`${id.toUpperCase()} deleted successfully!`);
+            setIdToDelete(id);
+            setTimeout(() => {
+              queryClient.invalidateQueries({ queryKey: ["application", applicationId] });
+            }, 2000);
+            toast.success(`API  deleted successfully!`);
           },
           style: { backgroundColor: "green", color: "white", border: "none" }
         },
@@ -136,17 +166,17 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api, handle
               <Col lg={2} md={6} xs={6} sm={6} className="text-center">
                 <Form.Select
                   aria-label="Select Status Code"
-                  value={statusCode}
+                  value={statusCode ?? ''}
                   onChange={handleStatusCodeChange}
                   size="sm"
                 >
                   <option value="">Select Status Code</option>
-                  {api.responseStatusCodes?.map((statusCode) => (
+                  {api.responseStatusCodes?.map((responseStatus) => (
                     <option
-                      key={statusCode.statusCode}
-                      value={statusCode.statusCode}
+                      key={responseStatus.id}
+                      value={responseStatus.id}
                     >
-                      {statusCode.statusCode} - {statusCode.name}
+                      {responseStatus.statusCode} - {responseStatus.name}
                     </option>
                   ))}
                 </Form.Select>
@@ -157,14 +187,14 @@ const ApiConfigurationCard: React.FC<ApiConfigurationCardProps> = ({ api, handle
                   variant="primary"
                   size="sm"
                   onClick={handleSave}
+                  disabled={isUpdating}
                   style={{
                     visibility:
-                      statusCode !== defaultStatusCode ? "visible" : "hidden",
+                      statusCode !== defaultStatusCodes ? "visible" : "hidden",
                   }}
                   className="w-sm-50"
                 >
-                  <IconSave />
-                  <span className="d-none d-md-block d-lg-block">Save</span>
+                  {isUpdating ? "Saving..." : <><IconSave /><span className="d-none d-md-block d-lg-block">Save</span></>}
                 </Button>
               </Col>
 

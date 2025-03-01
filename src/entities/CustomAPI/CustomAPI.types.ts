@@ -12,7 +12,7 @@ export interface ICustomAPIEntity {
   url: string;
   updatedAt: string;
   updatedBy: string;
-  defaultStatusCode?: number;
+  defaultStatusCodes: string;
 }
 
 export interface ICustomAPIMutation {
@@ -26,7 +26,7 @@ export interface ICustomAPIMutation {
 
 export interface IChangeDefaultStatusCode {
   id: string;
-  defaultStatusCode: number;
+  defaultStatusCode: string;
 }
 
 export interface IGetCustomAPIsResult {
