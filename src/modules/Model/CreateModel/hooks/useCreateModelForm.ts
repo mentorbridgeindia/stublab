@@ -1,8 +1,8 @@
 import { useFieldArray } from "react-hook-form";
 
 import { IModelMutation } from "@entities/Model";
-import { IUseCreateModel } from "../CreateModel.types";
 import { useQueryClient } from "@tanstack/react-query";
+import { IUseCreateModel } from "../CreateModel.types";
 
 export const useCreateModelForm = ({ form, onFormSubmit }: IUseCreateModel) => {
   const {
@@ -10,7 +10,8 @@ export const useCreateModelForm = ({ form, onFormSubmit }: IUseCreateModel) => {
     handleSubmit,
     register,
     reset,
-    formState: { errors },
+    watch,
+    formState: { errors, isValid },
   } = form;
 
   const { fields, append, remove } = useFieldArray({
@@ -21,7 +22,7 @@ export const useCreateModelForm = ({ form, onFormSubmit }: IUseCreateModel) => {
 
   const onSubmit = async (data: IModelMutation) => {
     onFormSubmit(data, reset);
-    queryClient.invalidateQueries({queryKey:["createmodel"]})
+    queryClient.invalidateQueries({ queryKey: ["model"] });
   };
 
   return {
@@ -32,5 +33,7 @@ export const useCreateModelForm = ({ form, onFormSubmit }: IUseCreateModel) => {
     handleSubmit,
     register,
     errors,
+    isValid,
+    watch,
   };
 };

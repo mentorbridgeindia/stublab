@@ -19,11 +19,7 @@ export const CreateModel = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const { data: model, isLoading } = useGetModelById(id ?? "", {
-    queryConfig: {
-      enabled: !!id,
-    },
-  });
+  const { data: model, isLoading } = useGetModelById(id ?? "", id !== undefined);
 
   const form = useForm<IModelMutation>({
     defaultValues: {

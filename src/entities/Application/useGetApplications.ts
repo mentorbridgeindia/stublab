@@ -1,5 +1,3 @@
-import { IQueryConfig } from "@/api/types";
-import { STALE_TIME_FOR_NOT_URGENT_UPDATES } from "@api/constants";
 import { APPLICATIONS_ENDPOINT } from "@api/endpoints";
 import { fetchData } from "@api/Get/fetchData";
 import { useQuery } from "@tanstack/react-query";
@@ -14,5 +12,5 @@ const getApplications = async () => {
 export const useGetApplications = () =>
   useQuery<IApplicationEntity[]>({
     queryKey: [ENTITY_TYPE],
-    queryFn: getApplications
+    queryFn: getApplications,
   });

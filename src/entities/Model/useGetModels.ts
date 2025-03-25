@@ -8,6 +8,7 @@ import { IModelEntity } from "./Model.types";
 const ENTITY_TYPE = "model";
 
 const getModels = async () => {
+  console.log("MODELS_ENDPOINT", MODELS_ENDPOINT);
   return await fetchData<IModelEntity[]>(MODELS_ENDPOINT);
 };
 

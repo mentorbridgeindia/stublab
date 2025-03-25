@@ -1,5 +1,7 @@
 import api from "../api";
-export const fetchData = async <T>(url: string) => {
-  const result = await api.get<T>(url);
-  return result.data;
-};
+
+export async function fetchData<T>(url: string): Promise<T> {
+  console.log("url", url);
+  const response = await api.get<T>(url);
+  return response.data;
+}

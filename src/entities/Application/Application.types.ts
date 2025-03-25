@@ -2,14 +2,14 @@ import { ICustomAPIEntity } from "../CustomAPI";
 
 export interface IApplicationEntity {
   id: string;
-  createdAt: string;
+  createdOn: string;
   createdBy: string;
   description: string;
   name: string;
   path: string;
   updatedAt: string;
   updatedBy: string;
-  apiCount?: number;
+  totalApiCount?: number;
   mockApiList?: ICustomAPIEntity[];
   swagger?: string;
 }

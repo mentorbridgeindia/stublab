@@ -20,70 +20,101 @@ export const ModelsList = () => {
   const { data: models, isLoading } = useGetModels();
   const [selectedModelId, setSelectedModelId] = useState<string | null>(null);
   const [viewingModelId, setViewingModelId] = useState<string | null>(null);
+
   const handleEditModel = (model: any) => {
     navigate(`/model/edit/${model.id}`, { state: { model } });
   };
 
+  if (isLoading) {
+    return <div className="models-loading">Loading models...</div>;
+  }
+  if (models) {
+    for (const model of models) {
+      console.log(transformData(model));
+    }
+  }
+
   return (
-    <Row>
-      {!isLoading &&
-        models?.map((item) => (
-          <Col sm={12} md={6} lg={4} key={item.id} className="mb-5">
+    <div className="models-container">
+      <Row className="g-4">
+        {models?.map((item) => (
+          <Col sm={12} md={6} lg={4} key={item.id}>
             <Card className="model-card">
-              <Card.Header>
-                <Card.Title>
-                  <div className="d-flex justify-content-between">
-                    <div>{item.modelName}</div>
-                    <div>
-                      <Dropdown trigger={<IconDotsVertical />}>
-                        <Dropdown.Item
-                          className="DropdownMenuItem"
-                          onClick={() => setViewingModelId(item.id)}
-                        >
-                          <IconEye />
-                          View
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          className="DropdownMenuItem"
-                          onClick={() => handleEditModel(item)}
-                        >
-                          <IconPencil />
-                          Edit
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          className="DropdownMenuItem text-danger"
-                          onClick={() => setSelectedModelId(item.id)}
-                        >
-                          <IconTrash />
-                          Delete
-                        </Dropdown.Item>
-                      </Dropdown>
-                    </div>
+              <div className="model-card-header">
+                <div className="model-info">
+                  <div className="model-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <path
+                        d="M21 7L13 2L5 7M21 17L13 22L5 17M21 12L13 17L5 12M13 12L13 2M13 22L13 17"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                   </div>
-                </Card.Title>
-              </Card.Header>
-              <Card.Body>
-                <div className="text-start mt-3">
+                  <h3 className="model-name">{item.modelName}</h3>
+                </div>
+                <Dropdown
+                  trigger={<IconDotsVertical className="action-icon" />}
+                  className="model-actions"
+                >
+                  <Dropdown.Item
+                    className="action-item"
+                    onClick={() => setViewingModelId(item.id)}
+                  >
+                    <IconEye />
+                    <span>View Model</span>
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    className="action-item"
+                    onClick={() => handleEditModel(item)}
+                  >
+                    <IconPencil />
+                    <span>Edit Model</span>
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    className="action-item delete"
+                    onClick={() => setSelectedModelId(item.id)}
+                  >
+                    <IconTrash />
+                    <span>Delete Model</span>
+                  </Dropdown.Item>
+                </Dropdown>
+              </div>
+
+              <div className="model-preview">
+                <div className="code-mirror-wrapper">
                   <CodeMirror
                     theme={vscodeDark}
                     editable={false}
                     readOnly
                     basicSetup={{
-                      lineNumbers: false,
-                      bracketMatching: true,
+                      lineNumbers: true,
                       foldGutter: true,
+                      dropCursor: true,
+                      crosshairCursor: true,
+                      highlightActiveLineGutter: true,
+                      highlightSpecialChars: true,
                       syntaxHighlighting: true,
+                      bracketMatching: true,
+                      closeBrackets: true,
+                      autocompletion: false,
+                      rectangularSelection: false,
+                      indentOnInput: true,
+                      highlightActiveLine: true,
                     }}
                     extensions={[json()]}
-                    height="250px"
-                    maxHeight="250px"
+                    height="300px"
+                    maxHeight="300px"
                     value={transformData(item)}
                   />
                 </div>
-              </Card.Body>
+              </div>
             </Card>
           </Col>
         ))}
+      </Row>
+
       {selectedModelId && (
         <DeleteModel
           id={selectedModelId}
@@ -91,6 +122,7 @@ export const ModelsList = () => {
           onHide={() => setSelectedModelId(null)}
         />
       )}
+
       {viewingModelId !== null && (
         <ViewModel
           id={viewingModelId}
@@ -98,6 +130,6 @@ export const ModelsList = () => {
           onHide={() => setViewingModelId(null)}
         />
       )}
-    </Row>
+    </div>
   );
 };

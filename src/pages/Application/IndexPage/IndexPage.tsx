@@ -48,16 +48,17 @@ export const ApplicationIndexPage = () => {
                   <Col
                     sm={12}
                     md={6}
-                    lg={3}
+                    lg={4}
                     className="mb-3 center"
                     key={application.id}
                   >
                     <FolderCard
-                      type={assignType(application.apiCount ?? 0)}
+                      type={assignType(application.totalApiCount ?? 0)}
                       label={application.name}
-                      count={application.apiCount ?? 0}
+                      count={application.totalApiCount ?? 0}
                       subLabel={application.path}
                       link={`/application/${application.id}`}
+                      createdAt={application.createdOn}
                     />
                   </Col>
                 ))}

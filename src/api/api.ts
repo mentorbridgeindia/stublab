@@ -24,6 +24,7 @@ axiosInstance.interceptors.request.use((config) => {
     config.headers["X-Client-Id"] = clientId;
     config.headers["ClientId"] = clientId;
   }
+  console.log("config", config);
   return config;
 });
 

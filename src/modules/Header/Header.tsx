@@ -5,7 +5,6 @@ import Navbar from "react-bootstrap/Navbar";
 import "./Header.css";
 
 export const Header = () => {
-
   function getAccountUrl() {
     const jwtToken = localStorage.getItem("accessToken");
     const accountURL = `https://stublab.securosphere.in/profile?token=${jwtToken}`;
@@ -20,7 +19,7 @@ export const Header = () => {
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        
+
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
             <Nav.Link href="/application">Applications</Nav.Link>

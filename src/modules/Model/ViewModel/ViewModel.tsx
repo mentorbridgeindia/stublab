@@ -6,51 +6,28 @@ import { ReactComponent as IconCross } from "@icons/icon-cross.svg";
 import { Drawer } from "@organisms/Drawer";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import CodeMirror from "@uiw/react-codemirror";
-import { Badge, Card, Table } from "react-bootstrap";
-import { IViewModelProps } from "./ViewModel.types";
+import { Badge } from "react-bootstrap";
 import { transformData } from "./helpers";
+import "./ViewModel.scss";
+import { IViewModelProps } from "./ViewModel.types";
 
 export const ViewModel = ({ id, show, onHide }: IViewModelProps) => {
-  const { data: model, isLoading } = useGetModelById(id, {
-    queryConfig: {
-      enabled: !!id,
-    },
-  });
+  const { data: model, isLoading } = useGetModelById(id, !!id);
 
   const renderVariableType = (type: ModelTypes) => {
     if (typeof type === "string") {
       switch (type) {
         case "string":
-          return (
-            <Badge bg="primary" className="small">
-              string
-            </Badge>
-          );
+          return <Badge className="type-badge type-string">string</Badge>;
         case "number":
-          return (
-            <Badge bg="dark" className="small">
-              number
-            </Badge>
-          );
+          return <Badge className="type-badge type-number">number</Badge>;
         case "boolean":
-          return (
-            <Badge bg="danger" className="small">
-              boolean
-            </Badge>
-          );
+          return <Badge className="type-badge type-boolean">boolean</Badge>;
         default:
-          return (
-            <Badge bg="primary" className="small">
-              {type}
-            </Badge>
-          );
+          return <Badge className="type-badge type-default">{type}</Badge>;
       }
     }
-    return (
-      <Badge bg="secondary" className="small">
-        {type.modelName}
-      </Badge>
-    );
+    return <Badge className="type-badge type-model">{type.modelName}</Badge>;
   };
 
   const getCode = () => {
@@ -62,61 +39,90 @@ export const ViewModel = ({ id, show, onHide }: IViewModelProps) => {
   return (
     <Drawer show={show} onHide={onHide} title={model?.modelName ?? "Model"}>
       {model && (
-        <div>
-          <Table responsive className="mb-5">
-            <thead className="bg-secondary">
-              <tr>
-                <th>Variable</th>
-                <th>Type</th>
-                <th className="text-center">Nullable</th>
-                <th className="text-center">Default Value</th>
-                <th className="text-center">Sample Text</th>
-              </tr>
-            </thead>
-            <tbody>
+        <div className="model-viewer">
+          <div className="model-header">
+            <h2 className="model-title">{model.modelName}</h2>
+            <div className="model-meta">
+              <span className="meta-item">
+                <span className="meta-label">Variables:</span>
+                <span className="meta-value">{model.variables?.length}</span>
+              </span>
+            </div>
+          </div>
+
+          <div className="variables-section">
+            <h3 className="section-title">Variables</h3>
+            <div className="variables-grid">
               {model?.variables?.map((variable) => (
-                <tr key={variable.id}>
-                  <td>
-                    <p className="mb-0 small">{variable.name}</p>
-                  </td>
-                  <td>{renderVariableType(variable.type)}</td>
-                  <td>
-                    <p
-                      className={`text-center icon-md mb-0 ${
-                        variable.isNullable ? "text-success" : "text-danger"
-                      }`}
-                    >
-                      {variable.isNullable ? <IconCheck /> : <IconCross />}
-                    </p>
-                  </td>
-                  <td className="text-center">{variable.defaultValue}</td>
-                  <td className="text-center">{variable.sampleText}</td>
-                </tr>
+                <div key={variable.id} className="variable-card">
+                  <div className="variable-header">
+                    <h4 className="variable-name">{variable.name}</h4>
+                    {renderVariableType(variable.type)}
+                  </div>
+
+                  <div className="variable-details">
+                    <div className="detail-item">
+                      <span className="detail-label">Nullable</span>
+                      <span
+                        className={`detail-value ${
+                          variable.isNullable ? "success" : "danger"
+                        }`}
+                      >
+                        {variable.isNullable ? <IconCheck /> : <IconCross />}
+                      </span>
+                    </div>
+
+                    {variable.defaultValue && (
+                      <div className="detail-item">
+                        <span className="detail-label">Default</span>
+                        <span className="detail-value">
+                          {variable.defaultValue}
+                        </span>
+                      </div>
+                    )}
+
+                    {variable.sampleText && (
+                      <div className="detail-item">
+                        <span className="detail-label">Sample</span>
+                        <span className="detail-value">
+                          {variable.sampleText}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
               ))}
-            </tbody>
-          </Table>
-          <div className="mt-5">
-            <Card bg="light">
-              <Card.Header>
-                <Card.Title>Preview</Card.Title>
-              </Card.Header>
-              <Card.Body>
-                <CodeMirror
-                  theme={vscodeDark}
-                  editable={false}
-                  readOnly
-                  basicSetup={{
-                    lineNumbers: false,
-                    bracketMatching: true,
-                    foldGutter: true,
-                    syntaxHighlighting: true,
-                  }}
-                  extensions={[json()]}
-                  maxHeight="400px"
-                  value={!isLoading && model ? getCode() : ""}
-                />
-              </Card.Body>
-            </Card>
+            </div>
+          </div>
+
+          <div className="preview-section">
+            <h3 className="section-title">JSON Preview</h3>
+            <div className="preview-container">
+              <CodeMirror
+                theme={vscodeDark}
+                editable={false}
+                readOnly
+                basicSetup={{
+                  lineNumbers: true,
+                  foldGutter: true,
+                  dropCursor: true,
+                  crosshairCursor: true,
+                  highlightActiveLineGutter: true,
+                  highlightSpecialChars: true,
+                  syntaxHighlighting: true,
+                  bracketMatching: true,
+                  closeBrackets: true,
+                  autocompletion: false,
+                  rectangularSelection: false,
+                  indentOnInput: true,
+                  highlightActiveLine: true,
+                }}
+                extensions={[json()]}
+                maxHeight="400px"
+                value={!isLoading && model ? getCode() : ""}
+                className="code-preview"
+              />
+            </div>
           </div>
         </div>
       )}

@@ -1,8 +1,5 @@
-import { useGetModels } from "@entities/Model/useGetModels";
 import { Form } from "react-bootstrap";
 export const VariableTypes = ({ register, index, errors, form }: any) => {
-  const { data: modelsList } = useGetModels();
-
   return (
     <>
       <Form.Select
@@ -17,12 +14,8 @@ export const VariableTypes = ({ register, index, errors, form }: any) => {
         <option value="string">String</option>
         <option value="number">Number</option>
         <option value="boolean">Boolean</option>
+        <option value="object">Object</option>
         <option value="array">Array</option>
-        {modelsList?.map((model) => (
-          <option value={model.id} key={model.id}>
-            {model.modelName}
-          </option>
-        ))}
       </Form.Select>
       {errors?.variables?.[index]?.type && (
         <p className="text-danger fs-6">

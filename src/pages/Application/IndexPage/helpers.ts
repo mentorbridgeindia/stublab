@@ -1,7 +1,7 @@
-import { FolderCardType } from "@molecules/FolderCard";
+import { FolderCardType } from "@molecules/FolderCard/FolderCard.types";
 
 export const assignType = (apiCount: number): FolderCardType => {
-  const typeMap: Record<string, number> = {
+  const typeMap: Record<FolderCardType, number> = {
     danger: 0,
     primary: 5,
     secondary: 10,
@@ -13,6 +13,7 @@ export const assignType = (apiCount: number): FolderCardType => {
     new: 36,
   };
 
-  return (Object.keys(typeMap).find((type) => apiCount < typeMap[type]) ??
-    "new") as FolderCardType;
+  return (Object.keys(typeMap).find(
+    (type) => apiCount <= typeMap[type as FolderCardType]
+  ) ?? "new") as FolderCardType;
 };

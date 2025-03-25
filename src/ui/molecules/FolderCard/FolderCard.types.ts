@@ -15,4 +15,5 @@ export interface IFolderCardProps {
   count: number;
   subLabel?: string;
   link: string;
+  createdAt: string;
 }

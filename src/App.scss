@@ -60,3 +60,11 @@
 .vh-90 {
   height: 90vh;
 }
+
+.required {
+  &::after {
+    content: "*";
+    margin-left: 5px;
+    color: red;
+  }
+}

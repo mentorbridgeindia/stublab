@@ -11,10 +11,10 @@ const getModelById = async (id: string) => {
   return await fetchData<IModelEntity>(`${MODELS_ENDPOINT}/${id}`);
 };
 
-export const useGetModelById = (id: string, queryConfig: IQueryConfig) =>
+export const useGetModelById = (id: string, enabled = false) =>
   useQuery<IModelEntity>({
     queryKey: [ENTITY_TYPE, id],
     queryFn: () => getModelById(id),
     staleTime: STALE_TIME_FOR_NOT_URGENT_UPDATES,
-    ...queryConfig,
+    enabled,
   });

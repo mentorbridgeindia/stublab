@@ -1,0 +1,191 @@
+.api-form-container {
+  padding: 1.5rem;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.form-section {
+  background: var(--card-bg, #ffffff);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+  overflow: hidden;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.form-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+  }
+}
+
+.form-content {
+  padding: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.form-control {
+  border-radius: 8px;
+  border-width: 1px;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+
+  &:focus {
+    box-shadow: none;
+    border-color: var(--primary, #6366f1);
+  }
+
+  &.is-invalid {
+    border-color: var(--danger, #ef4444);
+  }
+}
+
+.endpoint-group {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+.method-group {
+  .method-selector {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+
+    &.GET {
+      border-color: var(--success, #22c55e);
+    }
+    &.POST {
+      border-color: var(--primary, #6366f1);
+    }
+    &.PUT {
+      border-color: var(--warning, #f59e0b);
+    }
+    &.DELETE {
+      border-color: var(--danger, #ef4444);
+    }
+  }
+
+  .method-select {
+    width: 100%;
+    border: none;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    background: transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+
+    &:focus {
+      box-shadow: none;
+      outline: none;
+    }
+
+    option {
+      padding: 0.5rem;
+    }
+  }
+}
+
+.url-group {
+  .url-input {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+}
+
+.error-message {
+  color: var(--danger, #ef4444);
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.form-actions {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+  display: flex;
+  justify-content: flex-end;
+}
+
+// Dark mode support
+[data-theme="dark"] {
+  .form-section {
+    background: var(--dark-card-bg, #1f2937);
+    border-color: var(--dark-border-color, rgba(255, 255, 255, 0.1));
+  }
+
+  .form-control {
+    background: var(--dark-input-bg, #374151);
+    border-color: var(--dark-border-color, rgba(255, 255, 255, 0.1));
+    color: var(--text-primary);
+
+    &::placeholder {
+      color: var(--text-secondary);
+    }
+  }
+
+  .method-select {
+    color: var(--text-primary);
+  }
+
+  .form-label {
+    color: var(--text-primary);
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .api-form-container {
+    padding: 1rem;
+  }
+
+  .form-content {
+    padding: 1rem;
+  }
+
+  .endpoint-group {
+    grid-template-columns: 1fr;
+  }
+
+  .method-group {
+    .method-selector {
+      border-radius: 8px;
+    }
+
+    .method-select {
+      border-radius: 8px;
+    }
+  }
+
+  .url-group {
+    .url-input {
+      border-radius: 8px;
+    }
+  }
+}
