@@ -120,8 +120,8 @@ export const ModelFormDesktop: React.FC<ModelFormProps> = ({
                       </Form.Group>
                     </div>
 
-                    {(watch(`variables.${index}.type`) === "object" ||
-                      watch(`variables.${index}.type`) === "array") && (
+                    {watch(`variables.${index}.type`) === "object" ||
+                    watch(`variables.${index}.type`) === "array" ? (
                       <div className="variable-row">
                         <Form.Group className="type-group">
                           <Form.Label className="required">Model</Form.Label>
@@ -133,41 +133,42 @@ export const ModelFormDesktop: React.FC<ModelFormProps> = ({
                           />
                         </Form.Group>
                       </div>
+                    ) : (
+                      <>
+                        <div className="variable-row">
+                          <Form.Group>
+                            <Form.Label>Default Value</Form.Label>
+                            <Form.Control
+                              {...register(
+                                `variables.${index}.defaultValue` as const
+                              )}
+                              type="text"
+                              placeholder="Enter default value"
+                              defaultValue={
+                                form?.getValues().variables?.[index]
+                                  ?.defaultValue ?? ""
+                              }
+                            />
+                          </Form.Group>
+                        </div>
+                        <div className="variable-row">
+                          <Form.Group>
+                            <Form.Label>Sample Text</Form.Label>
+                            <Form.Control
+                              {...register(
+                                `variables.${index}.sampleText` as const
+                              )}
+                              type="text"
+                              placeholder="Example: Chennai"
+                              defaultValue={
+                                form?.getValues().variables?.[index]
+                                  ?.sampleText ?? ""
+                              }
+                            />
+                          </Form.Group>
+                        </div>
+                      </>
                     )}
-
-                    <div className="variable-row">
-                      <Form.Group>
-                        <Form.Label>Default Value</Form.Label>
-                        <Form.Control
-                          {...register(
-                            `variables.${index}.defaultValue` as const
-                          )}
-                          type="text"
-                          placeholder="Enter default value"
-                          defaultValue={
-                            form?.getValues().variables?.[index]
-                              ?.defaultValue ?? ""
-                          }
-                        />
-                      </Form.Group>
-                    </div>
-
-                    <div className="variable-row">
-                      <Form.Group>
-                        <Form.Label>Sample Text</Form.Label>
-                        <Form.Control
-                          {...register(
-                            `variables.${index}.sampleText` as const
-                          )}
-                          type="text"
-                          placeholder="Example: Chennai"
-                          defaultValue={
-                            form?.getValues().variables?.[index]?.sampleText ??
-                            ""
-                          }
-                        />
-                      </Form.Group>
-                    </div>
                   </div>
                 </div>
               ))}

@@ -6,6 +6,7 @@ export const dropdownData = {
     { label: "DELETE", value: "DELETE", color: "danger" },
   ],
   contentTypes: [
+    { label: "Empty", value: "empty" },
     { label: "String", value: "string" },
     { label: "Number", value: "number" },
     { label: "Boolean", value: "boolean" },

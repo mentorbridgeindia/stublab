@@ -2,15 +2,33 @@ import * as yup from "yup";
 import { dropdownData } from "./dropdownData";
 
 export const schema = yup.object().shape({
-  url: yup.string().matches(
-    /^\/[a-zA-Z]+(\/{[a-zA-Z0-9_-]+\})?$/,
-    "Invalid website URL"
-  ).required("URL is required"),
+  url: yup
+    .string()
+    .matches(/^\/[a-zA-Z]+(\/{[a-zA-Z0-9_-]+\})?$/, "Invalid website URL")
+    .required("URL is required"),
   name: yup.string().required("Name is required"),
   method: yup
     .string()
     .oneOf(["POST", "GET", "PUT", "DELETE"], "Invalid HTTP Method")
     .required("Method is required"),
+  requestBodyType: yup
+    .string()
+    .when("method", ([value]) => {
+      if (value === "POST" || value === "PUT" || value === "PATCH") {
+        return yup.string().required("Request Body Type is required");
+      }
+      return yup.string().nullable();
+    })
+    .oneOf(
+      ["string", "object", "number", "boolean", "array"],
+      "Invalid Request Body Type"
+    ),
+  requestBody: yup.string().when("requestBodyType", ([value]) => {
+    if (value === "object" || value === "array") {
+      return yup.string().required("Request Body is required");
+    }
+    return yup.string().nullable();
+  }),
   responseStatusCodes: yup
     .array()
     .of(
@@ -53,7 +71,7 @@ export const schema = yup.object().shape({
           }
           return yup.string().nullable();
         }),
-        isPrimitiveResponseStatic: yup.boolean(),
+        // isPrimitiveResponseStatic: yup.boolean(),
       })
     )
     .required("Responses are required"),

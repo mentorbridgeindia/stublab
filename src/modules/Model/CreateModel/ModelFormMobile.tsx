@@ -10,6 +10,7 @@ import {
   RemoveVariable,
   VariableTypes,
 } from "./components";
+import { ModelListObject } from "./components/ModelListObject";
 import { useCreateModelForm } from "./hooks/useCreateModelForm";
 
 export const ModelFormMobile: React.FC<ModelFormProps> = ({
@@ -17,11 +18,20 @@ export const ModelFormMobile: React.FC<ModelFormProps> = ({
   onCancel,
   form,
 }) => {
-  const { onSubmit, fields, append, remove, handleSubmit, register, errors } =
-    useCreateModelForm({
-      form,
-      onFormSubmit,
-    });
+  const {
+    onSubmit,
+    watch,
+    isValid,
+    fields,
+    append,
+    remove,
+    handleSubmit,
+    register,
+    errors,
+  } = useCreateModelForm({
+    form,
+    onFormSubmit,
+  });
 
   return (
     <Container fluid>
@@ -37,7 +47,9 @@ export const ModelFormMobile: React.FC<ModelFormProps> = ({
               className="border rounded p-2 mb-3 bg-white shadow-sm"
             >
               <div className="d-flex justify-content-end p-2 pe-4">
-                {fields.length > 1 && <RemoveVariable remove={remove} index={index} />}
+                {fields.length > 1 && (
+                  <RemoveVariable remove={remove} index={index} />
+                )}
               </div>
               <Row className="align-items-center mb-4 mx-sm-5">
                 <Col sm={12} md={3} lg={2} className="mb-2">
@@ -52,7 +64,9 @@ export const ModelFormMobile: React.FC<ModelFormProps> = ({
                     placeholder="Ex: City"
                     defaultValue={form?.getValues().variables?.[index]?.name}
                     isInvalid={!!errors?.variables?.[index]?.name}
-                    onChange={(e) => e.target.value=e.target.value?.toLowerCase() }
+                    onChange={(e) =>
+                      (e.target.value = e.target.value?.toLowerCase())
+                    }
                   />
                   {errors.variables?.[index]?.name && (
                     <p className="text-danger small">
@@ -74,6 +88,23 @@ export const ModelFormMobile: React.FC<ModelFormProps> = ({
                   />
                 </Col>
               </Row>
+
+              {(watch(`variables.${index}.type`) === "object" ||
+                watch(`variables.${index}.type`) === "array") && (
+                <Row className="align-items-center mb-4 mx-sm-5">
+                  <Col sm={12} md={3} lg={2} className="mb-2">
+                    <FormLabel>Model</FormLabel>
+                  </Col>
+                  <Col sm={10} md={6} lg={4}>
+                    <ModelListObject
+                      register={register}
+                      index={index}
+                      errors={errors}
+                      form={form}
+                    />
+                  </Col>
+                </Row>
+              )}
 
               <Row className="align-items-center mb-4 mx-sm-5">
                 <Col xs={5} sm={2} md={3} lg={2} className="mb-2">
@@ -123,7 +154,7 @@ export const ModelFormMobile: React.FC<ModelFormProps> = ({
             </div>
           ))}
 
-          <AddVariable append={append} />
+          {isValid && <AddVariable append={append} />}
 
           <FormActionButtons
             primaryLabel="Submit"

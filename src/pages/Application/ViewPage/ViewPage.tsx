@@ -1,22 +1,36 @@
-import { useDeleteApplicationById, useGetApplicationById } from "@entities/Application";
+import { useIsMobile } from "@/hooks/useIsMobile";
+import {
+  useDeleteApplicationById,
+  useGetApplicationById,
+} from "@entities/Application";
 import { ICustomAPIMutation } from "@entities/CustomAPI/CustomAPI.types";
 import { useCreateCustomAPI } from "@entities/CustomAPI/useCreateCustomAPI";
 import { useUpdateCustomAPI } from "@entities/CustomAPI/useUpdateCustomAPI";
 import { useIsDesktop } from "@hooks/useIsDesktop";
+import { ReactComponent as IconDownload } from "@icons/icon-download.svg";
+import { ReactComponent as EmptyApiIcon } from "@icons/icon-empty-api.svg";
 import { ReactComponent as PlusIcon } from "@icons/icon-plus.svg";
 import { ReactComponent as TrashIcon } from "@icons/icon-trash.svg";
 import { CreateCustomAPIForm } from "@modules/CustomAPI/CreateCustomAPIForm";
 import { ICreateCustomAPIForm } from "@modules/CustomAPI/CreateCustomAPIForm.types";
 import { useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
-import { Button, Col, Row, Tab, Tabs } from "react-bootstrap";
+import {
+  Badge,
+  Breadcrumb,
+  Button,
+  Col,
+  Row,
+  Tab,
+  Tabs,
+} from "react-bootstrap";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import SwaggerUI from "swagger-ui-react";
 import "swagger-ui-react/swagger-ui.css";
 import ApiConfigurationCard from "./ApiConfigurationCard";
-import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css";
 import "./ViewPage.scss";
 
 export const ApplicationViewPage: React.FC = () => {
@@ -25,18 +39,19 @@ export const ApplicationViewPage: React.FC = () => {
   const isDesktop = useIsDesktop();
   const [createAPI, setCreateAPI] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string>("swagger");
-  const [idToDelete, setIdtoDelete] = useState<null>(null);
+  const [idToDelete, setIdToDelete] = useState<string | null>(null);
 
   const { id } = useParams();
+  const isMobile = useIsMobile();
   const { data: applicationDetails } = useGetApplicationById(id ?? "", {
     queryConfig: { enabled: !!id },
   });
 
   const { mutate: handleCreateCustomAPI } = useCreateCustomAPI({
     onSuccess: () => {
+      setCreateAPI(false);
       toast.success("API created successfully");
       invalidateQuery();
-      setCreateAPI(false);
     },
     onError: () => {
       toast.error("Error creating API");
@@ -45,6 +60,7 @@ export const ApplicationViewPage: React.FC = () => {
 
   const { mutate: handleUpdateCustomAPI } = useUpdateCustomAPI({
     onSuccess: () => {
+      setCreateAPI(false);
       toast.success("API updated successfully");
       invalidateQuery();
     },
@@ -53,16 +69,18 @@ export const ApplicationViewPage: React.FC = () => {
     },
   });
 
-  console.log("verify", idToDelete !== null);
-
-  const { data: isDeleted, isLoading } = useDeleteApplicationById(id ?? "", idToDelete !== null);
+  const { data: isDeleted, isLoading } = useDeleteApplicationById(
+    id ?? "",
+    idToDelete !== null
+  );
 
   useEffect(() => {
     if (isDeleted && !isLoading && idToDelete !== null) {
       toast.success(`${id?.toUpperCase()} deleted successfully!`);
       navigate("/application");
     }
-  }, [isDeleted, isLoading])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDeleted, isLoading]);
 
   const invalidateQuery = () => {
     queryClient.invalidateQueries({
@@ -83,48 +101,94 @@ export const ApplicationViewPage: React.FC = () => {
     }
   };
 
-  const swagger =
-    '{"openapi":"3.0.1","info":{"title":"OpenAPI definition","version":"v0"},"servers":[{"url":"http://localhost:8080"}],"paths":{"/organization/{id}":{"put":{"tags":["organization-controller"],"operationId":"updateOrganization","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/OrganizationDTO"}}},"required":true},"responses":{"200":{"description":"OK"}}}},"/open-api/account/change-password":{"put":{"tags":["open-api-controller"],"summary":"Users Sign Up","description":"**Requires Client Id and Client Secret**","operationId":"changePassword","parameters":[{"name":"ClientId","in":"header","description":"Unique id provided for your Organization","required":true,"schema":{"type":"string","example":"656752uyuyiu9308d"}},{"name":"ClientSecret","in":"header","description":"Unique Secret provided for your Organization","required":true,"schema":{"type":"string","example":"7487-hjfgfhjdg-34568"}},{"name":"UserAuth","in":"header","description":"Bearer token for authentication","required":true,"schema":{"type":"string","example":"Bearer sytueryt34768763fjhg....."}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ChangePasswordDTO"}}},"required":true},"responses":{"200":{"description":"OK"}},"security":[{"clientId":[]},{"clientSecret":[]},{"UserAuth":[]}]}},"/auth/config":{"put":{"tags":["auth-config-controller"],"operationId":"updateAuthConfig","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/AuthConfigDTO"}}},"required":true},"responses":{"200":{"description":"OK"}}}},"/account/tp-client/changePassword":{"put":{"tags":["sub-domain-account-controller"],"operationId":"changePassword_1","parameters":[{"name":"ClientId","in":"header","description":"Unique id provided for your Organization","required":true,"schema":{"type":"string","example":"656752uyuyiu9308d"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ChangePasswordDTO"}}},"required":true},"responses":{"200":{"description":"OK"}}}},"/account/changePassword":{"put":{"tags":["account-controller"],"summary":"Get all users","description":"**Requires Bearer Token**","operationId":"changePassword_2","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ChangePasswordDTO"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ErrorResponse"}}}}},"security":[{"AdminAuth":[]}]}},"/open-api/account/verify-otp":{"post":{"tags":["open-api-controller"],"operationId":"verifyOtp","parameters":[{"name":"ClientId","in":"header","description":"Unique id provided for your Organization","required":true,"schema":{"type":"string","example":"656752uyuyiu9308d"}},{"name":"ClientSecret","in":"header","description":"Unique Secret provided for your Organization","required":true,"schema":{"type":"string","example":"7487-hjfgfhjdg-34568"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/OtpDTO"}}},"required":true},"responses":{"200":{"description":"OK"}}}},"/open-api/account/social-sign-up":{"post":{"tags":["open-api-controller"],"summary":"Users Sign Up","description":"**Requires Client Id and Client Secret**","operationId":"socialSignUp","parameters":[{"name":"ClientId","in":"header","description":"Unique id provided for your Organization","required":true,"schema":{"type":"string","example":"656752uyuyiu9308d"}},{"name":"ClientSecret","in":"header","description":"Unique Secret provided for your Organization","required":true,"schema":{"type":"string","example":"7487-hjfgfhjdg-34568"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/SignUpDTO"}}},"required":true},"responses":{"200":{"description":"OK"}},"security":[{"clientId":[]},{"clientSecret":[]}]}},"/open-api/account/social-sign-in":{"post":{"tags":["open-api-controller"],"summary":"Users Sign Up","description":"**Requires Client Id and Client Secret**","operationId":"socialSignIn","parameters":[{"name":"ClientId","in":"header","description":"Unique id provided for your Organization","required":true,"schema":{"type":"string","example":"656752uyuyiu9308d"}},{"name":"ClientSecret","in":"header","description":"Unique Secret provided for your Organization","required":true,"schema":{"type":"string","example":"7487-hjfgfhjdg-34568"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/SignInDTO"}}},"required":true},"responses":{"200":{"description":"OK"}},"security":[{"clientId":[]},{"clientSecret":[]}]}},"/open-api/account/sign-up":{"post":{"tags":["open-api-controller"],"summary":"Users Sign Up","description":"**Requires Client Id and Client Secret**","operationId":"signUp","parameters":[{"name":"ClientId","in":"header","description":"Unique id provided for your Organization","required":true,"schema":{"type":"string","example":"656752uyuyiu9308d"}},{"name":"ClientSecret","in":"header","description":"Unique Secret provided for your Organization","required":true,"schema":{"type":"string","example":"7487-hjfgfhjdg-34568"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/SignUpDTO"}}},"required":true},"responses":{"200":{"description":"OK"}},"security":[{"clientId":[]},{"clientSecret":[]}]}},"/open-api/account/sign-in":{"post":{"tags":["open-api-controller"],"summary":"Users Sign Up","description":"**Requires Client Id and Client Secret**","operationId":"signIn","parameters":[{"name":"ClientId","in":"header","description":"Unique id provided for your Organization","required":true,"schema":{"type":"string","example":"656752uyuyiu9308d"}},{"name":"ClientSecret","in":"header","description":"Unique Secret provided for your Organization","required":true,"schema":{"type":"string","example":"7487-hjfgfhjdg-34568"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/SignInDTO"}}},"required":true},"responses":{"200":{"description":"OK"}},"security":[{"clientId":[]},{"clientSecret":[]}]}},"/open-api/account/new-password":{"post":{"tags":["open-api-controller"],"operationId":"newPassword","parameters":[{"name":"ClientId","in":"header","description":"Unique id provided for your Organization","required":true,"schema":{"type":"string","example":"656752uyuyiu9308d"}},{"name":"ClientSecret","in":"header","description":"Unique Secret provided for your Organization","required":true,"schema":{"type":"string","example":"7487-hjfgfhjdg-34568"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/NewPasswordDTO"}}},"required":true},"responses":{"200":{"description":"OK"}}}},"/open-api/account/forgot-password":{"post":{"tags":["open-api-controller"],"operationId":"forgotPassword","parameters":[{"name":"ClientId","in":"header","description":"Unique id provided for your Organization","required":true,"schema":{"type":"string","example":"656752uyuyiu9308d"}},{"name":"ClientSecret","in":"header","description":"Unique Secret provided for your Organization","required":true,"schema":{"type":"string","example":"7487-hjfgfhjdg-34568"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ForgotPasswordDTO"}}},"required":true},"responses":{"200":{"description":"OK"}}}},"/invite/individual":{"post":{"tags":["invite-controller"],"operationId":"inviteIndividualUser","requestBody":{"content":{"application/json":{"schema":{"type":"array","items":{"type":"string"}}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ErrorResponse"}}}}}}},"/account/tp-client/social-signup":{"post":{"tags":["sub-domain-account-controller"],"operationId":"doSubDomainSocialSignUp","parameters":[{"name":"ClientId","in":"header","description":"Unique id provided for your Organization","required":true,"schema":{"type":"string","example":"656752uyuyiu9308d"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/SignUpDTO"}}},"required":true},"responses":{"200":{"description":"OK"}}}},"/account/tp-client/social-signin":{"post":{"tags":["sub-domain-account-controller"],"operationId":"doSubDomainSocialSignIn","parameters":[{"name":"ClientId","in":"header","description":"Unique id provided for your Organization","required":true,"schema":{"type":"string","example":"656752uyuyiu9308d"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/SignInDTO"}}},"required":true},"responses":{"200":{"description":"OK"}}}},"/account/tp-client/signup":{"post":{"tags":["sub-domain-account-controller"],"operationId":"doSubDomainSignUp","parameters":[{"name":"ClientId","in":"header","description":"Unique id provided for your Organization","required":true,"schema":{"type":"string","example":"656752uyuyiu9308d"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/SignUpDTO"}}},"required":true},"responses":{"200":{"description":"OK"}}}},"/account/tp-client/signin":{"post":{"tags":["sub-domain-account-controller"],"operationId":"doSubDomainSignIn","parameters":[{"name":"ClientId","in":"header","description":"Unique id provided for your Organization","required":true,"schema":{"type":"string","example":"656752uyuyiu9308d"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/SignInDTO"}}},"required":true},"responses":{"200":{"description":"OK"}}}},"/account/tp-client/resetPassword":{"post":{"tags":["sub-domain-account-controller"],"operationId":"resetPassword","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ResetPasswordDTO"}}},"required":true},"responses":{"200":{"description":"OK"}}}},"/account/tp-client/resend":{"post":{"tags":["sub-domain-account-controller"],"operationId":"resendOtp","parameters":[{"name":"ClientId","in":"header","description":"Unique id provided for your Organization","required":true,"schema":{"type":"string","example":"656752uyuyiu9308d"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ResendOtpDTO"}}},"required":true},"responses":{"200":{"description":"OK"}}}},"/account/tp-client/otp":{"post":{"tags":["sub-domain-account-controller"],"operationId":"validateOtp","parameters":[{"name":"ClientId","in":"header","description":"Unique id provided for your Organization","required":true,"schema":{"type":"string","example":"656752uyuyiu9308d"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ResendOtpDTO"}}},"required":true},"responses":{"200":{"description":"OK"}}}},"/account/social-signup":{"post":{"tags":["account-controller"],"operationId":"socialSignUp_1","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/SignUpDTO"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ErrorResponse"}}}}}}},"/account/social-signin":{"post":{"tags":["account-controller"],"operationId":"socialSignIn_1","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/SignInDTO"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ErrorResponse"}}}}}}},"/account/signup":{"post":{"tags":["account-controller"],"operationId":"signUp_1","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/SignUpDTO"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ErrorResponse"}}}}}}},"/account/signin":{"post":{"tags":["account-controller"],"operationId":"signIn_1","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/SignInDTO"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ErrorResponse"}}}}}}},"/account/resetPassword":{"post":{"tags":["account-controller"],"operationId":"resetPassword_1","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ResetPasswordDTO"}}},"required":true},"responses":{"200":{"description":"OK"}}}},"/account/otp":{"post":{"tags":["account-controller"],"operationId":"checkOtp","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ResendOtpDTO"}}},"required":true},"responses":{"200":{"description":"OK"}}}},"/account/otp/resend":{"post":{"tags":["account-controller"],"operationId":"resendOtp_1","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ResendOtpDTO"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ErrorResponse"}}}}}}},"/user-profile":{"get":{"tags":["account-managing-controller"],"summary":"Get all users","description":"**Requires Bearer Token**","operationId":"profileDetails","parameters":[{"name":"Authorization","in":"header","description":"Bearer token for authentication","required":true,"schema":{"type":"string","example":"Bearer eyfsgsdfsdfjsdhbfsfsdf..."}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ProfileDTO"}}}}},"security":[{"AdminAuth":[]}]}},"/profile":{"get":{"tags":["env-profile-controller"],"operationId":"getActiveProfile","responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"string"}}}}}}},"/organization":{"get":{"tags":["organization-controller"],"operationId":"getOrganization","responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/OrganizationDTO"}}}}}}},"/organization/info":{"get":{"tags":["organization-controller"],"description":"**Requires Bearer Token**","operationId":"getOrganizationInfo","responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/OrganizationInfoDTO"}}}}},"security":[{"AdminAuth":[]}]}},"/organization/allOrgs":{"get":{"tags":["organization-controller"],"operationId":"getAllOrganizations","responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/OrganizationEntity"}}}}}}}},"/open-api/account/profile-details":{"get":{"tags":["open-api-controller"],"summary":"Users Sign Up","description":"**Requires Client Id and Client Secret**","operationId":"profileDetails_1","parameters":[{"name":"ClientId","in":"header","description":"Unique id provided for your Organization","required":true,"schema":{"type":"string","example":"656752uyuyiu9308d"}},{"name":"ClientSecret","in":"header","description":"Unique Secret provided for your Organization","required":true,"schema":{"type":"string","example":"7487-hjfgfhjdg-34568"}},{"name":"UserAuth","in":"header","description":"Bearer token for authentication","required":true,"schema":{"type":"string","example":"Bearer sytueryt34768763fjhg....."}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ProfileDTO"}}}}},"security":[{"clientId":[]},{"clientSecret":[]},{"UserAuth":[]}]}},"/init":{"get":{"tags":["domain-controller"],"operationId":"init","responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/InitDTO"}}}}}}},"/domain/{subDomain}":{"get":{"tags":["domain-controller"],"operationId":"checkIfDomainExists","parameters":[{"name":"subDomain","in":"path","required":true,"schema":{"type":"string"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ErrorResponse"}}}}}}},"/auth/userinfo":{"get":{"tags":["o-auth-2-login-controller"],"operationId":"getUserInfo","responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"object","additionalProperties":{"type":"object"}}}}}}}},"/account/users":{"get":{"tags":["account-controller"],"summary":"Get all users","description":"**Requires Bearer Token**","operationId":"getOrganizationUsers","parameters":[{"name":"Authorization","in":"header","description":"Bearer token for authentication","required":true,"schema":{"type":"string","example":"Bearer eyfsgsdfsdfjsdhbfsfsdf..."}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/UserManagementDTO"}}}}}},"security":[{"AdminAuth":[]}]}}},"components":{"schemas":{"OrganizationDTO":{"type":"object","properties":{"id":{"type":"string"},"createdBy":{"type":"string"},"organizationName":{"type":"string"},"subDomain":{"type":"string"},"authorizedDomains":{"type":"array","items":{"type":"string"}},"callbackUrl":{"type":"string"},"website":{"type":"string"},"logo":{"type":"object","properties":{"binaryStream":{"type":"object"}}},"applicationName":{"type":"string"},"termsOfServiceUrl":{"type":"string"},"socialProviders":{"$ref":"#/components/schemas/SocialProviderDTO"},"clientSecret":{"type":"string"}}},"SocialProviderDTO":{"type":"object","properties":{"email":{"type":"boolean"},"google":{"type":"boolean"},"apple":{"type":"boolean"},"github":{"type":"boolean"},"linkedIn":{"type":"boolean"},"twitter":{"type":"boolean"},"facebook":{"type":"boolean"},"microsoft":{"type":"boolean"}}},"ChangePasswordDTO":{"type":"object","properties":{"newPassword":{"type":"string"},"oldPassword":{"type":"string"},"email":{"type":"string"}}},"AuthConfigDTO":{"type":"object","properties":{"subDomain":{"type":"string"},"authorizedDomains":{"type":"array","items":{"type":"string"}},"callbackUrl":{"type":"string"},"website":{"type":"string"},"logo":{"type":"object","properties":{"binaryStream":{"type":"object"}}},"applicationName":{"type":"string"},"termsOfServiceUrl":{"type":"string"},"socialProviders":{"$ref":"#/components/schemas/SocialProviderDTO"},"organizationName":{"type":"string"}}},"ErrorResponse":{"type":"object","properties":{"message":{"type":"string"},"level":{"type":"string"},"errorCode":{"type":"string"}}},"OtpDTO":{"type":"object","properties":{"email":{"type":"string"},"otp":{"type":"string"}}},"SignUpDTO":{"type":"object","properties":{"id":{"type":"string"},"firstName":{"type":"string"},"lastName":{"type":"string"},"email":{"type":"string"},"password":{"type":"string"},"socialProvider":{"type":"string"},"socialId":{"type":"string"},"profilePicture":{"type":"string"}}},"SignInDTO":{"type":"object","properties":{"email":{"type":"string"},"password":{"type":"string"},"socialId":{"type":"string"},"socialProvider":{"type":"string"}}},"NewPasswordDTO":{"type":"object","properties":{"email":{"type":"string"},"otp":{"type":"string"},"newPassword":{"type":"string"}}},"ForgotPasswordDTO":{"type":"object","properties":{"email":{"type":"string"}}},"ResetPasswordDTO":{"type":"object","properties":{"email":{"type":"string"}}},"ResendOtpDTO":{"type":"object","properties":{"email":{"type":"string"},"otp":{"type":"string"}}},"ProfileDTO":{"type":"object","properties":{"firstName":{"type":"string"},"lastName":{"type":"string"},"email":{"type":"string"},"organizationId":{"type":"string"},"createdAt":{"type":"string"}}},"OrganizationInfoDTO":{"type":"object","properties":{"subDomain":{"type":"string"},"publicKey":{"type":"string"}}},"OrganizationEntity":{"type":"object","properties":{"id":{"type":"string"},"createdBy":{"type":"string"},"organizationName":{"type":"string"},"authorizedDomains":{"type":"array","items":{"type":"string"}},"subDomain":{"type":"string"},"callbackUrl":{"type":"string"},"clientSecret":{"type":"string"},"website":{"type":"string"},"privateKey":{"type":"string"},"publicKey":{"type":"string"},"dbName":{"type":"string"},"termsOfServiceUrl":{"type":"string"},"logo":{"type":"object","properties":{"binaryStream":{"type":"object"}}},"applicationName":{"type":"string"},"socialProviders":{"$ref":"#/components/schemas/SocialProviderDTO"}}},"InitDTO":{"type":"object","properties":{"organizationName":{"type":"string"},"termsOfServiceUrl":{"type":"string"},"logo":{"type":"object","properties":{"binaryStream":{"type":"object"}}},"applicationName":{"type":"string"},"socialProviders":{"$ref":"#/components/schemas/SocialProviderDTO"}}},"UserManagementDTO":{"type":"object","properties":{"firstName":{"type":"string"},"lastName":{"type":"string"},"email":{"type":"string"},"organizationId":{"type":"string"},"status":{"type":"string"},"profilePicture":{"type":"string"}}}},"securitySchemes":{"AdminAuth":{"type":"http","scheme":"bearer","bearerFormat":"JWT"},"UserAuth":{"type":"http","scheme":"bearer","bearerFormat":"JWT"},"X-Client-Id":{"type":"apiKey","description":"X-Client-Id for the Organization Unique id !","name":"X-Client-Id","in":"header"},"clientSecret":{"type":"apiKey","description":"Client Secret is for the Identifying and Verifying the requests !","name":"clientSecret","in":"header"}}}}';
-
   const createModel = () => {
     navigate("/model/create");
   };
 
-  const handleDelete = (id: any): void => {
-    confirmAlert({
-      title: "Confirm Deletion",
-      message: `Are you sure you want to delete API configuration for ${id.toUpperCase()}?`,
-      buttons: [
-        {
-          label: "Yes",
-          onClick: () => {
-            console.log(`${id.toUpperCase()} Deleted Successfully`);
-            setIdtoDelete(id);
+  const handleDownload = () => {
+    const swagger = applicationDetails?.swagger;
+    if (swagger) {
+      const blob = new Blob([JSON.stringify(swagger, null, 2)], {
+        type: "application/json",
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${applicationDetails?.name}-swagger.json`;
+      a.click();
+    }
+  };
+
+  const handleDelete = (): void => {
+    if (applicationDetails?.id) {
+      confirmAlert({
+        title: "Confirm Deletion",
+        message: `Are you sure you want to delete the application ${applicationDetails?.name}?`,
+        buttons: [
+          {
+            label: "Yes",
+            onClick: () => {
+              setIdToDelete(applicationDetails.id);
+            },
+            style: { backgroundColor: "green", color: "white", border: "none" },
           },
-          style: { backgroundColor: "green", color: "white", border: "none" },
-        },
-        {
-          label: "No",
-          onClick: () => {
-            console.log(`${id.toUpperCase()} Deletion Canceled`);
+          {
+            label: "No",
+            style: { backgroundColor: "red", color: "white", border: "none" },
           },
-          style: { backgroundColor: "red", color: "white", border: "none" },
+        ],
+        closeOnEscape: true,
+        closeOnClickOutside: true,
+      });
+    }
+  };
+
+  const handleRequest = async (req: any): Promise<any> => {
+    try {
+      const clientId = localStorage.getItem("clientId");
+      const url = new URL(req.url);
+      url.protocol = "https";
+      url.hostname = "api.stublab.com";
+      url.port = "";
+      console.log("url", url.toString());
+      return new Request(url.toString(), {
+        method: req.method,
+        headers: {
+          ...req.headers,
+          "x-client-id": clientId ?? "",
+          "Content-Type": "application/json",
         },
-      ],
-      closeOnEscape: true,
-      closeOnClickOutside: true,
-    });
+        body: req.body,
+      });
+    } catch (error) {
+      console.error("Error modifying request:", error);
+      return req; // Return the original request on error
+    }
+  };
+
+  const addHeaders = (request: any) => {
+    const clientId = localStorage.getItem("clientId");
+    request.headers["x-client-id"] = clientId ?? "";
+    request.headers["Content-Type"] = "application/json";
+    request.headers["Accept"] = "application/json";
+    return request;
   };
 
   return (
-    <div className="d-flex flex-column gap-3 pt-2 px-lg-5">
+    <div className="d-flex flex-column gap-3 pt-2">
       <div
         className={
-          "d-flex align-items-center flex-wrap " +
+          "d-flex  px-lg-5 align-items-center flex-wrap " +
           (isDesktop ? "justify-content-between" : "justify-content-center")
         }
       >
-        <h1 className="mt-5">{applicationDetails?.name}</h1>
+        <Breadcrumb>
+          <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+          <Breadcrumb.Item href="/application">Application</Breadcrumb.Item>
+          <Breadcrumb.Item className="mt-1" active>
+            {applicationDetails?.name}
+          </Breadcrumb.Item>
+        </Breadcrumb>
         <div className="d-flex align-items-center gap-2">
           <Button
             variant="outline-primary"
@@ -132,7 +196,7 @@ export const ApplicationViewPage: React.FC = () => {
             size="sm"
             onClick={() => setCreateAPI(true)}
           >
-            <PlusIcon />
+            {!isMobile && <PlusIcon />}
             Add API
           </Button>
           <Button
@@ -141,96 +205,141 @@ export const ApplicationViewPage: React.FC = () => {
             size="sm"
             onClick={createModel}
           >
-            <PlusIcon />
+            {!isMobile && <PlusIcon />}
             Add Model
           </Button>
-          <Button variant="outline-danger" size="sm" onClick={() => handleDelete(id)}>
-            <TrashIcon />
+          <Button variant="outline-danger" size="sm" onClick={handleDelete}>
+            {!isMobile && <TrashIcon />}
             Delete Application
           </Button>
         </div>
       </div>
-      <div className="d-flex flex-column align-items-start">
-        <p className="text-left mt-3 mb-3">{applicationDetails?.description}</p>
-        <div className="d-flex flex-column align-items-center w-100 tab-100 py-4">
-          <Tabs
-            activeKey={activeTab}
-            onSelect={(tab: string | null) => {
-              if (tab) {
-                setActiveTab(tab);
-              }
-            }}
-            id="justify-tab-example"
-            className="mb-3 d-flex justify-content-center gap-4 w-100 "
-          >
-            <Tab
-              eventKey="swagger"
-              className="mx-sm-2"
-              title={<span style={{ color: "black" }}>Swagger</span>}
-            >
-              <SwaggerUI spec={swagger} />
-            </Tab>
+      <div
+        className={
+          "d-flex align-items-center px-lg-5 flex-wrap " +
+          (isDesktop ? "justify-content-between" : "justify-content-center")
+        }
+      >
+        <h1 className="mt-2">{applicationDetails?.name}</h1>
+        <h5 className="text-left mt-3 mb-3">
+          Path:{" "}
+          <Badge pill={false} color="secondary">
+            {applicationDetails?.path}
+          </Badge>
+        </h5>
+      </div>
+      <div>
+        <p className="text-left float-start px-lg-5 mt-3 mb-3">
+          {applicationDetails?.description}
+        </p>
+      </div>
 
-            <Tab
-              eventKey="configuration"
-              title={<span style={{ color: "black" }}>Configuration</span>}
+      <div>
+        {applicationDetails?.mockApiList &&
+        applicationDetails.mockApiList.length > 0 ? (
+          <div className="d-flex flex-column align-items-center w-100 tab-100 py-4">
+            <Tabs
+              activeKey={activeTab}
+              onSelect={(tab: string | null) => {
+                if (tab) {
+                  setActiveTab(tab);
+                }
+              }}
+              id="justify-tab-example"
+              className="mb-3 d-flex justify-content-center gap-4 w-100 "
             >
-              {applicationDetails?.mockApiList ? (
-                <div>
-                  <Row className="header-row mb-3  ">
-                    <Col
-                      lg={2}
-                      md={2}
-                      sm={2}
-                      className="col-method d-none d-md-block d-lg-block"
-                    >
-                      Method
-                    </Col>
-                    <Col
-                      lg={4}
-                      md={4}
-                      sm={4}
-                      className="d-none d-md-block d-lg-block"
-                    >
-                      URL
-                    </Col>
-                    <Col
-                      lg={2}
-                      md={2}
-                      sm={2}
-                      className="col-status d-none d-md-block d-lg-block"
-                    >
-                      Update Status Code
-                    </Col>
-                    <Col
-                      lg={2}
-                      md={2}
-                      sm={2}
-                      className="d-none d-md-block d-lg-block"
-                    ></Col>
-                    <Col
-                      lg={2}
-                      md={2}
-                      sm={2}
-                      className="col-actions d-none d-md-block d-lg-block"
-                    >
-                      Actions
-                    </Col>
-                  </Row>
+              <Tab
+                eventKey="swagger"
+                className="mx-sm-2"
+                title={<span style={{ color: "black" }}>Swagger</span>}
+              >
+                <div className="d-flex justify-content-end mb-3">
+                  <Button
+                    variant="outline-primary"
+                    size="sm"
+                    onClick={handleDownload}
+                  >
+                    <IconDownload /> Download Swagger
+                  </Button>
+                </div>
+                <div className="swagger-container">
+                  <SwaggerUI
+                    spec={applicationDetails?.swagger}
+                    requestInterceptor={addHeaders}
+                  />
+                </div>
+              </Tab>
+
+              <Tab
+                eventKey="configuration"
+                title={<span style={{ color: "black" }}>Configuration</span>}
+              >
+                {applicationDetails?.mockApiList?.length ? (
                   <div>
-                    {id && applicationDetails?.mockApiList?.map((api) => (
-                      <ApiConfigurationCard key={api.method} applicationId={id} api={api} handleSubmit={handleSubmit} />
-                    ))}
+                    <Row className="header-row mb-3  ">
+                      <Col
+                        lg={1}
+                        md={2}
+                        sm={2}
+                        className="col-method d-none d-md-block d-lg-block"
+                      >
+                        Method
+                      </Col>
+                      <Col
+                        lg={2}
+                        md={4}
+                        sm={4}
+                        className="d-none d-md-block d-lg-block"
+                      >
+                        URL
+                      </Col>
+                      <Col
+                        lg={6}
+                        md={2}
+                        sm={2}
+                        className="col-status d-none d-md-block d-lg-block"
+                      >
+                        Update Status Code
+                      </Col>
+                      <Col
+                        lg={2}
+                        md={2}
+                        sm={2}
+                        className="col-actions d-none d-md-block d-lg-block"
+                      >
+                        Actions
+                      </Col>
+                    </Row>
+                    <div>
+                      {id &&
+                        applicationDetails?.mockApiList?.map((api) => (
+                          <ApiConfigurationCard
+                            key={api.method}
+                            applicationId={id}
+                            api={api}
+                            handleSubmit={handleSubmit}
+                          />
+                        ))}
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <div>
-                  <h4 className="text-center mt-5">No API found</h4>
-                </div>
-              )}
-            </Tab>
-          </Tabs>
-        </div>
+                ) : (
+                  <div>
+                    <h4 className="text-center mt-5">No API found</h4>
+                  </div>
+                )}
+              </Tab>
+            </Tabs>
+          </div>
+        ) : (
+          <div className="empty-state-icon">
+            <EmptyApiIcon />
+            <p className="animated-text">
+              {"No API found".split("").map((char, index) => (
+                <span key={index}>{char === " " ? "\u00A0" : char}</span>
+              ))}
+            </p>
+          </div>
+        )}
       </div>
       {createAPI && (
         <CreateCustomAPIForm

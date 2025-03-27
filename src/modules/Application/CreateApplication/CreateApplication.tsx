@@ -82,19 +82,6 @@ export const CreateApplication = ({
     }
   };
 
-  const handlePrimaryBtnDisabled = () => {
-    return (
-      !formData.name.trim() ||
-      !formData.path.trim() ||
-      !formData.description.trim() ||
-      !formData.path.startsWith("/") ||
-      formData.path.length > 50 ||
-      formData.description.length < 20 ||
-      formData.description.length > 1000 ||
-      formData.name.length > 255
-    );
-  };
-
   return (
     <Modal show={show} onHide={handleClose} centered size="lg">
       <Modal.Header closeButton>
@@ -159,7 +146,6 @@ export const CreateApplication = ({
           secondaryLabel="Cancel"
           onCancel={handleClose}
           onSubmit={onSubmit}
-          isPrimaryDisabled={handlePrimaryBtnDisabled()}
         />
       </div>
     </Modal>

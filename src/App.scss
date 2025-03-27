@@ -68,3 +68,127 @@
     color: red;
   }
 }
+
+.breadcrumb {
+  margin-bottom: 0px !important;
+  width: fit-content;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 5px !important;
+  border: 1px solid #ccc;
+  background-color: #f8f9fa !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  &::before {
+    content: "▶";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 1rem;
+    margin-top: 0.25rem;
+  }
+
+  .breadcrumb-item.active {
+    font-size: 14px;
+    margin-top: 0.25rem;
+  }
+}
+
+.empty-state-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  svg {
+    width: 300px !important;
+    height: 300px !important;
+  }
+}
+
+.animated-text {
+  display: inline-block;
+  font-size: 24px;
+  margin-top: 50px;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+}
+
+.animated-text span {
+  animation: colorCycle 3s linear infinite;
+  display: inline-block;
+  white-space: pre; /* Ensures spaces are rendered */
+}
+
+@keyframes colorCycle {
+  0%,
+  100% {
+    color: white;
+  }
+  20% {
+    color: green;
+  }
+  40% {
+    color: green;
+  }
+  60% {
+    color: #ffc107;
+  }
+  80% {
+    color: #ffc107;
+  }
+}
+
+/* Apply a delay to each character */
+.animated-text span:nth-child(1) {
+  animation-delay: 0s;
+}
+.animated-text span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.animated-text span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+.animated-text span:nth-child(4) {
+  animation-delay: 0.6s;
+}
+.animated-text span:nth-child(5) {
+  animation-delay: 0.8s;
+}
+.animated-text span:nth-child(6) {
+  animation-delay: 1s;
+}
+.animated-text span:nth-child(7) {
+  animation-delay: 1.2s;
+}
+.animated-text span:nth-child(8) {
+  animation-delay: 1.4s;
+}
+.animated-text span:nth-child(9) {
+  animation-delay: 1.6s;
+}
+.animated-text span:nth-child(10) {
+  animation-delay: 1.8s;
+}
+.animated-text span:nth-child(11) {
+  animation-delay: 2s;
+}
+
+.swagger-ui .info {
+  span {
+    position: initial !important;
+    background: none !important;
+    small {
+      position: initial !important;
+      background: none !important;
+      color: #000 !important;
+    }
+  }
+}
+
+.swagger-ui {
+  .execute-wrapper .btn {
+    width: 93% !important;
+  }
+}
+
+.swagger-container { text-align: left; }

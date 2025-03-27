@@ -2,11 +2,14 @@ import { useCreateApplication } from "@entities/Application/useCreateApplication
 import { useGetApplications } from "@entities/Application/useGetApplications";
 import { ReactComponent as IconPlus } from "@icons/icon-folder-plus.svg";
 import { CreateApplication } from "@modules/Application/CreateApplication";
+import { EmptyState } from "@molecules/EmptyState/EmptyState";
 import { FolderCard } from "@molecules/FolderCard";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
+import "swagger-ui-react/swagger-ui.css";
+import SwaggerUI from "swagger-ui-react";
 import { assignType } from "./helpers";
 
 export const ApplicationIndexPage = () => {
@@ -67,9 +70,7 @@ export const ApplicationIndexPage = () => {
           </Card>
         </div>
       ) : (
-        <div className="mt-3">
-          <p>No applications found</p>
-        </div>
+        <EmptyState title="No applications found" />
       )}
 
       <CreateApplication

@@ -7,12 +7,13 @@ import { Drawer } from "@organisms/Drawer";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import CodeMirror from "@uiw/react-codemirror";
 import { Badge } from "react-bootstrap";
-import { transformData } from "./helpers";
+import { useTransformData } from "./useTransformData";
 import "./ViewModel.scss";
 import { IViewModelProps } from "./ViewModel.types";
 
 export const ViewModel = ({ id, show, onHide }: IViewModelProps) => {
   const { data: model, isLoading } = useGetModelById(id, !!id);
+  const { transformedData } = useTransformData(model ?? null);
 
   const renderVariableType = (type: ModelTypes) => {
     if (typeof type === "string") {
@@ -23,16 +24,20 @@ export const ViewModel = ({ id, show, onHide }: IViewModelProps) => {
           return <Badge className="type-badge type-number">number</Badge>;
         case "boolean":
           return <Badge className="type-badge type-boolean">boolean</Badge>;
+        case "object":
+          return <Badge className="type-badge type-object">object</Badge>;
+        case "array":
+          return <Badge className="type-badge type-array">array</Badge>;
         default:
           return <Badge className="type-badge type-default">{type}</Badge>;
       }
     }
-    return <Badge className="type-badge type-model">{type.modelName}</Badge>;
+    // return <Badge className="type-badge type-model">{type.modelName}</Badge>;
   };
 
   const getCode = () => {
     return model
-      ? JSON.parse(JSON.stringify(transformData(model), null, 2))
+      ? JSON.parse(JSON.stringify(transformedData, null, 2))
       : "";
   };
 

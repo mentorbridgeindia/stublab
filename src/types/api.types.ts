@@ -1,14 +1,6 @@
-import { IModelEntity } from "@entities/Model/Model.types";
-
 export type MethodTypes = "GET" | "POST" | "PUT" | "DELETE";
 
-export type ModelTypes =
-  | "string"
-  | "number"
-  | "boolean"
-  | IModelEntity
-  | "array"
-  | "object";
+export type ModelTypes = "string" | "number" | "boolean" | "array" | "object";
 
 export type ResponseTypes = "string" | "number" | "boolean" | "object" | "list";
 

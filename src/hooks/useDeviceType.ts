@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 
-const useDeviceType = (minWidth: number) => {
+const useDeviceType = (minWidth: number, maxWidth: number) => {
   const [isDeviceWide, setIsDeviceWide] = useState(false);
 
   const checkDeviceWidth = () => {
-    if (window.innerWidth >= minWidth) {
+    if (window.innerWidth >= minWidth && window.innerWidth <= maxWidth) {
       setIsDeviceWide(true);
     } else {
       setIsDeviceWide(false);

@@ -13,6 +13,8 @@ export interface ICreateCustomAPIForm {
   method: MethodTypes;
   url: string;
   responseStatusCodes: IResponsesForStatusCodes[];
+  requestBodyType?: string;
+  requestBody?: string;
 }
 
 export interface IResponsesForStatusCodes {
@@ -24,6 +26,5 @@ export interface IResponsesForStatusCodes {
   responseBody?: string;
   listCount?: number;
   primitiveResponse?: string;
-  isPrimitiveResponseStatic?: boolean;
-
+  // isPrimitiveResponseStatic?: boolean;
 }
