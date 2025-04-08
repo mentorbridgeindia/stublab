@@ -11,7 +11,9 @@ export const Header = () => {
     return accountURL;
   }
 
-  if (!jwtToken) {
+  const isOrganizationPage = window.location.pathname.startsWith("/organization");
+
+  if (!jwtToken || !isOrganizationPage) {
     return null;
   }
 
