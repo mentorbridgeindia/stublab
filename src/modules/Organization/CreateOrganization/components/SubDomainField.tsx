@@ -11,7 +11,7 @@ export const SubDomainField = ({
   error: FieldErrors<IOrganizationMutation>;
   isSubmitted: boolean;
 }) => (
-  <div className="mb-5">
+  <div className="mb-3">
     <FormLabel htmlFor="subDomain" className="form-label">
       Sub Domain
     </FormLabel>

@@ -5,16 +5,20 @@ import Navbar from "react-bootstrap/Navbar";
 import "./Header.css";
 
 export const Header = () => {
+  const jwtToken = localStorage.getItem("accessToken");
   function getAccountUrl() {
-    const jwtToken = localStorage.getItem("accessToken");
     const accountURL = `https://stublab.securosphere.in/profile?token=${jwtToken}`;
     return accountURL;
+  }
+
+  if (!jwtToken) {
+    return null;
   }
 
   return (
     <Navbar fixed="top" expand="lg">
       <Container>
-        <Navbar.Brand href="/" className="logo-lg">
+        <Navbar.Brand href="/home" className="logo-lg">
           <IconLogo />
         </Navbar.Brand>
 
@@ -24,7 +28,7 @@ export const Header = () => {
           <Nav className="ms-auto">
             <Nav.Link href="/application">Applications</Nav.Link>
             <Nav.Link href="/model">Models</Nav.Link>
-            <Nav.Link href="/account">Account</Nav.Link>
+            <Nav.Link href={getAccountUrl()}>Account</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

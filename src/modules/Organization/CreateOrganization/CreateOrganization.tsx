@@ -1,16 +1,14 @@
 import { IOrganizationMutation } from "@entities/Organization/Organization.types";
 import { useCreateOrganization } from "@entities/Organization/useCreateOrganization";
-import { useGetInit } from "@entities/Organization/useGetOrganization";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormActionButtons } from "@molecules/FormActionButtons";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import AnimatedCard from "./components/AnimatedCard";
 import { FormField } from "./components/FormField";
 import { SubDomainField } from "./components/SubDomainField";
 import { orgSchema } from "./orgSchema";
-import AnimatedCard from "./components/AnimatedCard";
 
 const CreateOrganization = () => {
   const navigate = useNavigate();
@@ -22,8 +20,6 @@ const CreateOrganization = () => {
     resolver: yupResolver(orgSchema),
     mode: "onTouched",
   });
-
-  const { data } = useGetInit();
 
   const { mutate: createOrganization } = useCreateOrganization({
     onSuccess: () => {
@@ -37,18 +33,14 @@ const CreateOrganization = () => {
     },
   });
 
-  useEffect(() => {
-    if (data) navigate("/home");
-  }, [data, navigate]);
-
   const onSubmit = (data: IOrganizationMutation) => createOrganization(data);
 
   return (
     <div className="d-flex justify-content-center align-items-center flex-column vh-90">
       <AnimatedCard>
-        <div style={{ width: "50%" }} className="p-4 mb-5">
+        <div style={{ width: "50%" }} className="p-4 ">
           <div>
-            <h2 className="mb-5 text-center text-uppercase fs-5 title">
+            <h2 className="mb-3 text-center text-uppercase fs-5 title">
               Create Organization
             </h2>
             <form onSubmit={handleSubmit(onSubmit)}>

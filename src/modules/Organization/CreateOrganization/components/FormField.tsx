@@ -22,7 +22,7 @@ export const FormField = ({
   isDirty: boolean;
   isSubmitted: boolean;
 }) => (
-  <div className="mb-5">
+  <div className="mb-3">
     <FormLabel htmlFor={name} className="form-label">
       {label}
     </FormLabel>

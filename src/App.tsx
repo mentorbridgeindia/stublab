@@ -13,6 +13,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "./App.scss";
 import "./global.scss";
+import ErrorPage from "./pages/Error/ErrorPage";
 
 const App: React.FC = () => {
   const queryClient = new QueryClient();
@@ -40,6 +41,8 @@ const App: React.FC = () => {
                 path="/application/:id"
                 element={<ApplicationViewPage />}
               />
+              <Route path="/error/:message" element={<ErrorPage />} />
+              <Route path="*" element={<ErrorPage />} />
             </Routes>
           </BrowserRouter>
         </QueryClientProvider>

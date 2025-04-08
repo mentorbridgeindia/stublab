@@ -9,25 +9,26 @@ export const AuthSuccessPage = () => {
   const token = searchParams.get("token");
   const accessToken = localStorage.getItem("accessToken");
 
-  const { data, isLoading } = useGetInit();
+  const { data, isLoading, error } = useGetInit();
+
+  if (accessToken === null) {
+    navigate(`/error/JWT_EXPIRED`);
+  }
 
   useEffect(() => {
     if (isLoading) return;
 
-    if (!data?.id) {
-      navigate("/organization/create");
+    if (error) {
+      navigate(`/error/SERVICE_ERROR`);
     } else {
-      localStorage.setItem("clientId", data.id);
-      navigate("/home");
+      if (!data?.id) {
+        navigate("/organization/create");
+      } else {
+        localStorage.setItem("clientId", data.id);
+        navigate("/home");
+      }
     }
-  }, [data, navigate, isLoading]);
-
-  if (!token && accessToken === null) {
-    navigate("/auth/error");
-    return null;
-  }
-
-  localStorage.setItem("accessToken", token ?? "");
+  }, [data, navigate, isLoading, error]);
 
   return isLoading ? <Loader isLoading={isLoading} /> : <div />;
 };
