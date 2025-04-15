@@ -9,15 +9,18 @@ export const AuthSuccessPage = () => {
   const token = searchParams.get("token");
   const accessToken = localStorage.getItem("accessToken");
 
+  if(token !== null){
+    localStorage.setItem('accessToken', token);
+  }
+
   const { data, isLoading, error } = useGetInit();
 
-  if (accessToken === null) {
+  if (token === null && accessToken === null) {
     navigate(`/error/JWT_EXPIRED`);
   }
 
   useEffect(() => {
     if (isLoading) return;
-
     if (error) {
       navigate(`/error/SERVICE_ERROR`);
     } else {

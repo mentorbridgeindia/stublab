@@ -13,8 +13,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "./App.scss";
 import "./global.scss";
-import ErrorPage from "./pages/Error/ErrorPage";
-import { LoginPage } from "./pages/Login/Login";
+import ErrorPage from "@pages/Error/ErrorPage";
+import { LoginPage } from "@pages/Login/Login";
 import { PrivateRoute } from "./PrivateRoute";
 
 const App: React.FC = () => {
@@ -42,9 +42,7 @@ const App: React.FC = () => {
               <Route
                 path="/organization/create"
                 element={
-                  <PrivateRoute>
                     <CreateOrganizationPage />
-                  </PrivateRoute>
                 }
               />
               <Route
