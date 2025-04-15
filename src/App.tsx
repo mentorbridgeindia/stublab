@@ -14,6 +14,8 @@ import { ToastContainer } from "react-toastify";
 import "./App.scss";
 import "./global.scss";
 import ErrorPage from "./pages/Error/ErrorPage";
+import { LoginPage } from "./pages/Login/Login";
+import { PrivateRoute } from "./PrivateRoute";
 
 const App: React.FC = () => {
   const queryClient = new QueryClient();
@@ -27,19 +29,63 @@ const App: React.FC = () => {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<AuthSuccessPage />} />
-              <Route path="/home" element={<Home />} />
+              <Route path="/login" element={<LoginPage />} />
               <Route path="/auth/success" element={<AuthSuccessPage />} />
               <Route
-                path="/organization/create"
-                element={<CreateOrganizationPage />}
+                path="/home"
+                element={
+                  <PrivateRoute>
+                    <Home />
+                  </PrivateRoute>
+                }
               />
-              <Route path="/application" element={<ApplicationIndexPage />} />
-              <Route path="/model" element={<ModelIndexPage />} />
-              <Route path="/model/create" element={<CreateModelPage />} />
-              <Route path="/model/edit/:id" element={<CreateModelPage />} />
+              <Route
+                path="/organization/create"
+                element={
+                  <PrivateRoute>
+                    <CreateOrganizationPage />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/application"
+                element={
+                  <PrivateRoute>
+                    <ApplicationIndexPage />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/model"
+                element={
+                  <PrivateRoute>
+                    <ModelIndexPage />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/model/create"
+                element={
+                  <PrivateRoute>
+                    <CreateModelPage />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/model/edit/:id"
+                element={
+                  <PrivateRoute>
+                    <CreateModelPage />
+                  </PrivateRoute>
+                }
+              />
               <Route
                 path="/application/:id"
-                element={<ApplicationViewPage />}
+                element={
+                  <PrivateRoute>
+                    <ApplicationViewPage />
+                  </PrivateRoute>
+                }
               />
               <Route path="/error/:message" element={<ErrorPage />} />
               <Route path="*" element={<ErrorPage />} />
