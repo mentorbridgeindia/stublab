@@ -22,7 +22,8 @@ const CreateOrganization = () => {
   });
 
   const { mutate: createOrganization } = useCreateOrganization({
-    onSuccess: () => {
+    onSuccess: (data) => {
+      localStorage.setItem("clientId", data.id);
       toast.success("Organization created successfully!");
       navigate("/home");
     },

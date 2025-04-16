@@ -86,7 +86,7 @@ export const CreateCustomAPIForm = ({
               </Form.Group>
 
               <div className="endpoint-group">
-                <Form.Group className="method-group">
+                <Form.Group className="method-group align-items-start">
                   <Form.Label>Method</Form.Label>
                   <div className={`method-selector ${renderVariant()}`}>
                     <Form.Select
@@ -133,7 +133,7 @@ export const CreateCustomAPIForm = ({
               </div>
 
               <div className="mt-3">
-                <div className="request-group">
+                <div className="request-group align-items-start">
                   <Form.Group className="request-body-type-group">
                     <Form.Label>Request Type</Form.Label>
                     <div className="request-body-type-selector">
@@ -145,6 +145,7 @@ export const CreateCustomAPIForm = ({
                         }}
                         className="request-body-type-select"
                       >
+                        <option value="">Select Request Type</option>
                         <option value="string">String</option>
                         <option value="number">Number</option>
                         <option value="boolean">Boolean</option>
@@ -160,17 +161,18 @@ export const CreateCustomAPIForm = ({
                   </Form.Group>
                   {(values.requestBodyType === "array" ||
                     values.requestBodyType === "object") && (
-                    <Form.Group className="request-body-group">
+                    <Form.Group className="request-body-group align-items-start">
                       <Form.Label>Request Body</Form.Label>
                       <div className="request-body-selector">
                         <Form.Select
-                          value={values.requestBody || ""}
+                          value={values.requestBody ?? ""}
                           onChange={(e) => {
                             setValue("requestBody", e.target.value);
                             trigger("requestBody");
                           }}
                           className="request-body-select"
                         >
+                          <option value="">Select Model</option>
                           {models?.map((model) => (
                             <option key={model.id} value={model.id}>
                               {model.modelName}
